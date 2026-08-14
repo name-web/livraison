@@ -13,6 +13,7 @@ use App\Mail\MerchantSignup;
 use App\Repositories\Invoice\InvoiceInterface;
 use App\Repositories\Merchant\MerchantInterface;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Brian2694\Toastr\Facades\Toastr;
 class MerchantController extends Controller
 {
@@ -92,17 +93,18 @@ class MerchantController extends Controller
     public function otpVerification(OtpRequest $request)
     {
         $result     = $this->repo->otpVerification($request);
-        if($result != null){
-            if(auth()->attempt([
-                                'mobile' => $result->mobile,
-                                'password' => session('password')
-                            ]))
-            {
-                return redirect()->route('login');
-            }
+        if($result instanceof \App\Models\User){
+            Auth::login($result);
+            return redirect()->route('dashboard.index');
+        }
+        elseif($result == -1){
+            return redirect()->route('merchant.otp-verification-form')->with('warning', 'Votre code OTP a expiré. Veuillez renvoyer un nouveau code.');
+        }
+        elseif($result == -2){
+            return redirect()->route('merchant.otp-verification-form')->with('warning', 'Trop de tentatives. Veuillez renvoyer un nouveau code.');
         }
         elseif($result == 0){
-            return redirect()->route('merchant.otp-verification-form')->with('warning', 'Invalid OTP');
+            return redirect()->route('merchant.otp-verification-form')->with('warning', 'Code OTP invalide. Réessayez.');
         }
         else{
             Toastr::error(__('merchant.error_msg'),__('message.error'));
@@ -117,8 +119,15 @@ class MerchantController extends Controller
 
     public function resendOTP(Request $request)
     {
-        $this->repo->resendOTP($request);
-        return redirect()->route('merchant.otp-verification-form')->with('success', 'Resend OTP');
+        $result = $this->repo->resendOTP($request);
+        if($result === -1){
+            return redirect()->route('merchant.otp-verification-form')->with('warning', 'Veuillez patienter 60 secondes avant de renvoyer un code.');
+        }
+        if($result){
+            return redirect()->route('merchant.otp-verification-form')->with('success', 'Un nouveau code OTP a été envoyé.');
+        }
+        Toastr::error(__('merchant.error_msg'),__('message.error'));
+        return redirect()->back();
     }
 
     /**

@@ -33,7 +33,12 @@ class SignUpRequest extends FormRequest
             'business_name'     => ['required','string','unique:merchants'],
             'full_name'         => ['required','string','max:191'],
             'address'           => ['required','string','max:191'],
-            'mobile'            => ['required','numeric','digits_between:11,14','unique:users'],
+            'mobile'            => ['required','regex:/^0[1-7][0-9]{8}$/','unique:users', function ($attribute, $value, $fail) {
+                $normalized = '+225' . $value;
+                if (\App\Models\User::where('mobile', $normalized)->exists()) {
+                    $fail(__('validation.unique', ['attribute' => $attribute]));
+                }
+            }],
             'password'          => ['required','min:6']
         ];
     }

@@ -103,10 +103,18 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-        if(is_numeric($request->get('email')))
+        $login = $request->get('email');
+        if(is_numeric($login) || str_starts_with($login, '+225'))
         {
-            return ['mobile' => $request->get('email'),'password' => $request->get('password'), 'status' => '1', ];
+            $digits = preg_replace('/\D/', '', $login);
+            if(strlen($digits) === 13 && str_starts_with($digits, '225')){
+                $digits = substr($digits, 3);
+            }
+            if(strlen($digits) === 10){
+                return ['mobile' => '+225' . $digits,'password' => $request->get('password'), 'status' => '1', ];
+            }
+            return ['mobile' => $login,'password' => $request->get('password'), 'status' => '1', ];
         }
-        return ['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '1', ];
+        return ['email' => $login,'password' => $request->get('password'), 'status' => '1', ];
     }
 }

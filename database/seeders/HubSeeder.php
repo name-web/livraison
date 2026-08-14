@@ -17,39 +17,81 @@ class HubSeeder extends Seeder
     {
         $hubs = [
             [
-                'name'            =>'Mirpur-10',
-                'phone'           =>'01000000001',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Abobo',
+                'phone'           =>'+225 07 00 00 00 01',
+                'address'         =>'Abidjan, Abobo',
                 'current_balance' => '00'
             ],
             [
-                'name'            =>'Uttara',
-                'phone'           =>'01000000002',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Adjamé',
+                'phone'           =>'+225 07 00 00 00 02',
+                'address'         =>'Abidjan, Adjamé',
                 'current_balance' => '00'
             ],
             [
-                'name'            =>'Dhanmundi',
-                'phone'           =>'01000000003',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Anyama',
+                'phone'           =>'+225 07 00 00 00 03',
+                'address'         =>'Abidjan, Anyama',
                 'current_balance' => '00'
             ],
             [
-                'name'            =>'Old Dhaka',
-                'phone'           =>'01000000004',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Attécoubé',
+                'phone'           =>'+225 07 00 00 00 04',
+                'address'         =>'Abidjan, Attécoubé',
                 'current_balance' => '00'
             ],
             [
-                'name'            =>'Jatrabari',
-                'phone'           =>'01000000005',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Bingerville',
+                'phone'           =>'+225 07 00 00 00 05',
+                'address'         =>'Abidjan, Bingerville',
                 'current_balance' => '00'
             ],
             [
-                'name'            =>'Badda',
-                'phone'           =>'01000000006',
-                'address'         =>'Dhaka, Bangladesh',
+                'name'            =>'Cocody',
+                'phone'           =>'+225 07 00 00 00 06',
+                'address'         =>'Abidjan, Cocody',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Koumassi',
+                'phone'           =>'+225 07 00 00 00 07',
+                'address'         =>'Abidjan, Koumassi',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Marcory',
+                'phone'           =>'+225 07 00 00 00 08',
+                'address'         =>'Abidjan, Marcory',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Plateau',
+                'phone'           =>'+225 07 00 00 00 09',
+                'address'         =>'Abidjan, Plateau',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Port-Bouët',
+                'phone'           =>'+225 07 00 00 00 10',
+                'address'         =>'Abidjan, Port-Bouët',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Songon',
+                'phone'           =>'+225 07 00 00 00 11',
+                'address'         =>'Abidjan, Songon',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Treichville',
+                'phone'           =>'+225 07 00 00 00 12',
+                'address'         =>'Abidjan, Treichville',
+                'current_balance' => '00'
+            ],
+            [
+                'name'            =>'Yopougon',
+                'phone'           =>'+225 07 00 00 00 13',
+                'address'         =>'Abidjan, Yopougon',
                 'current_balance' => '00'
             ],
         ];

@@ -29,7 +29,7 @@
                     <label for="full_name" class="auth-v2-label">Nom complet du responsable</label>
                     <div class="auth-v2-input-wrap">
                         <i class="fas fa-user"></i>
-                        <input id="full_name" type="text" class="form-control form-control-lg @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('first_name') }}"  autocomplete="first_name" autofocus placeholder="Votre nom complet *">
+                        <input id="full_name" type="text" class="form-control form-control-lg @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('first_name') }}"  autocomplete="name" autofocus placeholder="Votre nom complet *">
                     </div>
                     @error('full_name')
                         <span class="invalid-feedback d-block" role="alert">
@@ -55,10 +55,10 @@
 
                 <div class="form-group auth-v2-field">
                     <label for="mobile" class="auth-v2-label">Téléphone</label>
-                    <div class="auth-v2-input-wrap">
-                        <i class="fas fa-phone"></i>
-                        <input id="mobile" type="number" class="form-control form-control-lg @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile',$request
-                            ->phone ? $request->phone : "") }}"  autocomplete="mobile" placeholder="Votre numéro de téléphone *"  >
+                    <div class="auth-v2-input-wrap auth-v2-phone-wrap">
+                        <span class="auth-v2-phone-prefix">+225</span>
+                        <input id="mobile" type="tel" class="form-control form-control-lg auth-v2-phone-input @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile',$request
+                            ->phone ? $request->phone : "") }}"  autocomplete="tel" inputmode="numeric" maxlength="14" placeholder="07 01 02 03 04"  >
                     </div>
                     @error('mobile')
                         <span class="invalid-feedback d-block" role="alert">
@@ -83,7 +83,7 @@
                     <label for="address" class="auth-v2-label">Adresse</label>
                     <div class="auth-v2-input-wrap">
                         <i class="fas fa-map-location-dot"></i>
-                        <textarea name="address" id="address" class="form-control auth-v2-textarea @error('address') is-invalid @enderror" placeholder="Votre adresse complète *" rows="3">{{ old('address')  }}</textarea>
+                        <textarea name="address" id="address" class="form-control auth-v2-textarea @error('address') is-invalid @enderror" placeholder="Votre adresse complète *" rows="3" autocomplete="street-address">{{ old('address')  }}</textarea>
                     </div>
                     @error('address')
                         <span class="invalid-feedback d-block" role="alert">
@@ -128,6 +128,35 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         // $( "#hub_id" ).select2();
+        (function () {
+            var input = document.getElementById('mobile');
+            if (!input) return;
+
+            function formatMobile(value) {
+                var d = (value || '').replace(/\D/g, '');
+                if (d.length > 10) d = d.slice(0, 10);
+                var out = '';
+                if (d.length > 0) out = d.slice(0, 2);
+                if (d.length > 2) out += ' ' + d.slice(2, 4);
+                if (d.length > 4) out += ' ' + d.slice(4, 6);
+                if (d.length > 6) out += ' ' + d.slice(6, 8);
+                if (d.length > 8) out += ' ' + d.slice(8, 10);
+                return out;
+            }
+
+            input.value = formatMobile(input.value);
+
+            input.addEventListener('input', function () {
+                input.value = formatMobile(input.value);
+            });
+
+            var form = input.closest('form');
+            if (form) {
+                form.addEventListener('submit', function () {
+                    input.value = (input.value || '').replace(/\D/g, '');
+                });
+            }
+        })();
     </script>
 <style  >
 .login-dashboard-main-wrapper{
@@ -261,6 +290,33 @@
 .auth-v2-input-wrap{
     position: relative;
 }
+.auth-v2-phone-wrap{
+    display: flex;
+    align-items: stretch;
+}
+.auth-v2-phone-prefix{
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.7rem;
+    padding: 0 .55rem;
+    font-size: .9rem;
+    font-weight: 700;
+    color: #334155;
+    background: #eef2f7;
+    border: 1.5px solid #e2e8f0;
+    border-right: 0;
+    border-radius: .85rem 0 0 .85rem;
+    z-index: 2;
+    pointer-events: none;
+    letter-spacing: .02rem;
+}
+.auth-v2-phone-wrap:focus-within .auth-v2-phone-prefix{
+    border-color: var(--primary-color);
+    border-right: 0;
+    background: #f0fdf4;
+}
 .auth-v2-input-wrap > i{
     position: absolute;
     left: 1rem;
@@ -279,6 +335,14 @@
     font-size: .95rem !important;
     min-height: 46px;
     color: #0f172a !important;
+}
+.auth-v2-input-wrap .auth-v2-phone-input{
+    flex: 1 1 auto;
+    min-width: 0;
+    border-radius: 0 .85rem .85rem 0 !important;
+    border-left: 0;
+    padding: 0.25rem 1rem !important;
+    letter-spacing: .05rem;
 }
 .auth-v2-input-wrap .form-control::placeholder{
     color: #94a3b8;

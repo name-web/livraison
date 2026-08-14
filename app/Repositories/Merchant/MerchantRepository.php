@@ -164,22 +164,34 @@ class MerchantRepository implements MerchantInterface{
 
         try {
 
-            $otp = random_int(10000, 99999);
+            // Normalisation du numéro ivoirien au format E.164 (compatible OTP/SMS) : +225 + 10 chiffres
+            $mobile = '+225' . $request->mobile;
+
+            $otp = random_int(100000, 999999);
             if(env('DEMO')) {
                 $otp= 123456;
             }
             // Create User
             $merchantUser = User::create([
                 'name'                => $request->full_name,
-                'mobile'              => $request->mobile,
+                'mobile'              => $mobile,
                 'email'               => $request->email,
                 'password'            => Hash::make($request->password),
                 'user_type'           => UserType::MERCHANT,
                 'verification_status' => Status::INACTIVE,
                 'otp'                 => $otp,
+                'otp_expires_at'      => now()->addMinutes(10),
+                'otp_attempts'        => 0,
+                'otp_sent_at'         => now(),
                 'hub_id'              => $request->hub_id,
                 'permissions'         => [],
             ]);
+
+            // Colonnes OTP hors $fillable : assignation directe
+            $merchantUser->otp_expires_at = now()->addMinutes(10);
+            $merchantUser->otp_attempts   = 0;
+            $merchantUser->otp_sent_at    = now();
+            $merchantUser->save();
 
             // Create Merchant
             $merchant = Merchant::create([
@@ -200,7 +212,7 @@ class MerchantRepository implements MerchantInterface{
             MerchantShops::create([
                 'merchant_id'  => $merchant->id,
                 'name'         => $merchant->business_name,
-                'contact_no'   => $request->mobile,
+                'contact_no'   => $mobile,
                 'address'      => $request->address,
                 'status'       => $request->status ?? Status::ACTIVE,
                 'default_shop' => Status::ACTIVE,
@@ -228,16 +240,19 @@ class MerchantRepository implements MerchantInterface{
 
             // Save OTP to session
             session([
-                'otp'      => $otp,
-                'mobile'   => $request->mobile,
-                'password' => $request->password,
+                'otp'        => $otp,
+                'mobile'     => $mobile,
+                'otp_sent_at'=> now()->toDateTimeString(),
             ]);
 
-            // Try sending OTP
-            $smsResponse = app(SmsService::class)->sendOtp(
-                $merchantUser->mobile,
-                $merchantUser->otp
-            );
+            // Send OTP via SMS provider (reconnecté plus tard).
+            // En environnement local, l'OTP est affiché à l'écran : pas d'envoi SMS.
+            if(!app()->environment('local')) {
+                $smsResponse = app(SmsService::class)->sendOtp(
+                    $merchantUser->mobile,
+                    $merchantUser->otp
+                );
+            }
 
             DB::commit();
             return true;
@@ -254,16 +269,35 @@ class MerchantRepository implements MerchantInterface{
     // Resend OTP
     public function resendOTP($request) {
         try {
-            $otp                                = random_int(10000, 99999);
             $merchantUser = User::where('mobile', $request->mobile)->first();
+            if($merchantUser == null){
+                return false;
+            }
+
+            // Cooldown de 60 secondes depuis le dernier envoi
+            if($merchantUser->otp_sent_at != null && \Carbon\Carbon::parse($merchantUser->otp_sent_at)->gt(now()->subSeconds(60))){
+                return -1;
+            }
+
+            $otp                                = random_int(100000, 999999);
+            if(env('DEMO')) {
+                $otp = 123456;
+            }
             $merchantUser->otp                  = $otp;
+            $merchantUser->otp_expires_at       = now()->addMinutes(10);
+            $merchantUser->otp_attempts         = 0;
+            $merchantUser->otp_sent_at          = now();
             $merchantUser->save();
 
             session([
-                'otp'     => $otp,
-                'mobile'  => $request->mobile,
+                'otp'        => $otp,
+                'mobile'     => $request->mobile,
+                'otp_sent_at'=> now()->toDateTimeString(),
             ]);
-            $response =  app(SmsService::class)->sendOtp($merchantUser->mobile,$merchantUser->otp);
+
+            if(!app()->environment('local')) {
+                $response =  app(SmsService::class)->sendOtp($merchantUser->mobile,$merchantUser->otp);
+            }
             return true;
         }
         catch (\Exception $e) {
@@ -275,15 +309,44 @@ class MerchantRepository implements MerchantInterface{
     public function otpVerification($request) {
         try {
 
+            $merchantUser = User::where('mobile', $request->mobile)->first();
 
-            $merchantUser     = User::where('mobile', $request->mobile)->where('otp', $request->otp)->first();
-            if($merchantUser != null){
+            if($merchantUser == null){
+                return 0;
+            }
+
+            // Maximum 5 tentatives
+            if($merchantUser->otp_attempts >= 5){
+                return -2;
+            }
+
+            // Expiration : 10 minutes
+            if($merchantUser->otp_expires_at != null && now()->gt(\Carbon\Carbon::parse($merchantUser->otp_expires_at))){
+                return -1;
+            }
+
+            if($merchantUser->otp != null && (string) $merchantUser->otp === (string) $request->otp){
                 $merchantUser->verification_status = Status::ACTIVE;
+                $merchantUser->otp                 = null;
+                $merchantUser->otp_expires_at      = null;
+                $merchantUser->otp_attempts        = 0;
+                $merchantUser->otp_sent_at         = null;
                 $merchantUser->save();
+
+                session()->forget('otp');
+
                 return $merchantUser;
             }
-            else
-                return 0;
+
+            // Code invalide : incrément des tentatives
+            $merchantUser->otp_attempts = $merchantUser->otp_attempts + 1;
+            $merchantUser->save();
+
+            if($merchantUser->otp_attempts >= 5){
+                return -2;
+            }
+
+            return 0;
 
         }
         catch (\Exception $e) {

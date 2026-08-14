@@ -56,7 +56,7 @@ class AuthController extends Controller
     public function otpVerification(OtpRequest $request)
     {
         $result     = $this->merchantRepo->otpVerification($request);
-        if($result != null){
+        if($result instanceof User){
              $user = User::where('mobile',$result->mobile)->first();
              if($user){
                  Auth::login($user);
@@ -64,7 +64,7 @@ class AuthController extends Controller
              }else{
                  return $this->responseWithSuccess(__('auth.invalid_otp'), [], 401);
              }
-        } elseif($result == 0) {
+        } elseif($result == -1 || $result == -2 || $result == 0) {
             return $this->responseWithSuccess(__('auth.invalid_otp'), [], 401);
         } else {
             return $this->responseWithError(__('auth.error_msg'), [], 500);
@@ -73,8 +73,6 @@ class AuthController extends Controller
 
     public function resendOTP(Request $request)
     {
-        $this->merchantRepo->resendOTP($request);
-
         if($this->merchantRepo->resendOTP($request)){
             return $this->responseWithSuccess(__('auth.resend_otp_msg'), ['mobile'=>$request->mobile], 200);
         }else{
