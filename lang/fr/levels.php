@@ -337,6 +337,8 @@ return [
     'why_eyebrow'             => 'Nos atouts',
     'why_subtitle'            => 'Pourquoi les commerçants d\'Abidjan et de toute la Côte d\'Ivoire nous confient leurs colis au quotidien.',
     'our_partner'             => 'Nos partenaires',
+    'partners_eyebrow'        => 'Ils nous font confiance',
+    'partners_subtitle'       => 'Les entreprises et commerçants qui utilisent nos services de livraison au quotidien.',
     'happy_achievement'       => 'Nos chiffres clés',
     'available_services'      => 'Services disponibles',
     'terms_of_use'            => 'Conditions d"utilisation',

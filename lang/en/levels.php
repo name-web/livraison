@@ -353,6 +353,8 @@ return [
     'why_eyebrow'             => 'Why us',
     'why_subtitle'            => 'Why merchants in Abidjan and across Côte d\'Ivoire trust us with their parcels every day.',
     'our_partner'             => 'Our Partners',
+    'partners_eyebrow'        => 'Trusted by',
+    'partners_subtitle'       => 'Businesses and merchants using our delivery services every day.',
     'happy_achievement'       => 'Our key numbers',
     'available_services'      => 'Available Services',
     'terms_of_use'            => 'Terms of Use',
