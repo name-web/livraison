@@ -346,6 +346,8 @@ return [
     'our_services'            => 'Our Services',
     'services_eyebrow'        => 'Delivery & logistics',
     'services_subtitle'       => 'Fast and reliable delivery solutions for your parcels, across Abidjan and Côte d\'Ivoire.',
+    'why_eyebrow'             => 'Why us',
+    'why_subtitle'            => 'Why merchants in Abidjan and across Côte d\'Ivoire trust us with their parcels every day.',
     'our_partner'             => 'Our Partners',
     'happy_achievement'       => 'Happy Achievement',
     'available_services'      => 'Available Services',

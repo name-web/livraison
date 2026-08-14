@@ -330,6 +330,8 @@ return [
     'our_services'            => 'Nos services',
     'services_eyebrow'        => 'Livraison & logistique',
     'services_subtitle'       => 'Des solutions de livraison rapides et fiables pour vos colis, partout à Abidjan et en Côte d\'Ivoire.',
+    'why_eyebrow'             => 'Nos atouts',
+    'why_subtitle'            => 'Pourquoi les commerçants d\'Abidjan et de toute la Côte d\'Ivoire nous confient leurs colis au quotidien.',
     'our_partner'             => 'Nos partenaires',
     'happy_achievement'       => 'Bonne réalisation',
     'available_services'      => 'Services disponibles',
