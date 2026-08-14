@@ -12,7 +12,7 @@
                         <div class="col-lg-4">
                         <div class="card h-100"  >
                             <a href="{{ route('blog.details',$blog->id) }}">
-                                <img src="{{ $blog->image }}" class="card-img-top" alt="{{ $blog->title }}">
+                                <img src="{{ $blog->upload ? static_asset($blog->upload->original) : static_asset('frontend/images/blog/blog-'.$blog->id.'.jpg') }}" class="card-img-top" alt="{{ $blog->title }}">
                             </a>
                             <div class="card-body">
                                 <a href="{{ route('blog.details',$blog->id) }}" class="text-decoration-none"><h4 class="card-title">{{ $blog->title }}</h4></a> 

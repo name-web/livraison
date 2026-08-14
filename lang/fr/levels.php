@@ -271,6 +271,8 @@ return [
     'partner_updated'          => 'Partenaire mis à jour avec succès.',
     'partner_deleted'          => 'Partenaire supprimé avec succès.',
     'blogs'                    => 'Blogues',
+    'blogs_eyebrow'            => 'Actualités & conseils',
+    'blogs_subtitle'           => 'Conseils pratiques, actualités de la livraison et bons plans pour vos envois en Côte d\'Ivoire.',
     'blog'                     => 'Blog',
     'blog_added'               => 'Blog ajouté avec succès.',
     'blog_updated'             => 'Blog mis à jour avec succès.',

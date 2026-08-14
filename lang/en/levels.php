@@ -287,6 +287,8 @@ return [
     'partner_updated'          => 'Partner updated successfully.',
     'partner_deleted'          => 'Partner deleted successfully.',
     'blogs'                    => 'Blogs',
+    'blogs_eyebrow'            => 'News & Tips',
+    'blogs_subtitle'           => 'Practical tips, delivery news and great deals for sending parcels in Côte d\'Ivoire.',
     'blog'                     => 'Blog',
     'blog_added'               => 'Blog added successfully.',
     'blog_updated'             => 'Blog updated successfully.',

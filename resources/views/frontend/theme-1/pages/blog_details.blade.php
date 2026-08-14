@@ -18,7 +18,7 @@
                     </p>
                 </div> 
                 <div class="mb-3">
-                    <img src="{{ $blog->image }}" class="card-img-top" alt="{{ $blog->title }}"> 
+                    <img src="{{ $blog->upload ? static_asset($blog->upload->original) : static_asset('frontend/images/blog/blog-'.$blog->id.'.jpg') }}" class="card-img-top" alt="{{ $blog->title }}"> 
                 </div> 
                 <div class="page-content">
                     {!! $blog->description !!}
@@ -30,7 +30,7 @@
                     <div class="card mt-3 mb-3 latest-blog-item"  >
                         <div class="row g-0">
                         <div class="col-4" >
-                           <a href="{{ route('blog.details',$latest_blog->id) }}"><img src="{{ $latest_blog->image }}" class="img-fluid rounded-start" alt="{{ $latest_blog->title }}"></a> 
+                           <a href="{{ route('blog.details',$latest_blog->id) }}"><img src="{{ $latest_blog->upload ? static_asset($latest_blog->upload->original) : static_asset('frontend/images/blog/blog-'.$latest_blog->id.'.jpg') }}" class="img-fluid rounded-start" alt="{{ $latest_blog->title }}"></a> 
                         </div>
                         <div class="col-8" > 
                             <div class="card-body py-0 ">
