@@ -36,6 +36,24 @@
     <script src="{{ static_asset('frontend/js/theme.js') }}" ></script> 
     <script src="{{ static_asset('backend/plugins') }}/toastr/toastr.min.js"></script>
     {!! Toastr::message() !!}
+    <script>
+        (function () {
+            var els = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function (el) { el.classList.add('reveal-visible'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            els.forEach(function (el) { io.observe(el); });
+        })();
+    </script>
    
 </body>
 </html>

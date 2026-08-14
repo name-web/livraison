@@ -344,6 +344,8 @@ return [
     'hero_abidjan_text'         => 'Delivery across Côte d\'Ivoire',
     'why'                     => 'Why',
     'our_services'            => 'Our Services',
+    'services_eyebrow'        => 'Delivery & logistics',
+    'services_subtitle'       => 'Fast and reliable delivery solutions for your parcels, across Abidjan and Côte d\'Ivoire.',
     'our_partner'             => 'Our Partners',
     'happy_achievement'       => 'Happy Achievement',
     'available_services'      => 'Available Services',

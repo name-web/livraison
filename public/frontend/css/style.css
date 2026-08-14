@@ -1477,3 +1477,89 @@ body{
         font-size: 1.75rem!important;
     }
 }
+
+/* ===== Services v2 - modernes & animés ===== */
+.section-eyebrow{
+    background: color-mix(in srgb, var(--bs-primary) 8%, var(--bs-white));
+    color: var(--bs-primary);
+    border: 1px solid color-mix(in srgb, var(--bs-primary) 22%, transparent);
+    border-radius: 999px;
+    padding: .45rem 1.1rem;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+.section-subtitle{
+    color: #6b7280;
+    font-size: 1rem;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.service-item{
+    background: var(--bs-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.service-item:hover{
+    transform: translateY(-8px);
+    background: var(--bs-white);
+    border-color: color-mix(in srgb, var(--bs-primary) 35%, transparent);
+    box-shadow: 0 22px 45px color-mix(in srgb, var(--bs-primary) 16%, transparent);
+}
+.service-item:hover h5,
+.service-item:hover p{
+    color: var(--h-color)!important;
+}
+.service-item:hover .text-primary{
+    color: var(--bs-primary)!important;
+}
+.service-item .service-box{
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--bs-primary) 30%, transparent);
+    transition: transform .45s ease;
+}
+.service-item:hover .service-box{
+    transform: rotate(-44.56deg) scale(1.08);
+}
+.service-item h5{
+    transition: color .3s ease;
+}
+.service-link{
+    color: var(--bs-primary);
+    font-weight: 700;
+    font-size: .9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    transition: gap .25s ease, color .25s ease;
+}
+.service-link i{
+    transition: transform .25s ease;
+}
+.service-link:hover{
+    color: var(--bs-primary);
+    gap: .7rem;
+}
+.service-link:hover i{
+    transform: translateX(4px);
+}
+/* ===== Animations reveal (au scroll) ===== */
+.reveal{
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.reveal-visible{
+    opacity: 1;
+    transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce){
+    .reveal{
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
