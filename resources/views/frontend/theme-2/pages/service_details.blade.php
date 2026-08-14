@@ -7,7 +7,7 @@
         <section id="services" class="py-20 bg-white">
             <div class="container mx-auto px-6 lg:px-12">
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <span class="text-brand-600 font-bold tracking-wider uppercase text-sm">{{ __('levels.our_services') }}</span>
+                    <span class="text-brand-600 font-bold tracking-wider uppercase text-sm">Nos services à Abidjan</span>
                     <h2 class="text-3xl md:text-5xl font-extrabold text-brand-900 mt-3 mb-6 tracking-tight">
                         {{ @$service->title }}
                     </h2>
@@ -45,7 +45,7 @@
                                     </a>
                                 @empty
                                     <div class="rounded-2xl bg-white p-4 text-sm text-gray-600">
-                                        {{ __('levels.our_services') }}
+                                        Nos services à Abidjan
                                     </div>
                                 @endforelse
                             </div>

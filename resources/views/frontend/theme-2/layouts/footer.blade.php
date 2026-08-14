@@ -21,9 +21,9 @@
                     <h4 class="text-lg font-bold text-white mb-6">{{ __('levels.quick_links') }}</h4>
                     <ul class="space-y-3 text-brand-100/80">
                         <li><a href="{{ route('aboutus.index') }}" class="hover:text-white transition-colors">{{ __('levels.about_us') }}</a></li>
-                        <li><a href="{{ url('/#services') }}" class="hover:text-white transition-colors">{{ __('levels.our_services') }}</a>
+                        <li><a href="{{ url('/#services') }}" class="hover:text-white transition-colors">Nos services à Abidjan</a>
                         </li>
-                        <li><a href="{{ url('/') }}#pricing" class="hover:text-white transition-colors">{{ __('levels.pricing_plans') }}</a></li>
+                        <li><a href="{{ url('/') }}#pricing" class="hover:text-white transition-colors">Tarifs</a></li>
                         <li><a href="{{ route('tracking.index') }}" class="hover:text-white transition-colors">{{ __('levels.track_parcel') }}</a>
                         </li>
                         <li><a href="{{ route('get.blogs') }}" class="hover:text-white transition-colors">{{ __('levels.blog') }}</a></li>

@@ -1142,3 +1142,338 @@ html[dir="rtl"] .tracking-form input, html[dir="rtl"] .subscribe-form input{
 .latest-blog-item:hover h5,.latest-blog-item:hover p{
     color: var(--bs-white)!important;
 }
+/* ===== Navbar v2 - Abidjan (Côte d'Ivoire) ===== */
+.navbar-sticky{
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: var(--bs-white);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+.navbar-sticky .navbar-brand img.logo{
+    max-height: 52px;
+    width: auto;
+    object-fit: contain;
+}
+.navbar-sticky .navbar-nav .nav-link{
+    font-size: .95rem;
+    letter-spacing: .01em;
+}
+.navbar-sticky .navbar-other .btn{
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.top-bar{
+    background: var(--bs-primary);
+    color: var(--bs-white);
+    font-size: .85rem;
+    position: relative;
+    z-index: 1031;
+}
+.top-bar-info{
+    list-style: none;
+    margin: 0;
+    padding: .55rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem;
+}
+.top-bar-info li{
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+}
+.top-bar-info i{
+    font-size: .8rem;
+    opacity: .9;
+}
+.top-bar-link{
+    color: var(--bs-white);
+    text-decoration: none;
+    transition: opacity .2s ease;
+}
+.top-bar-link:hover{
+    color: var(--bs-white);
+    opacity: .8;
+}
+.top-bar-social{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .9rem;
+    padding: .45rem 0;
+}
+.top-bar-social a{
+    color: var(--bs-white);
+    opacity: .85;
+    font-size: .9rem;
+    transition: opacity .2s ease, transform .2s ease;
+    display: inline-flex;
+}
+.top-bar-social a:hover{
+    color: var(--bs-white);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+.offcanvas-brand img.offcanvas-logo{
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
+.btn-outline-primary{
+    background: transparent!important;
+    border: 1.5px solid var(--bs-primary)!important;
+    color: var(--bs-primary)!important;
+}
+.btn-outline-primary:hover{
+    background: var(--bs-primary)!important;
+    color: var(--bs-white)!important;
+}
+@media (max-width: 991.98px){
+    .top-bar-info{
+        justify-content: center;
+    }
+    .top-bar-social{
+        justify-content: center;
+    }
+    .navbar-sticky .navbar-brand .logo{
+        width: 150px;
+    }
+}
+
+
+
+
+/* ===== Hero v5 - Balanced (Abidjan, Côte d'Ivoire) ===== */
+.hero-horizontal{
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    color: var(--bs-white);
+    overflow: hidden;
+}
+.hero-horizontal .banner-hilight{
+    line-height: 1.12!important;
+}
+.hero-badge{
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--bs-white);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    border-radius: 999px;
+    padding: .5rem 1.1rem;
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+.hero-accent{
+    position: relative;
+    display: inline-block;
+    padding-bottom: .55rem;
+}
+.hero-accent::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 72%;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--bs-primary);
+}
+.hero-track-card{
+    background: var(--bs-white);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid color-mix(in srgb, var(--bs-primary) 14%, transparent);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.30);
+}
+.hero-track-card-head{
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    margin-bottom: 1.15rem;
+}
+.hero-track-icon{
+    width: 52px;
+    height: 52px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--bs-primary) 12%, var(--bs-white));
+    color: var(--bs-primary);
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+.hero-track-card-head strong{
+    display: block;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    color: var(--h-color);
+}
+.hero-track-card-head small{
+    color: #6b7280;
+    font-size: .82rem;
+}
+.hero-tracking-form .input-group{
+    position: relative;
+    background: color-mix(in srgb, var(--bs-primary) 6%, var(--bs-white));
+    border: 1px solid color-mix(in srgb, var(--bs-primary) 18%, transparent);
+    border-radius: 999px;
+    padding: .45rem .45rem .45rem 0;
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--bs-primary) 12%, transparent);
+}
+.hero-tracking-form .input-group > i{
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: color-mix(in srgb, var(--bs-primary) 55%, #6b7280);
+    z-index: 5;
+    font-size: 1.05rem;
+}
+.hero-tracking-form input.form-control{
+    border: none!important;
+    box-shadow: none!important;
+    background: transparent!important;
+    padding-left: 3.1rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    border-radius: 999px!important;
+    font-size: 1rem;
+}
+.hero-tracking-form .btn{
+    border-radius: 999px;
+    padding: .75rem 1.8rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--bs-primary) 30%, transparent);
+}
+.hero-strip{
+    background: var(--bs-white);
+    color: var(--h-color);
+    margin-top: 3.5rem;
+}
+.hero-strip .container{
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.hero-strip-item{
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: 1.1rem 0;
+}
+.hero-strip-item i{
+    color: var(--bs-primary);
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+.hero-strip-item strong{
+    display: block;
+    font-size: .92rem;
+    line-height: 1.35;
+}
+.hero-strip-item span{
+    font-size: .8rem;
+    color: #6b7280;
+}
+@media (min-width: 768px){
+    .hero-strip-item + .hero-strip-item{
+        border-left: 1px solid rgba(0, 0, 0, 0.06);
+    }
+}
+@media (max-width: 991.98px){
+    .hero-badge{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-track-card{
+        margin-top: 1.5rem;
+        max-width: 100%;
+    }
+    .hero-tracking-form .btn{
+        padding: .7rem 1.2rem;
+        font-size: .9rem;
+    }
+    .hero-strip{
+        margin-top: 2.5rem;
+    }
+    .hero-strip-item{
+        justify-content: center;
+        text-align: left;
+    }
+}
+
+/* ===== Offcanvas mobile v2 - vert & moderne ===== */
+@media (max-width: 991.98px){
+    .offcanvas-nav.offcanvas-start{
+        width: 88%!important;
+        max-width: 340px;
+        background: var(--bs-white)!important;
+    }
+    .offcanvas-nav .offcanvas-header{
+        background: color-mix(in srgb, var(--bs-primary) 7%, var(--bs-white));
+        border-bottom: 1px solid color-mix(in srgb, var(--bs-primary) 16%, transparent);
+        padding: 1.1rem 1.25rem;
+    }
+    .offcanvas-nav .offcanvas-header h3{
+        color: var(--h-color)!important;
+    }
+    .offcanvas-nav .offcanvas-header .btn-close{
+        filter: invert(0.55) sepia(1) saturate(3) hue-rotate(100deg);
+        opacity: 1;
+    }
+    .offcanvas-nav .offcanvas-body .navbar-nav .nav-link{
+        color: var(--h-color)!important;
+        padding: .85rem 1rem;
+        border-radius: .75rem;
+        font-weight: 600;
+        font-size: .95rem;
+    }
+    .offcanvas-nav .navbar-nav .nav-link:hover,
+    .offcanvas-nav .navbar-nav .nav-link.active{
+        color: var(--bs-primary)!important;
+        background: color-mix(in srgb, var(--bs-primary) 8%, var(--bs-white));
+    }
+    .offcanvas-nav .offcanvas-footer{
+        background: color-mix(in srgb, var(--bs-primary) 5%, var(--bs-white));
+        border: 1px solid color-mix(in srgb, var(--bs-primary) 14%, transparent);
+        border-radius: 1rem;
+        padding: 1.1rem;
+    }
+    .offcanvas-nav .offcanvas-footer a.link-inverse{
+        color: var(--h-color)!important;
+        font-size: .85rem;
+    }
+    .offcanvas-nav .offcanvas-footer .social a i{
+        color: var(--bs-primary)!important;
+    }
+    .offcanvas-auth .btn{
+        padding: .7rem 1rem;
+    }
+}
+/* ===== Responsive globale ===== */
+img{
+    max-width: 100%;
+}
+body{
+    overflow-x: hidden;
+}
+@media (max-width: 575.98px){
+    .navbar-other .frontend-lang-label{
+        display: none;
+    }
+    .navbar-other .frontend-lang-dropdown summary{
+        padding: .45rem .7rem;
+    }
+    .navbar-sticky .navbar-brand img.logo{
+        max-height: 44px;
+    }
+    .hero-horizontal .banner-hilight{
+        font-size: 1.75rem!important;
+    }
+}
