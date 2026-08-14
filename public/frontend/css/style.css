@@ -1678,3 +1678,46 @@ body{
         font-size: .85rem;
     }
 }
+
+/* ===== Achievement v2 - modernes ===== */
+.achievement-band{
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 60px color-mix(in srgb, var(--bs-primary) 30%, transparent);
+    overflow: hidden;
+}
+.achievement .icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform .3s ease, background .3s ease;
+}
+.achievement .icon i{
+    font-size: 1.6rem;
+    color: var(--bs-white);
+}
+.achievement:hover .icon{
+    transform: scale(1.08) rotate(-4deg);
+    background: rgba(255, 255, 255, 0.22);
+}
+.achievement h2.branch-title{
+    font-size: 1.9rem!important;
+}
+.achievement p.branch-title{
+    font-size: .95rem!important;
+    opacity: .9;
+}
+@media (max-width: 575.98px){
+    .achievement{
+        min-height: auto;
+        padding: .6rem 0;
+    }
+    .achievement h2.branch-title{
+        font-size: 1.6rem!important;
+    }
+}

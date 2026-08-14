@@ -48,25 +48,17 @@ $(document).ready(function(){
                               // use it when you're looking for something more subtle.
          
           };
-          var countNumber = parseInt($(this).attr("data-count")).toFixed(2); 
-          var k = countNumber/1000; 
-          var lakh    = k/100; 
-          var million = lakh/10;  
-          if(million >=1){
-            var countPosition = 'M<font style="font-size:25px">+</font>';
-            var number = million;
-          }else if(lakh >=1){
-            var countPosition = 'L<font style="font-size:25px">+</font>';
-            var number = lakh;
-
-          }else if(k >=1){
-            var countPosition = 'K<font style="font-size:25px">+</font>';
-            var number = k;
-          }else{
-            var countPosition = '<font style="font-size:25px">+</font>';
-            var number = countNumber;
-          } 
-          $(this).html(parseInt(number)); 
+          var countNumber = parseInt($(this).attr("data-count")); 
+          var countPosition = '<font style="font-size:25px">+</font>';
+          var number = countNumber;
+          if(countNumber >= 1000000){
+            countPosition = 'M<font style="font-size:25px">+</font>';
+            number = Math.round(countNumber/1000000);
+          }else if(countNumber >= 1000){
+            countPosition = 'K<font style="font-size:25px">+</font>';
+            number = Math.round(countNumber/1000);
+          }
+          $(this).html(number); 
           $(this).closest('h2').find('.odometer-position').html(countPosition);
            
       });
