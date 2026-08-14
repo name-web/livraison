@@ -1,4 +1,4 @@
-<footer class="container-fluid bg-primary">
+<footer class="container-fluid bg-primary footer-main">
     <div class="container text-center">
         <div class="py-5 ">
             <div class="row my-5">
@@ -82,7 +82,7 @@
         </div>
     </div>
 </footer>
-<footer class="container-fluid bg-primary border-top p-0">
+<footer class="container-fluid bg-primary border-top p-0 footer-bottom">
     <div class="container text-center">
         <div class="py-2">
             <p class="text-white py-3 mb-0">  {{@settings()->copyright}}</p>
