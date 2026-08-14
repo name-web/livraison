@@ -350,6 +350,7 @@ return [
     'enter_tracking_id'       => 'Numéro de suivi de votre colis',
     'parcel_tracking'         => 'Suivi de colis',
     'read_our_commonly_asked_questions'          =>'Lisez nos questions fréquemment posées',
+    'faq_eyebrow'          => 'Questions fréquentes',
     'successfully_subscribed'                     =>"Abonné avec succès.",
     'already_subscribed'                           =>'Déjà inscrit',
     'logout'                                       => 'Se déconnecter',

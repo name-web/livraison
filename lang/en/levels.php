@@ -366,6 +366,7 @@ return [
     'enter_tracking_id'       => 'Enter tracking id',
     'parcel_tracking'         => 'Parcel Tracking',
     'read_our_commonly_asked_questions'=>'Read our commonly asked questions',
+    'faq_eyebrow'          => 'Frequently asked questions',
     'successfully_subscribed' =>"Successfully subscribed.",
     'already_subscribed'      =>'Already Subscribed',
     'logout'                  => 'Logout',
