@@ -330,6 +330,8 @@ return [
     'register'                => 'Register',
     'track_now'               => 'Track Now',
     'up_to'                   => 'Up To',
+    'pricing_eyebrow'         => 'Transparent pricing',
+    'pricing_subtitle'        => 'Simple pricing based on your parcel weight. No hidden fees, anywhere in Côte d\'Ivoire.',
     'hero_badge'              => 'Fast delivery across Côte d\'Ivoire',
     'hero_trust_area_title'   => 'Abidjan & all Côte d\'Ivoire',
     'hero_trust_area_text'    => 'Parcel delivery',
