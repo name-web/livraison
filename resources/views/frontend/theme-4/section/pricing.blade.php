@@ -57,7 +57,7 @@
                                     class="gb-pricing-tile rounded-2xl border border-border-green-100 bg-white p-4 sm:p-5 flex flex-col justify-between min-h-[120px]">
                                     <p class="text-sm font-semibold text-pricing-card-grid-text-p">{{ __('levels.up_to') }} {{ $sameDayPrice->weight }}</p>
                                     <small class="text-section-light-text">{{ @$sameDayPrice->category->title }}</small>
-                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $sameDayPrice->same_day }}</p>
+                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($sameDayPrice->same_day) }}</p>
                                 </div>
                             @else
                                 <div
@@ -68,7 +68,7 @@
                                             class="shrink-0 text-[10px] font-bold uppercase tracking-wide bg-green-600 text-white px-2 py-0.5 rounded-md">{{ __('levels.bulk') }}</span>
                                     </div>
                                     <small class="text-section-heading-text">{{ @$sameDayPrice->category->title }}</small>
-                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $sameDayPrice->same_day }}</p>
+                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($sameDayPrice->same_day) }}</p>
                                 </div>
                             @endif
                         @endforeach
@@ -92,7 +92,7 @@
                             <div class="gb-pricing-tile rounded-2xl border border-border-green-100 bg-white p-4 sm:p-5">
                                 <p class="text-sm font-semibold text-pricing-card-grid-text-p">{{ __('levels.up_to') }} {{ $nextDayPrice->weight }}</p>
                                 <small class="text-section-light-text">{{ @$nextDayPrice->category->title }}</small>
-                                <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $nextDayPrice->next_day }}</p>
+                                <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($nextDayPrice->next_day) }}</p>
                             </div>
                         @endforeach
                     
@@ -116,7 +116,7 @@
                                 <div class="gb-pricing-tile rounded-2xl border border-border-green-100 bg-white p-4 sm:p-5">
                                     <p class="text-sm font-semibold text-pricing-card-grid-text-p">{{ __('levels.up_to') }} {{ $subCityPrice->weight }}</p>
                                     <small class="text-section-light-text">{{ @$subCityPrice->category->title }}</small>
-                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $subCityPrice->sub_city }}</p>
+                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($subCityPrice->sub_city) }}</p>
                                 </div>
                             @else
                                 <div
@@ -127,7 +127,7 @@
                                             class="shrink-0 text-[10px] font-bold uppercase tracking-wide bg-pricing-card-icon text-white px-2 py-0.5 rounded-md">{{ __('levels.bulk') }}</span>
                                     </div>
                                     <small class="text-section-heading-text">{{ @$subCityPrice->category->title }}</small>
-                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $subCityPrice->sub_city }}</p>
+                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($subCityPrice->sub_city) }}</p>
                                 </div>
                             @endif
                         @endforeach
@@ -151,7 +151,7 @@
                                 <div class="gb-pricing-tile rounded-2xl border border-border-green-100 bg-white p-4 sm:p-5">
                                     <p class="text-sm font-semibold text-pricing-card-grid-text-w">{{ __('levels.up_to') }} {{ $outsideCityPrice->weight }}</p>
                                     <small class="text-section-light-text">{{ @$outsideCityPrice->category->title }}</small>
-                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ settings()->currency }} {{ $outsideCityPrice->outside_city }}</p>
+                                    <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-2">{{ format_money($outsideCityPrice->outside_city) }}</p>
                                 </div>
                             @else
                                 <div
@@ -160,7 +160,7 @@
                                         <div>
                                             <p class="text-sm font-semibold text-pricing-card-grid-text-w">{{ __('levels.up_to') }} {{ $outsideCityPrice->weight }}</p>
                                             <small class="text-section-heading-text">{{ @$outsideCityPrice->category->title }}</small>
-                                            <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-1">{{ settings()->currency }} {{ $outsideCityPrice->outside_city }}</p>
+                                            <p class="text-2xl sm:text-3xl font-black text-pricing-card-grid-text-p mt-1">{{ format_money($outsideCityPrice->outside_city) }}</p>
                                         </div>
                                         <span
                                             class="shrink-0 text-[10px] font-bold uppercase tracking-wide bg-green-600 text-white px-2 py-0.5 rounded-md h-fit">{{ __('levels.bulk') }}</span>

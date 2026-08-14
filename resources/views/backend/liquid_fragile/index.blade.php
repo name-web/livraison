@@ -105,7 +105,7 @@
                                                 </div>
                                             </td>
                                             @endif
-                                            <td>{{settings()->currency}}{{ SettingHelper('fragile_liquid_charge')}}</td>
+                                            <td>{{ format_money(SettingHelper('fragile_liquid_charge')) }}</td>
                                             @if(hasPermission('liquid_fragile_update') == true)
                                                 <td>
                                                     <div class="row">

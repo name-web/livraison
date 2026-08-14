@@ -98,7 +98,7 @@
                                         <div class="col-6">
                                             <div class="row">
                                                 <div class="col-4">{{ __('salary.salary') }}</div>
-                                                <div class="col-8">: {{ @settings()->currency }}{{ @$month_salary->amount }}</div>
+                                                <div class="col-8">: {{ format_money(@$month_salary->amount) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                         <div class="col-6">
                                             <div class="row">
                                                 <div class="col-4 font-bold">{{ __('salary.salary_paid') }}</div>
-                                                <div class="col-8 font-bold">: {{ settings()->currency }}{{ $salary->amount }}</div>
+                                                <div class="col-8 font-bold">: {{ format_money($salary->amount) }}</div>
                                             </div>
                                         </div>
                                     </div>

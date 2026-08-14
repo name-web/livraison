@@ -67,13 +67,13 @@
                                     </td>
                                     <td>
                                         <div class="w250">
-                                            {{__('levels.cod')}}: <span class="text-dark">{{settings()->currency}}{{$parcel->cash_collection}}</span>
+                                            {{__('levels.cod')}}: <span class="text-dark">{{ format_money($parcel->cash_collection) }}</span>
                                             <br>
-                                            {{__('levels.total_delivery_amount')}}: <span class="text-dark">{{settings()->currency}}{{$parcel->total_delivery_amount}}</span>
+                                            {{__('levels.total_delivery_amount')}}: <span class="text-dark">{{ format_money($parcel->total_delivery_amount) }}</span>
                                             <br>
-                                            {{__('levels.vat_amount')}}: <span class="text-dark">{{settings()->currency}}{{$parcel->vat_amount}}</span>
+                                            {{__('levels.vat_amount')}}: <span class="text-dark">{{ format_money($parcel->vat_amount) }}</span>
                                             <br>
-                                            {{__('levels.current_payable')}}: <b>{{settings()->currency}}{{$parcel->current_payable}}</b>
+                                            {{__('levels.current_payable')}}: <b>{{ format_money($parcel->current_payable) }}</b>
                                             <br>
                                         </div>
                                     </td>

@@ -59,7 +59,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-bold text-gray-900 text-lg">{{ settings()->currency }} {{ $sameDayPrice->same_day }}</p>
+                                                <p class="font-bold text-gray-900 text-lg">{{ format_money($sameDayPrice->same_day) }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -109,7 +109,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-bold text-gray-900 text-lg">{{ settings()->currency }} {{ $nextDayPrice->next_day }}</p>
+                                                <p class="font-bold text-gray-900 text-lg">{{ format_money($nextDayPrice->next_day) }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -153,7 +153,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-bold text-gray-900 text-lg">{{ settings()->currency }} {{ $subCityPrice->sub_city }}</p>
+                                                <p class="font-bold text-gray-900 text-lg">{{ format_money($subCityPrice->sub_city) }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -196,7 +196,7 @@
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-bold text-gray-900 text-lg">{{ settings()->currency }} {{ $outsideCityPrice->outside_city }}</p>
+                                                <p class="font-bold text-gray-900 text-lg">{{ format_money($outsideCityPrice->outside_city) }}</p>
                                             </div>
                                         </div>
                                     @endforeach

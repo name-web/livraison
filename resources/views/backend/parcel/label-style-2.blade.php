@@ -188,7 +188,7 @@
 
         <div class="section">
             <div class="divider-h"></div>
-            <div class="codd padding-5"><span>{{ date('d/m/Y') }}</span> <strong>COD : {{ settings()->currency }} {{ $parcel->cash_collection }}</strong></div>
+            <div class="codd padding-5"><span>{{ date('d/m/Y') }}</span> <strong>COD : {{ format_money($parcel->cash_collection) }}</strong></div>
             <div class="divider-h"></div>
             {{-- <div class="account padding-5">Account: <span>SC1233</span></div> --}}
             <div class="account padding-5">Invoice: <span>#{{ $parcel->invoice_no }}</span></div>

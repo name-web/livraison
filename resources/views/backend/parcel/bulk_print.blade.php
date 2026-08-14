@@ -88,7 +88,7 @@
                                         <td data-label="hub">{{ $parcel->hub->name }} To {{ $parcel->transferhub->name }}</td>
                                         @endif
                                         <td data-label="status ">{!! StatusParcel($parcel->status) !!}</td>
-                                        <td data-label="cash_collection ">{{ settings()->currency }}{{ $parcel->cash_collection }}</td>
+                                        <td data-label="cash_collection ">{{ format_money($parcel->cash_collection) }}</td>
                                     </tr>
 
                                 @endforeach
@@ -96,7 +96,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="@if(@$transfered_hub) 6 @else 5 @endif"><span class="pull-right"><b>{{ __('parcel.total_cash_collection') }}</b></span></td>
-                                    <td><b>{{ settings()->currency }}{{ $parcels->sum('cash_collection')}}</b></td>
+                                    <td><b>{{ format_money($parcels->sum('cash_collection')) }}</b></td>
                                 </tr>
                             </tfoot>
                         </table>

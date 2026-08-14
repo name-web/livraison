@@ -150,7 +150,7 @@
                                         <td>
                                             <img src="{{$expense->image}}" alt="user" class="rounded" width="45" height="65">
                                         </td>
-                                        <td>{{settings()->currency}}{{$expense->amount}}</td>
+                                        <td>{{ format_money($expense->amount) }}</td>
                                         @if(hasPermission('expense_update') == true || hasPermission('expense_delete') == true )
                                             <td>
                                                 <div class="row">

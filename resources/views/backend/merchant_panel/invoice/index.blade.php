@@ -55,9 +55,9 @@
                                         <td>{{++$i}}</td>
                                         <td>{{@$invoice->invoice_id}}</td>
                                         <td>{{@$invoice->invoice_date}}</td>
-                                        <td>{{ settings()->currency }}{{@$invoice->cash_collection}}</td>
-                                        <td>{{ settings()->currency }}{{@$invoice->total_charge}}</td>
-                                        <td>{{ settings()->currency }}{{@$invoice->current_payable}}</td>
+                                        <td>{{ format_money(@$invoice->cash_collection) }}</td>
+                                        <td>{{ format_money(@$invoice->total_charge) }}</td>
+                                        <td>{{ format_money(@$invoice->current_payable) }}</td>
                                         <td>{!! $invoice->my_status !!}</td>
                                         <td>
                                             <a href="{{ route('merchant.panel.invoice.details',$invoice->invoice_id) }}" class="btn btn-sm btn-primary mt-1"><i class="fa fa-eye"></i> View</a>

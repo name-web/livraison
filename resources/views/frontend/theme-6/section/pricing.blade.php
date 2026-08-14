@@ -28,7 +28,7 @@
                             <div class="t5-price-card">
                                 <p class="small text-muted mb-0">{{ __('levels.up_to') }} {{ $samedayPrice->weight }}</p>
                                 <small class="text-muted">({{ @$samedayPrice->category->title }})</small>
-                                <h3>{{ settings()->currency }} {{ $samedayPrice->same_day }}</h3>
+                                <h3>{{ format_money($samedayPrice->same_day) }}</h3>
                             </div>
                         </div>
                     @endforeach
@@ -41,7 +41,7 @@
                             <div class="t5-price-card">
                                 <p class="small text-muted mb-0">{{ __('levels.up_to') }} {{ $nextdayPrice->weight }}</p>
                                 <small class="text-muted">({{ @$nextdayPrice->category->title }})</small>
-                                <h3>{{ settings()->currency }} {{ $nextdayPrice->next_day }}</h3>
+                                <h3>{{ format_money($nextdayPrice->next_day) }}</h3>
                             </div>
                         </div>
                     @endforeach
@@ -54,7 +54,7 @@
                             <div class="t5-price-card">
                                 <p class="small text-muted mb-0">{{ __('levels.up_to') }} {{ $subcityPrice->weight }}</p>
                                 <small class="text-muted">({{ @$subcityPrice->category->title }})</small>
-                                <h3>{{ settings()->currency }} {{ $subcityPrice->sub_city }}</h3>
+                                <h3>{{ format_money($subcityPrice->sub_city) }}</h3>
                             </div>
                         </div>
                     @endforeach
@@ -67,7 +67,7 @@
                             <div class="t5-price-card">
                                 <p class="small text-muted mb-0">{{ __('levels.up_to') }} {{ $outsidecityPrice->weight }}</p>
                                 <small class="text-muted">({{ @$outsidecityPrice->category->title }})</small>
-                                <h3>{{ settings()->currency }} {{ $outsidecityPrice->outside_city }}</h3>
+                                <h3>{{ format_money($outsidecityPrice->outside_city) }}</h3>
                             </div>
                         </div>
                     @endforeach

@@ -46,7 +46,7 @@
                     <p class="text-[10px] text-gray-400">{{ @$sameDayPrice->category->title }}</p>
                   </div>
                 </div>
-                <p class="font-black text-xl text-pricing-dollar-text">{{ settings()->currency }} {{ $sameDayPrice->same_day }}</p>
+                <p class="font-black text-xl text-pricing-dollar-text">{{ format_money($sameDayPrice->same_day) }}</p>
               </div>
             @endforeach
           </div>
@@ -70,7 +70,7 @@
                     <p class="text-[10px] text-gray-400">{{ @$nextDayPrice->category->title }}</p>
                   </div>
                 </div>
-                <p class="font-black text-xl text-pricing-dollar-text">{{ settings()->currency }} {{ $nextDayPrice->next_day }}</p>
+                <p class="font-black text-xl text-pricing-dollar-text">{{ format_money($nextDayPrice->next_day) }}</p>
               </div>
             @endforeach
           </div>
@@ -94,7 +94,7 @@
                     <p class="text-[10px] text-gray-400">{{ @$subCityPrice->category->title }}</p>
                   </div>
                 </div>
-                <p class="font-black text-xl text-pricing-dollar-text">{{ settings()->currency }} {{ $subCityPrice->sub_city }}</p>
+                <p class="font-black text-xl text-pricing-dollar-text">{{ format_money($subCityPrice->sub_city) }}</p>
               </div>
             @endforeach
           </div>
@@ -118,7 +118,7 @@
                     <p class="text-[10px] text-gray-400">{{ @$outsideCityPrice->category->title }}</p>
                   </div>
                 </div>
-                <p class="font-black text-xl text-pricing-dollar-text">{{ settings()->currency }} {{ $outsideCityPrice->outside_city }}</p>
+                <p class="font-black text-xl text-pricing-dollar-text">{{ format_money($outsideCityPrice->outside_city) }}</p>
               </div>
             @endforeach
           </div>

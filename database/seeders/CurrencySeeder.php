@@ -155,6 +155,7 @@ class CurrencySeeder extends Seeder
         (132, 'Iraq', 'Iraqi dinar', 'IQD', 'د.ع', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
         (133, 'Kenya', 'Kenyan shilling', 'KES', 'KSh', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
         (134, 'Bangladesh', 'Taka', 'BDT', '৳', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
+        (162, 'Côte d'Ivoire', 'Franc CFA BCEAO', 'XOF', 'FCFA', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
         (135, 'Algerie', 'Algerian dinar', 'DZD', 'د.ج', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
         (136, 'United Arab Emirates', 'United Arab Emirates dirham', 'AED', 'د.إ', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),
         (137, 'Uganda', 'Uganda shillings', 'UGX', 'USh', NULL, 1, NULL, '2022-12-14 08:30:09', '2022-12-14 08:30:09'),

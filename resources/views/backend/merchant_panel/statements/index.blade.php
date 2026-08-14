@@ -105,7 +105,7 @@
                                             <span class="badge badge-pill badge-danger">{{trans('AccountHeads.'.\App\Enums\AccountHeads::EXPENSE) }}</span>
                                         @endif
                                     </td>
-                                    <td class="@if($statement->type == \App\Enums\AccountHeads::INCOME) text-success @else text-danger @endif">{{settings()->currency}}{{number_format($statement->amount,2)}}</td>
+                                    <td class="@if($statement->type == \App\Enums\AccountHeads::INCOME) text-success @else text-danger @endif">{{ format_money(number_format($statement->amount,2)) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -176,13 +176,13 @@
                                         @if($account->opening_balance != null)
                                             <div class="d-flex width300px">
                                                 <div class="width100px"> Opening  Balance  </div>
-                                                <div  class="" > : {{settings()->currency}}{{$account->opening_balance}} </div>
+                                                <div  class="" > : {{ format_money($account->opening_balance) }} </div>
                                             </div>
                                         @endif
                                         @if($account->balance != null)
                                             <div class="d-flex width300px">
                                                 <div class="width100px"> Current Balance   </div>
-                                                <div  class=""> : {{settings()->currency}}{{$account->balance}} </div>
+                                                <div  class=""> : {{ format_money($account->balance) }} </div>
                                             </div>
                                         @endif
                                     </td>

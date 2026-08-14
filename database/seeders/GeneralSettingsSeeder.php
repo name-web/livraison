@@ -27,10 +27,10 @@ class GeneralSettingsSeeder extends Seeder
 
         $row               = new GeneralSettings();
         $row->name         = "We Courier";
-        $row->phone        = "20022002";
+        $row->phone        = "+225";
         $row->email        = "info@wecourier.com";
-        $row->address      = "Mirpur 10, Dhaka, Bangladesh";
-        $row->currency     = "$";
+        $row->address      = "Abidjan, Côte d'Ivoire";
+        $row->currency     = "FCFA";
         $row->copyright    = "Copyright © All rights reserved. Development by WemaxDevs.";
         $row->logo         = 8;
         $row->favicon      = 9;

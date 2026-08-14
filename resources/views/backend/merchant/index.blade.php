@@ -86,7 +86,7 @@
                                     <td>{{@$merchant->merchant_unique_id}}</td>
                                     <td>{{@$merchant->user->mobile}}</td>
                                     <td>{!! $merchant->user->my_status !!}</td>
-                                    <td>{{settings()->currency}}{{$merchant->current_balance}}</td>
+                                    <td>{{ format_money($merchant->current_balance) }}</td>
                                     @if(
                                         hasPermission('merchant_view') == true ||
                                         hasPermission('merchant_update') == true ||

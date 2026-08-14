@@ -178,7 +178,7 @@
                                  </li>
                                  <li class="nav-item dropdown connection mt-lg-3 mt-md-0 d-lg-block">
                                      <button class="btn btn-sm btn-primary"> {{ __('merchant.wallet') }} :
-                                         {{ settings()->currency }} {{ Auth::user()->merchant->wallet_balance }}
+                                         {{ format_money(Auth::user()->merchant->wallet_balance) }}
                                      </button>
                                  </li>
                                  <li class="nav-item dropdown nav-user d-lg-block">
@@ -247,7 +247,7 @@
 
                  <li class="nav-item dropdown connection mt-md-3">
                      <button class="btn btn-sm btn-primary me-2"> {{ __('merchant.wallet') }} :
-                         {{ settings()->currency }} {{ Auth::user()->merchant->wallet_balance }} </button>
+                         {{ format_money(Auth::user()->merchant->wallet_balance) }} </button>
                  </li>
 
                  <li class="nav-item dropdown nav-user mobile">

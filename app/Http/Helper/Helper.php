@@ -159,29 +159,6 @@ if (!function_exists('currencyAmountDevide')) {
     }
 }
 
-if (!function_exists('currency')) {
-    /**
-     * Format amount with currency symbol for display (admin/merchant context).
-     */
-    function currency($amount = 0)
-    {
-        if (Auth::user()->user_type == UserType::MERCHANT) :
-            if (Auth::user()->merchant->currency == Currency::POUND) :
-                $amount = ($amount * settings()->pound_rate);
-                return 'LBP ' . number_format($amount, 2);
-            else :
-                return settings()->currency . number_format($amount, 2);
-            endif;
-        else :
-            if (settings()->active_currency == Currency::POUND) :
-                $amount = ($amount * settings()->pound_rate);
-                return 'LBP ' . number_format($amount, 2);
-            else :
-                return settings()->currency . number_format($amount, 2);
-            endif;
-        endif;
-    }
-}
 
 if (!function_exists('settingHelper')) {
     function settingHelper($key)
@@ -1054,3 +1031,19 @@ if (!function_exists('singleUser')) {
             return data_get($sections, $type.'.'.$key, '');
         }
     }
+
+if (!function_exists('format_money')) {
+    /**
+     * Format amount with currency symbol and appropriate decimals.
+     * For FCFA, no decimals; for others, 2 decimals.
+     */
+    function format_money($amount = 0)
+    {
+        $currency = settings()->currency;
+        if ($currency == 'FCFA') {
+            return $currency . ' ' . number_format($amount, 0);
+        } else {
+            return $currency . ' ' . number_format($amount, 2);
+        }
+    }
+}
