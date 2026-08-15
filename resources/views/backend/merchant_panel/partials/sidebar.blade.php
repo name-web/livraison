@@ -1,277 +1,121 @@
-<!-- left sidebar -->
-{{-- <div class="col-12 nav-left-sidebar sidebar-dark">
-    <ul class="navbar-nav">
-        <li class="nav-divider">
-            {{ __('menus.menu') }}
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link {{ request()->is('/*') ? 'active' : '' }}" href="{{ url('/dashboard') }}"><i
-                    class="fa fa-home"></i>{{ __('dashboard.title') }}</a>
-        </li>
+<aside class="wc-sidebar" id="wcSidebar">
+    {{-- Brand --}}
+    <div class="wc-sidebar-brand">
+        <a href="{{ url('/dashboard') }}" class="no-underline flex items-center">
+            <img src="{{ settings()->logo_image }}" alt="{{ settings()->name }}" class="wc-sidebar-brand-logo" style="max-height:34px">
+        </a>
+    </div>
 
-        <li class="nav-item ">
-            <a class="nav-link {{ request()->is('merchant/support*') ? 'active' : '' }}"
-                href="{{ route('merchant-panel.support.index') }}"><i
-                    class="fa fa-comments"></i>{{ __('menus.support') }}</a>
-        </li>
-
-        <li class="nav-item ">
-            <a class="nav-link {{ request()->is('merchant/my-wallet*') ? 'active' : '' }}"
-                href="{{ route('merchant-panel.my.wallet.index') }}"><i
-                    class="fa fa-wallet"></i>{{ __('parcel.my_wallet') }}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ request()->is('merchant/payment-request*', 'merchant/invoice*', 'merchant/payment/received*', 'merchant/online-payment*', 'merchant/invoice*') ? 'active' : '' }}"
-                href="#" data-toggle="collapse" aria-expanded="false" data-target="#accounts"
-                aria-controls="accounts"><i class="fa fa-users"></i> {{ __('account.title') }}</a>
-            <div id="accounts"
-                class="{{ request()->is('merchant/payment-request*', 'merchant/invoice*', 'merchant/payment/received*', 'merchant/online-payment*', 'merchant/invoice*') ? '' : 'collapse' }} submenu">
-                <ul class="nav flex-column">
-
-                    <li class="nav-item ">
-                        <a class="nav-link {{ request()->is('merchant/payment/received*') ? 'active' : '' }}"
-                            href="{{ route('online.payment.received') }}"> {{ __('menus.payments_received') }}</a>
-                    </li>
-                 
-                    <li class="nav-item ">
-                        <a class="nav-link {{ request()->is('merchant/online-payment*') ? 'active' : '' }}"
-                            href="{{ route('online.payment.index') }}"> {{ __('menus.payout') }}</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link {{ request()->is('merchant/invoice*') ? 'active' : '' }}"
-                            href="{{ route('merchant.panel.invoice.index') }}">{{ __('menus.invoice') }}</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="nav-item ">
-            <a class="nav-link {{ request()->is('merchant/parcel/*') ? 'active' : '' }}"
-                href="{{ route('merchant-panel.parcel.index') }}"><i
-                    class="fa fa-dolly"></i>{{ __('menus.parcel') }}</a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link {{ request()->is('merchant/parcel-bank*') ? 'active' : '' }}"
-                href="{{ route('merchant-panel.parcel-bank.index') }}"><i
-                    class="fa fa-map"></i>{{ __('menus.parcel_bank') }}</a>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link {{ request()->is('merchant/reports/*') ? 'active' : '' }}" href="#"
-                data-toggle="collapse" aria-expanded="false" data-target="#reports" aria-controls="reports"><i
-                    class="fas fa-print"></i>{{ __('reports.title') }}</a>
-            <div id="reports"
-                class="{{ request()->is('merchant/reports*', 'merchant/accounts/statements*', 'merchant/accounts/account-transaction*') ? '' : 'collapse' }} submenu">
-                <ul class="nav flex-column">
-                    <li class="nav-item ">
-                        <a class="nav-link {{ request()->is('merchant/reports/parcel-reports*', 'merchant/reports/parcel-filter-reports') ? 'active' : '' }}"
-                            href="{{ route('merchant-panel.parcel.reports') }}" aria-expanded="false"
-                            data-target="#submenu-1" aria-controls="submenu-1">{{ __('reports.parcel_reports') }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/reports/total-summery*', 'merchant/reports/total-summery-filter*') ? 'active' : '' }}"
-                            href="{{ route('merchant.total.summery') }}">{{ __('menus.parcel_total_summery') }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/accounts/account-transaction*') ? 'active' : '' }}"
-                            href="{{ route('merchant.accounts.account-transaction.index') }}">{{ __('menus.account_transaction') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/accounts/statements*') ? 'active' : '' }}"
-                            href="{{ route('merchant.accounts.statements.index') }}">{{ __('menus.statements') }}</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ request()->is('merchant/settings*', 'merchant/shops*') ? 'active' : '' }}"
-                href="#" data-toggle="collapse" aria-expanded="false" data-target="#settings"
-                aria-controls="settings"><i class="fa fa-fw fa-cogs"></i> {{ __('menus.settings') }}</a>
-            <div id="settings"
-                class="{{ request()->is('merchant/settings*', 'merchant/shops*') ? '' : 'collapse' }} submenu">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/settings/cod-charges*') ? 'active' : '' }}"
-                            href="{{ route('merchant.cod-charges.index') }}">{{ __('menus.cod_charges') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/settings/delivery-charges*') ? 'active' : ' ' }}"
-                            href="{{ route('merchant.delivery-charges.index') }}">{{ __('menus.delivery_charges') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('merchant/settings/online-payment-setup*') ? 'active' : ' ' }}"
-                            href="{{ route('merchant.online.payment.setup.index') }}">{{ __('menus.online_payment_setup') }}</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link {{ request()->is('merchant/shops*') ? 'active' : '' }}"
-                            href="{{ route('merchant-panel.shops.index') }}"> {{ __('parcel.shop') }}</a>
-                    </li>
-
-                </ul>
-            </div>
-        </li>
-
-
-    </ul>
-</div> --}}
-<!-- end left sidebar -->
-
-
-
-{{-- dynamic  --}}
-
-
-<!-- left sidebar -->
-<div class="col-12 ">
-    <nav class="navbar navbar-expand-lg center-nav transparent navbar-light p-0 fixed-top sidebarNavigation">
-
-        <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start text-bg-dark " tabindex="-1"
-            id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-
-            <div class="offcanvas-header w-90 ">
-                <a class="navbar-brand" href="{{ url('/dashboard') }}">
-                    <img src="{{ settings()->logo_image }}" class="logo" />
-                </a>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
-            </div>
-
-            <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100 w-90 mt-0 pt-0">
-                <nav class="navbar navbar-expand-lg navbar-light fixed-top   ">
-                </nav>
-                <div class="nav-left-sidebar sidebar-dark navbar-expand-lg ">
-                    <ul class="navbar-nav">
-                        <li class="nav-divider">
-                            {{ __('menus.menu') }}
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ request()->is('/*') ? 'active' : '' }}"
-                                href="{{ url('/dashboard') }}"><i class="fa fa-home"></i>{{ __('dashboard.title') }}</a>
-                        </li>
-
-                        <li class="nav-item ">
-                            <a class="nav-link {{ request()->is('merchant/support*') ? 'active' : '' }}"
-                                href="{{ route('merchant-panel.support.index') }}"><i
-                                    class="fa fa-comments"></i>{{ __('menus.support') }}</a>
-                        </li>
-
-                        <li class="nav-item ">
-                            <a class="nav-link {{ request()->is('merchant/my-wallet*') ? 'active' : '' }}"
-                                href="{{ route('merchant-panel.my.wallet.index') }}"><i
-                                    class="fa fa-wallet"></i>{{ __('parcel.my_wallet') }}</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('merchant/payment-request*', 'merchant/invoice*', 'merchant/payment/received*', 'merchant/online-payment*', 'merchant/invoice*') ? 'active' : '' }}"
-                                href="#" data-toggle="collapse" aria-expanded="false" data-target="#accounts"
-                                aria-controls="accounts"><i class="fa fa-users"></i> {{ __('account.title') }}</a>
-                            <div id="accounts"
-                                class="{{ request()->is('merchant/payment-request*', 'merchant/invoice*', 'merchant/payment/received*', 'merchant/online-payment*', 'merchant/invoice*') ? '' : 'collapse' }} submenu">
-                                <ul class="nav flex-column">
-
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ request()->is('merchant/payment/received*') ? 'active' : '' }}"
-                                            href="{{ route('online.payment.received') }}">
-                                            {{ __('menus.payments_received') }}</a>
-                                    </li>
-                                    {{-- payout --}}
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ request()->is('merchant/online-payment*') ? 'active' : '' }}"
-                                            href="{{ route('online.payment.index') }}"> {{ __('menus.payout') }}</a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ request()->is('merchant/invoice*') ? 'active' : '' }}"
-                                            href="{{ route('merchant.panel.invoice.index') }}">{{ __('menus.invoice') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item ">
-                            <a class="nav-link {{ request()->is('merchant/parcel/*') ? 'active' : '' }}"
-                                href="{{ route('merchant-panel.parcel.index') }}"><i
-                                    class="fa fa-dolly"></i>{{ __('menus.parcel') }}</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ request()->is('merchant/parcel-bank*') ? 'active' : '' }}"
-                                href="{{ route('merchant-panel.parcel-bank.index') }}"><i
-                                    class="fa fa-map"></i>{{ __('menus.parcel_bank') }}</a>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('merchant/reports/*') ? 'active' : '' }}"
-                                href="#" data-toggle="collapse" aria-expanded="false" data-target="#reports"
-                                aria-controls="reports"><i class="fas fa-print"></i>{{ __('reports.title') }}</a>
-                            <div id="reports"
-                                class="{{ request()->is('merchant/reports*', 'merchant/accounts/statements*', 'merchant/accounts/account-transaction*') ? '' : 'collapse' }} submenu">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ request()->is('merchant/reports/parcel-reports*', 'merchant/reports/parcel-filter-reports') ? 'active' : '' }}"
-                                            href="{{ route('merchant-panel.parcel.reports') }}" aria-expanded="false"
-                                            data-target="#submenu-1"
-                                            aria-controls="submenu-1">{{ __('reports.parcel_reports') }}</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/reports/total-summery*', 'merchant/reports/total-summery-filter*') ? 'active' : '' }}"
-                                            href="{{ route('merchant.total.summery') }}">{{ __('menus.parcel_total_summery') }}</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/accounts/account-transaction*') ? 'active' : '' }}"
-                                            href="{{ route('merchant.accounts.account-transaction.index') }}">{{ __('menus.account_transaction') }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/accounts/statements*') ? 'active' : '' }}"
-                                            href="{{ route('merchant.accounts.statements.index') }}">{{ __('menus.statements') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('merchant/settings*', 'merchant/shops*') ? 'active' : '' }}"
-                                href="#" data-toggle="collapse" aria-expanded="false" data-target="#settings"
-                                aria-controls="settings"><i class="fa fa-fw fa-cogs"></i>
-                                {{ __('menus.settings') }}</a>
-                            <div id="settings"
-                                class="{{ request()->is('merchant/settings*', 'merchant/shops*') ? '' : 'collapse' }} submenu">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/settings/cod-charges*') ? 'active' : '' }}"
-                                            href="{{ route('merchant.cod-charges.index') }}">{{ __('menus.cod_charges') }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/settings/delivery-charges*') ? 'active' : ' ' }}"
-                                            href="{{ route('merchant.delivery-charges.index') }}">{{ __('menus.delivery_charges') }}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('merchant/settings/online-payment-setup*') ? 'active' : ' ' }}"
-                                            href="{{ route('merchant.online.payment.setup.index') }}">{{ __('menus.online_payment_setup') }}</a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link {{ request()->is('merchant/shops*') ? 'active' : '' }}"
-                                            href="{{ route('merchant-panel.shops.index') }}">
-                                            {{ __('parcel.shop') }}</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
+    {{-- Marchand --}}
+    <div class="wc-sidebar-merchant">
+        <div class="wc-sidebar-merchant-avatar">
+            {{ strtoupper(substr(Auth::user()->merchant->business_name, 0, 1)) }}
         </div>
+        <div class="overflow-hidden min-w-0">
+            <div class="font-bold text-[13.5px] text-wc-ink truncate leading-tight wc-sidebar-merchant-name">{{ Auth::user()->merchant->business_name }}</div>
+            <div class="wc-sidebar-merchant-role">Marchand</div>
+        </div>
+    </div>
 
+    {{-- Navigation --}}
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-3.5 pb-5 pt-1 scrollbar-thin">
+        {{-- Activité --}}
+        <div class="wc-sidebar-group-label">Activité</div>
+
+        <a href="{{ url('/dashboard') }}" data-tooltip="Dashboard" class="wc-sidebar-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
+            <i class="fas fa-th-large"></i>
+            <span>{{ __('dashboard.title') }}</span>
+        </a>
+        <a href="{{ route('merchant-panel.parcel.index') }}" data-tooltip="Colis" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.parcel.index') || request()->routeIs('merchant-panel.parcel.filter') ? 'active' : '' }}">
+            <i class="fas fa-box"></i>
+            <span>{{ __('menus.parcel') }}</span>
+        </a>
+        <a href="{{ route('merchant-panel.parcel-bank.index') }}" data-tooltip="Banque de colis" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.parcel-bank.index') ? 'active' : '' }}">
+            <i class="fas fa-warehouse"></i>
+            <span>{{ __('menus.parcel_bank') }}</span>
+        </a>
+
+        {{-- Gestion --}}
+        <div class="wc-sidebar-group-label">Gestion</div>
+
+        <a href="{{ route('merchant-panel.shops.index') }}" data-tooltip="Boutiques" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.shops.*') ? 'active' : '' }}">
+            <i class="fas fa-store"></i>
+            <span>{{ __('parcel.shop') }}</span>
+        </a>
+        <a href="{{ route('merchant.panel.invoice.index') }}" data-tooltip="Factures" class="wc-sidebar-item {{ request()->routeIs('merchant.panel.invoice.*') ? 'active' : '' }}">
+            <i class="fas fa-file-invoice"></i>
+            <span>{{ __('menus.invoice') }}</span>
+        </a>
+        <a href="{{ route('merchant-panel.payment-request.index') }}" data-tooltip="Paiements" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.payment-request.*') ? 'active' : '' }}">
+            <i class="fas fa-credit-card"></i>
+            <span>{{ __('menus.payout') }}</span>
+        </a>
+
+        {{-- Finances --}}
+        <div class="wc-sidebar-group-label">Finances</div>
+
+        <a href="{{ route('merchant-panel.my.wallet.index') }}" data-tooltip="Wallet" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.my.wallet.*') ? 'active' : '' }}">
+            <i class="fas fa-wallet"></i>
+            <span>{{ __('parcel.my_wallet') }}</span>
+        </a>
+        <a href="{{ route('merchant.accounts.account-transaction.index') }}" data-tooltip="Transactions" class="wc-sidebar-item {{ request()->routeIs('merchant.accounts.account-transaction.*') ? 'active' : '' }}">
+            <i class="fas fa-exchange-alt"></i>
+            <span>{{ __('menus.account_transaction') }}</span>
+        </a>
+        <a href="{{ route('merchant.accounts.statements.index') }}" data-tooltip="Relevés" class="wc-sidebar-item {{ request()->routeIs('merchant.accounts.statements.*') ? 'active' : '' }}">
+            <i class="fas fa-receipt"></i>
+            <span>{{ __('menus.statements') }}</span>
+        </a>
+
+        {{-- Autres --}}
+        <div class="wc-sidebar-group-label">Autres</div>
+
+        <a href="{{ route('merchant-panel.support.index') }}" data-tooltip="Support" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.support.*') ? 'active' : '' }}">
+            <i class="fas fa-headset"></i>
+            <span>{{ __('menus.support') }}</span>
+        </a>
+        <a href="{{ route('merchant-panel.news-offer.index') }}" data-tooltip="Actualités & Offres" class="wc-sidebar-item {{ request()->routeIs('merchant-panel.news-offer.*') ? 'active' : '' }}">
+            <i class="fas fa-newspaper"></i>
+            <span>{{ __('news_offer.title') }}</span>
+        </a>
+
+        {{-- Réduire (desktop) --}}
+        <button type="button" data-sidebar-collapse class="wc-sidebar-collapse-btn" title="Réduire / agrandir le menu" aria-label="Réduire ou agrandir la barre latérale">
+            <i class="fas fa-chevron-left text-[13px]" id="collapseIcon"></i>
+            <span>Réduire</span>
+        </button>
     </nav>
 
-</div>
+    {{-- Footer --}}
+    <div class="wc-sidebar-footer">
+        © {{ date('Y') }} {{ settings()->name }}
+    </div>
+</aside>
 
-<!-- end left sidebar -->
+{{-- Backdrop mobile --}}
+<div class="fixed inset-0 bg-black/40 z-[1049] hidden" id="wcBackdrop" onclick="document.body.classList.remove('wc-drawer-open');this.classList.add('hidden')"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var body = document.body;
+    var icon = document.getElementById('collapseIcon');
+
+    function applyCollapsed(state) {
+        body.classList.toggle('wc-sidebar-collapsed', state);
+        if (icon) icon.style.transform = state ? 'rotate(180deg)' : '';
+        try { localStorage.setItem('wc-sidebar-collapsed', state ? '1' : '0'); } catch (e) {}
+    }
+
+    document.querySelectorAll('[data-sidebar-collapse]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            applyCollapsed(!body.classList.contains('wc-sidebar-collapsed'));
+        });
+    });
+
+    try {
+        if (localStorage.getItem('wc-sidebar-collapsed') === '1' && window.innerWidth >= 992) {
+            applyCollapsed(true);
+        }
+    } catch (e) {}
+});
+</script>

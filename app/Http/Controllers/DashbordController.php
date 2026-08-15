@@ -66,7 +66,25 @@ public function index(Request $request)
                 $filterParams = ['parcel_date' => $dateRange];
             }
 
-            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams'));
+            $recentParcels = Parcel::where('merchant_id', $merchant->id)
+                ->with('merchantShop')
+                ->orderByDesc('updated_at')
+                ->take(5)
+                ->get()
+                ->map(fn($p) => [
+                    'id' => $p->id,
+                    'tracking_id' => $p->tracking_id,
+                    'customer_name' => $p->customer_name,
+                    'customer_phone' => $p->customer_phone,
+                    'cash_collection' => (float) $p->cash_collection,
+                    'delivery_charge' => (float) $p->delivery_charge,
+                    'status' => $p->status,
+                    'status_label' => $p->parcel_status,
+                    'created_at' => $p->created_at?->format('d/m/Y'),
+                    'updated_at' => $p->updated_at?->format('d/m/Y H:i'),
+                ]);
+
+            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams', 'recentParcels'));
 
         }elseif(Auth::user()->user_type == UserType::ADMIN){
 

@@ -44,6 +44,18 @@
     </script>
 @stack('scripts')
 
+@if (Auth::check() && Auth::user()->user_type == \App\Enums\UserType::MERCHANT)
+    @if(file_exists(public_path('build/manifest.json')))
+        @php
+            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+            $merchantJs = $manifest['resources/js/merchant/app.jsx']['file'] ?? null;
+        @endphp
+        @if($merchantJs)
+            <script type="module" src="{{ asset('build/' . $merchantJs) }}"></script>
+        @endif
+    @endif
+@endif
+
 <script type="text/javascript">
     "use strict";
     $(document).ready(function() {
