@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Enums\Status;
+use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Services\SmsService;
 use App\Providers\RouteServiceProvider;
@@ -55,6 +56,10 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+
+            if (auth()->user()->user_type == UserType::MERCHANT) {
+                session(['locale' => 'fr']);
+            }
 
             //login security 
             if(auth()->user()->status == Status::ACTIVE && auth()->user()->verification_status == Status::INACTIVE):

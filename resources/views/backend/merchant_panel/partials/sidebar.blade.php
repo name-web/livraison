@@ -143,9 +143,6 @@
 
             <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100 w-90 mt-0 pt-0">
                 <nav class="navbar navbar-expand-lg navbar-light fixed-top   ">
-                    <div class="dropdown lang-dropdown navbar_menus changeLocale mobileLocale m-0 ">
-                        @include('backend.partials.language')
-                    </div>
                 </nav>
                 <div class="nav-left-sidebar sidebar-dark navbar-expand-lg ">
                     <ul class="navbar-nav">

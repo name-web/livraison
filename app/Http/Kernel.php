@@ -75,6 +75,7 @@ class Kernel extends HttpKernel
         'headersCheck'      =>\App\Http\Middleware\ModifyHeaderMiddleware::class,
         'IsInstalled'       =>\App\Http\Middleware\IsInstalledMiddleware::class,
         'IsNotInstalled'    =>\App\Http\Middleware\IsNotInstalledMiddleware::class,
+        'merchant'          =>\App\Http\Middleware\IsMerchantMiddleware::class,
 
     ];
 }

@@ -1,7 +1,9 @@
 <?php
 namespace App\Repositories\Dashboard;
+use App\Models\Backend\Payment;
 
 use App\Enums\AccountHeads;
+use App\Enums\ApprovalStatus;
 use App\Enums\InvoiceStatus;
 use App\Enums\ParcelStatus;
 use App\Enums\Status;
@@ -16,9 +18,11 @@ use App\Models\Backend\MerchantStatement;
 use App\Models\Backend\Parcel;
 use App\Models\Backend\Payroll\SalaryGenerate;
 use App\Models\Backend\Salary;
+use App\Models\MerchantShops;
 use App\Repositories\Dashboard\DashboardInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardRepository implements DashboardInterface {
 
@@ -220,6 +224,134 @@ class DashboardRepository implements DashboardInterface {
         } 
 
         return $data;
+    }
+
+    /**
+     * Agrégats SQL du dashboard marchand (une poignée de requêtes au lieu d'une boucle PHP).
+     * Convention de date unique : `updated_at` (activité dans la période).
+     */
+    public function merchantDashboardData($merchantId, $period = null)
+    {
+        $scope = function ($query) use ($period) {
+            if (!blank($period) && isset($period['from'], $period['to'])) {
+                $query->whereBetween('updated_at', [$period['from'], $period['to']]);
+            }
+            return $query;
+        };
+
+        $statusRows = Parcel::where('merchant_id', $merchantId)
+            ->where(fn ($q) => $scope($q))
+            ->selectRaw('status,
+                COUNT(*) as total,
+                SUM(CASE WHEN status <> '.ParcelStatus::RETURN_RECEIVED_BY_MERCHANT.' THEN cash_collection ELSE 0 END) as cash_collection,
+                SUM(CASE WHEN status <> '.ParcelStatus::RETURN_RECEIVED_BY_MERCHANT.' THEN selling_price ELSE 0 END) as selling_price,
+                SUM(vat_amount) as vat_amount,
+                SUM(delivery_charge) as delivery_charge,
+                SUM(cod_amount) as cod_amount,
+                SUM(packaging_amount) as packaging_amount,
+                SUM(liquid_fragile_amount) as liquid_fragile_amount,
+                SUM(total_delivery_amount) as total_delivery_amount')
+            ->groupBy('status')
+            ->get();
+
+        $counts = [
+            'total'       => 0,
+            'pending'     => 0,
+            'delivered'   => 0,
+            'partial'     => 0,
+            'returned'    => 0,
+            'on_going'    => 0,
+            'parcel_bank' => 0,
+            'shops'       => 0,
+        ];
+        $amounts = [
+            'cash_collection'        => 0,
+            'selling_price'          => 0,
+            'vat_amount'             => 0,
+            'delivery_charge'        => 0,
+            'cod_amount'             => 0,
+            'packaging_amount'       => 0,
+            'liquid_fragile_amount'  => 0,
+            'total_delivery_amount'  => 0,
+        ];
+        $sales = ['sale' => 0, 'delivery_fee' => 0, 'vat' => 0, 'net' => 0];
+
+        foreach ($statusRows as $row) {
+            $counts['total'] += (int) $row->total;
+            $counts['pending']   += (int) ($row->status == ParcelStatus::PENDING ? $row->total : 0);
+            $counts['delivered'] += (int) ($row->status == ParcelStatus::DELIVERED ? $row->total : 0);
+            $counts['partial']   += (int) ($row->status == ParcelStatus::PARTIAL_DELIVERED ? $row->total : 0);
+            $counts['returned']  += (int) ($row->status == ParcelStatus::RETURN_RECEIVED_BY_MERCHANT ? $row->total : 0);
+            foreach ($amounts as $key => $value) {
+                $amounts[$key] += (float) $row->{$key};
+            }
+            if (in_array((int) $row->status, [ParcelStatus::DELIVERED, ParcelStatus::PARTIAL_DELIVERED])) {
+                $sales['sale']         += (float) $row->cash_collection;
+                $sales['delivery_fee'] += (float) $row->total_delivery_amount;
+                $sales['vat']          += (float) $row->vat_amount;
+            }
+        }
+        $counts['on_going'] = $counts['total'] - $counts['delivered'] - $counts['returned'];
+        $sales['net'] = $sales['sale'] - $sales['delivery_fee'] - $sales['vat'];
+
+        $paymentRows = Payment::where('merchant_id', $merchantId)
+            ->where(fn ($q) => $scope($q))
+            ->selectRaw('status, COUNT(*) as total, SUM(amount) as amount')
+            ->groupBy('status')
+            ->get();
+        $payments = ['pending' => 0, 'paid' => 0, 'total' => 0];
+        foreach ($paymentRows as $row) {
+            $payments['total'] += (int) $row->total;
+            if ((int) $row->status == ApprovalStatus::PENDING) {
+                $payments['pending'] += (float) $row->amount;
+            }
+            if ((int) $row->status == ApprovalStatus::PROCESSED) {
+                $payments['paid'] += (float) $row->amount;
+            }
+        }
+
+        $counts['parcel_bank'] = Parcel::where('merchant_id', $merchantId)
+            ->where('parcel_bank', 'on')
+            ->where(fn ($q) => $scope($q))
+            ->count();
+        $counts['shops'] = MerchantShops::where('merchant_id', $merchantId)->count();
+
+        return compact('counts', 'amounts', 'sales', 'payments');
+    }
+
+    /**
+     * Série quotidienne pour le graphique d'évolution (convention : `updated_at`).
+     */
+    public function merchantDashboardDailySeries($merchantId, $start, $end)
+    {
+        $rows = Parcel::where('merchant_id', $merchantId)
+            ->whereBetween('updated_at', [$start, $end])
+            ->selectRaw('DATE(updated_at) as day,
+                COUNT(*) as total,
+                SUM(CASE WHEN status = '.ParcelStatus::PENDING.' THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN status = '.ParcelStatus::DELIVERED.' THEN 1 ELSE 0 END) as delivered,
+                SUM(CASE WHEN status = '.ParcelStatus::PARTIAL_DELIVERED.' THEN 1 ELSE 0 END) as partial,
+                SUM(CASE WHEN status = '.ParcelStatus::RETURN_RECEIVED_BY_MERCHANT.' THEN 1 ELSE 0 END) as returned')
+            ->groupBy(DB::raw('DATE(updated_at)'))
+            ->get()
+            ->keyBy('day');
+
+        $dates = $totals = $pendings = $delivers = $parDelivers = $returns = [];
+
+        $cursor = Carbon::parse($start)->startOfDay();
+        $endCursor = Carbon::parse($end)->startOfDay();
+        while ($cursor->lte($endCursor)) {
+            $day = $cursor->format('Y-m-d');
+            $dates[]        = $cursor->format('d-m-Y');
+            $totals[]       = (int) ($rows[$day]->total ?? 0);
+            $pendings[]     = (int) ($rows[$day]->pending ?? 0);
+            $delivers[]     = (int) ($rows[$day]->delivered ?? 0);
+            $parDelivers[]  = (int) ($rows[$day]->partial ?? 0);
+            $returns[]      = (int) ($rows[$day]->returned ?? 0);
+            $cursor->addDay();
+        }
+
+        return compact('dates', 'totals', 'pendings', 'delivers', 'parDelivers', 'returns');
     }
 
 }

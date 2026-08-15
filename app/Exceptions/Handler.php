@@ -52,30 +52,30 @@ class Handler extends ExceptionHandler
 
             if($e->getStatusCode()       == 401){
 
-                return response()->view('errors.401');
+                return response()->view('errors.401', [], 401);
             }elseif($e->getStatusCode()   == 404){
 
-                return response()->view('errors.404');
+                return response()->view('errors.404', [], 404);
 
             }elseif($e->getStatusCode()  == 403){
 
-                return response()->view('errors.403');
+                return response()->view('errors.403', [], 403);
 
             }elseif($e->getStatusCode() == 405){
 
-                return response()->view('errors.405');
+                return response()->view('errors.405', [], 405);
 
             }elseif($e->getStatusCode() == 419){
 
-                return response()->view('errors.419');
+                return response()->view('errors.419', [], 419);
 
             }elseif($e->getStatusCode() == 429){
 
-                return response()->view('errors.429');
+                return response()->view('errors.429', [], 429);
 
             }elseif($e->getStatusCode() == 500){
 
-                return response()->view('errors.500');
+                return response()->view('errors.500', [], 500);
 
             }
         }else{

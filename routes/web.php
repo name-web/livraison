@@ -908,7 +908,7 @@ Route::middleware(['XSS', 'IsInstalled'])->group(function () {
 
 
             // Merchant panel Routes
-            Route::group(['prefix' => 'merchant'], function () {
+            Route::group(['prefix' => 'merchant', 'middleware' => 'merchant'], function () {
                 Route::post('/dashboard/filter',                     [DashbordController::class, 'merchantDashboardFilter'])->name('merchant-panel.dashboard.filter');
                 //accounts
                 Route::get('/accounts/payment-accounts',              [PaymentAccountController::class, 'index'])->name('merchant.accounts.payment-account.index');

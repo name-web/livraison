@@ -18,13 +18,6 @@
                                  <li class="nav-item lang">
                                      <div class="form-group col-12 pt-1">
                                          <div class="dropdown lang-dropdown  changeLocale ">
-                                             @include('backend.partials.language')
-                                         </div>
-                                     </div>
-                                 </li>
-                                 <li class="nav-item lang">
-                                     <div class="form-group col-12 pt-1">
-                                         <div class="dropdown lang-dropdown  changeLocale ">
                                              <button class="btn  dropdown-toggle merchantpanelAddbutton" type="button"
                                                  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                  aria-expanded="false" style=" color:#455560!important;">

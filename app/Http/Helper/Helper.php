@@ -237,6 +237,17 @@ if(!function_exists('settings')){
     }
 }
 
+if (!function_exists('formatPrice')) {
+    /**
+     * Format monétaire français : 41 234,50 FCFA.
+     */
+    function formatPrice($amount = 0, $currency = null)
+    {
+        $currency = $currency ?: (settings()->currency ?: 'FCFA');
+        return number_format((float) $amount, 2, ',', ' ') . ' ' . $currency;
+    }
+}
+
 if (!function_exists('active_theme')) {
     /**
      * Resolve the active frontend theme view path (cached 1 hour).

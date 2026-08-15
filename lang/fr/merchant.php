@@ -91,6 +91,7 @@ return [
   'payble_amount' => 'Montant payable',
   'payment_request' => 'Demande de paiement',
   'invalid_otp' => 'OTP invalide',
-  'cash' => 'Espèces'
+  'cash' => 'Espèces',
+  'wallet' => 'Wallet'
 
 ];

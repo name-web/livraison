@@ -95,6 +95,7 @@ class MerchantController extends Controller
         $result     = $this->repo->otpVerification($request);
         if($result instanceof \App\Models\User){
             Auth::login($result);
+            session(['locale' => 'fr']);
             return redirect()->route('dashboard.index');
         }
         elseif($result == -1){

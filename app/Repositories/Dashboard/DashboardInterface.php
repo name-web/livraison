@@ -26,4 +26,7 @@ interface DashboardInterface {
     public function availableParcels();
 
     public function analyticsFromTo($date);
+
+    public function merchantDashboardData($merchantId, $period = null);
+    public function merchantDashboardDailySeries($merchantId, $start, $end);
 }
