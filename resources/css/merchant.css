@@ -193,6 +193,22 @@ body.wc-merchant main.dashboard-ecommerce {
     margin-top: 64px;
 }
 
+/* --- Neutralisation du décalage hérité du thème admin ---
+   Le shell marchand décale déjà via padding-left sur <main> :
+   les marges/espaces du thème admin (main-content, dashboard-main-wrapper)
+   doivent être annulés, sinon le contenu double-décale à droite (débordement). */
+
+body.wc-merchant .dashboard-main-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.wc-merchant .dashboard-main-wrapper .main-content {
+    margin-left: 0;
+    width: auto;
+    padding-top: 0;
+}
+
 @media (max-width: 991.98px) {
     body.wc-merchant .wc-sidebar {
         transform: translateX(-105%);
