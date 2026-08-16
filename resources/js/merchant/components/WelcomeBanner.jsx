@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function WelcomeBanner({ merchant, period, urls }) {
+export default function WelcomeBanner({ merchant, period, urls, formatPrice }) {
     const [dateRange, setDateRange] = useState('');
     const inputRef = useRef(null);
 
