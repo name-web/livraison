@@ -52,26 +52,26 @@ export default function KpiCards({ counts, amounts, sales, merchant, urls, forma
 
     const moneyKpis = [
         {
-            icon: 'fa-hand-holding-usd', iconBg: 'rgba(16,185,129,.16)', iconColor: '#34d399',
+            icon: 'fa-hand-holding-usd', iconBg: '#ecfdf5', iconColor: '#059669',
             label: 'Encaissements', value: amounts.cash_collection, url: urls.statements, money: true,
         },
         {
-            icon: 'fa-coins', iconBg: 'rgba(56,189,248,.14)', iconColor: '#38bdf8',
+            icon: 'fa-coins', iconBg: '#eff6ff', iconColor: '#2563eb',
             label: 'Solde net', value: sales.net, url: urls.wallet, money: true,
         },
         {
-            icon: 'fa-chart-simple', iconBg: 'rgba(139,92,246,.16)', iconColor: '#a78bfa',
+            icon: 'fa-chart-simple', iconBg: '#f5f3ff', iconColor: '#7c3aed',
             label: 'Marge', value: margin, url: urls.transaction, money: true,
         },
     ];
 
     const volumeKpis = [
-        { icon: 'fa-box', iconBg: 'rgba(148,163,184,.14)', iconColor: '#cbd5e1', label: 'Total colis', value: counts.total, url: urls.parcelIndex },
-        { icon: 'fa-clock', iconBg: 'rgba(245,158,11,.14)', iconColor: '#fbbf24', label: 'En attente', value: counts.pending, url: urls.parcelIndex },
-        { icon: 'fa-truck', iconBg: 'rgba(56,189,248,.14)', iconColor: '#38bdf8', label: 'En cours', value: counts.on_going, url: urls.parcelIndex },
-        { icon: 'fa-check-circle', iconBg: 'rgba(16,185,129,.16)', iconColor: '#34d399', label: 'Livrés', value: counts.delivered, url: urls.parcelIndex },
-        { icon: 'fa-hand-holding-usd', iconBg: 'rgba(139,92,246,.16)', iconColor: '#a78bfa', label: 'Partiels', value: counts.partial, url: urls.parcelIndex },
-        { icon: 'fa-undo', iconBg: 'rgba(244,63,94,.14)', iconColor: '#fb7185', label: 'Retournés', value: counts.returned, url: urls.parcelIndex },
+        { icon: 'fa-box', iconBg: '#eef1f5', iconColor: '#334155', label: 'Total colis', value: counts.total, url: urls.parcelIndex },
+        { icon: 'fa-clock', iconBg: '#fffbeb', iconColor: '#d97706', label: 'En attente', value: counts.pending, url: urls.parcelIndex },
+        { icon: 'fa-truck', iconBg: '#eff6ff', iconColor: '#2563eb', label: 'En cours', value: counts.on_going, url: urls.parcelIndex },
+        { icon: 'fa-check-circle', iconBg: '#ecfdf5', iconColor: '#059669', label: 'Livrés', value: counts.delivered, url: urls.parcelIndex },
+        { icon: 'fa-hand-holding-usd', iconBg: '#f5f3ff', iconColor: '#7c3aed', label: 'Partiels', value: counts.partial, url: urls.parcelIndex },
+        { icon: 'fa-undo', iconBg: '#fef2f2', iconColor: '#dc2626', label: 'Retournés', value: counts.returned, url: urls.parcelIndex },
     ];
 
     return (

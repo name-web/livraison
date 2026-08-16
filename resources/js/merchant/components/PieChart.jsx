@@ -16,7 +16,7 @@ export default function PieChart({ counts }) {
                 fontFamily: 'Inter, Nunito, sans-serif',
                 animations: { enabled: true, easing: 'easeinout', speed: 500 },
             },
-            colors: ['#fbbf24', '#34d399', '#a78bfa', '#fb7185'],
+            colors: ['#f59e0b', '#059669', '#8b5cf6', '#ef4444'],
             series: [
                 counts.pending || 0,
                 counts.delivered || 0,
@@ -30,12 +30,12 @@ export default function PieChart({ counts }) {
                         size: '74%',
                         labels: {
                             show: true,
-                            name: { show: true, fontSize: '12px', fontWeight: 600, color: '#94a3b8' },
+                            name: { show: true, fontSize: '12px', fontWeight: 600, color: '#9ca3af' },
                             value: {
                                 show: true,
                                 fontSize: '26px',
                                 fontWeight: 800,
-                                color: '#f1f5f9',
+                                color: '#0f172a',
                                 offsetY: 4,
                                 formatter: (val) => Math.round(val),
                             },
@@ -44,7 +44,7 @@ export default function PieChart({ counts }) {
                                 label: 'Total',
                                 fontSize: '12px',
                                 fontWeight: 600,
-                                color: '#94a3b8',
+                                color: '#9ca3af',
                                 formatter: () => total,
                             },
                         },
@@ -57,12 +57,12 @@ export default function PieChart({ counts }) {
                 position: 'bottom',
                 fontSize: '12.5px',
                 fontWeight: 600,
-                labels: { colors: '#cbd5e1' },
+                labels: { colors: '#6b7280' },
                 markers: { radius: 3, width: 10, height: 10 },
                 itemMargin: { horizontal: 12, vertical: 4 },
             },
             tooltip: {
-                theme: 'dark',
+                theme: 'light',
                 style: { fontSize: '13px', fontFamily: 'Inter, sans-serif' },
                 y: { formatter: (val) => `${Math.round(val)} colis` },
             },
@@ -79,7 +79,7 @@ export default function PieChart({ counts }) {
     return (
         <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
-                <div className="wc-card-icon" style={{ background: 'rgba(139,92,246,.16)', color: '#a78bfa' }}>
+                <div className="wc-card-icon bg-[#f5f3ff] text-[#7c3aed]">
                     <i className="fas fa-chart-pie"></i>
                 </div>
                 <div>
