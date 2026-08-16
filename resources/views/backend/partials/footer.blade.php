@@ -18,9 +18,9 @@
     <script src="{{static_asset('backend')}}/js/lang.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> 
     <script src="{{ static_asset('backend/plugins') }}/toastr/toastr.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+    <script defer src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  
     <script type="text/javascript">   
         $.ajaxSetup({

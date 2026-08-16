@@ -8,20 +8,27 @@
     <link rel="shortcut icon" href="{{ settings()->favicon_image }}" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/bootstrap-five/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link href="{{static_asset('backend')}}/plugins/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="{{static_asset('backend')}}/libs/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/chartist-bundle/chartist.css">
-    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/morris-bundle/morris.css">
-    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/c3charts/c3.css">
-    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/flag-icon-css/flag-icon.min.css">
-    <link rel="stylesheet" href="{{static_asset('backend')}}/libs/css/datepicker.min.css">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/chartist-bundle/chartist.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/morris-bundle/morris.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/material-design-iconic-font/css/materialdesignicons.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/c3charts/c3.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/flag-icon-css/flag-icon.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{static_asset('backend')}}/libs/css/datepicker.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/chartist-bundle/chartist.css">
+        <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/morris-bundle/morris.css">
+        <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/charts/c3charts/c3.css">
+        <link rel="stylesheet" href="{{static_asset('backend')}}/plugins/fonts/flag-icon-css/flag-icon.min.css">
+        <link rel="stylesheet" href="{{static_asset('backend')}}/libs/css/datepicker.min.css">
+    </noscript>
     <link rel="stylesheet" href="{{static_asset('backend')}}/libs/css/custom.css">
     <link rel="stylesheet" href="{{static_asset('backend')}}/css/custom.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.5.1/css/flag-icons.min.css" /> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.5.1/css/flag-icons.min.css" media="print" onload="this.media='all'" /> 
     <link rel="stylesheet" href="{{ static_asset('backend/plugins') }}/toastr/toastr.min.css">
     <style>
         :root {
