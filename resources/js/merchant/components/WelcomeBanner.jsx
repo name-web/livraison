@@ -75,7 +75,7 @@ export default function WelcomeBanner({ merchant, period, urls }) {
     return (
         <section className="wc-dashboard-hero">
             <div className="wc-dashboard-hero-main">
-                <div className="flex items-start gap-4 min-w-0">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div className="wc-dashboard-hero-icon">
                         <i className="fas fa-chart-line"></i>
                     </div>
@@ -92,6 +92,11 @@ export default function WelcomeBanner({ merchant, period, urls }) {
                                     Période personnalisée
                                 </span>
                             )}
+
+                            <span className="wc-dash-balance-chip">
+                                <i className="fas fa-wallet"></i>
+                                Solde : {formatPrice(merchant.currentBalance)}
+                            </span>
                         </div>
 
                         <h1 className="wc-dashboard-title">

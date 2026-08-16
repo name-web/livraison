@@ -17,7 +17,7 @@ export default function AreaChart({ series }) {
                 animations: { enabled: true, easing: 'easeinout', speed: 500 },
                 zoom: { enabled: false },
             },
-            colors: ['#334155', '#f59e0b', '#059669', '#8b5cf6', '#ef4444'],
+            colors: ['#34d399', '#fbbf24', '#38bdf8', '#a78bfa', '#fb7185'],
             series: [
                 { name: 'Total', data: series.totals || [] },
                 { name: 'En attente', data: series.pendings || [] },
@@ -28,12 +28,12 @@ export default function AreaChart({ series }) {
             stroke: { curve: 'smooth', width: 2.5 },
             fill: {
                 type: 'gradient',
-                gradient: { shadeIntensity: 1, opacityFrom: 0.14, opacityTo: 0.02, stops: [0, 90, 100] },
+                gradient: { shadeIntensity: 1, opacityFrom: 0.22, opacityTo: 0.03, stops: [0, 90, 100] },
             },
             xaxis: {
                 categories: series.dates || [],
                 labels: {
-                    style: { colors: '#9ca3af', fontSize: '12px', fontWeight: 600 },
+                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 },
                     rotate: series.dates.length > 12 ? -35 : 0,
                     rotateAlways: false,
                 },
@@ -42,7 +42,7 @@ export default function AreaChart({ series }) {
             },
             yaxis: {
                 labels: {
-                    style: { colors: '#9ca3af', fontSize: '12px', fontWeight: 600 },
+                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 },
                     formatter: (val) => Math.round(val),
                 },
             },
@@ -51,16 +51,16 @@ export default function AreaChart({ series }) {
                 horizontalAlign: 'right',
                 fontSize: '12.5px',
                 fontWeight: 600,
-                labels: { colors: '#6b7280' },
+                labels: { colors: '#cbd5e1' },
                 markers: { radius: 3, width: 10, height: 10 },
                 itemMargin: { horizontal: 12, vertical: 2 },
             },
             tooltip: {
-                theme: 'light',
+                theme: 'dark',
                 style: { fontSize: '13px', fontFamily: 'Inter, sans-serif' },
                 y: { formatter: (val) => `${Math.round(val)} colis` },
             },
-            grid: { borderColor: '#eef0f3', strokeDashArray: 4, padding: { top: 8 } },
+            grid: { borderColor: 'rgba(255,255,255,.07)', strokeDashArray: 4, padding: { top: 8 } },
             dataLabels: { enabled: false },
         };
 
@@ -75,7 +75,7 @@ export default function AreaChart({ series }) {
     return (
         <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
-                <div className="wc-card-icon bg-[#eef1f5] text-[#475569]">
+                <div className="wc-card-icon" style={{ background: 'rgba(56,189,248,.14)', color: '#38bdf8' }}>
                     <i className="fas fa-chart-line"></i>
                 </div>
                 <div>

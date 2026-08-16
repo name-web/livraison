@@ -12,7 +12,7 @@ export default function Dashboard({ merchant, counts, amounts, sales, payments, 
     const isEmpty = counts.total === 0 && payments.total === 0;
 
     return (
-        <div className="py-6 px-4 md:px-8 max-w-[1440px] mx-auto space-y-5 animate-wcFadeUp">
+        <div className="wc-dash-dark py-6 px-4 md:px-8 max-w-[1440px] mx-auto space-y-5 animate-wcFadeUp">
             <WelcomeBanner merchant={merchant} period={period} urls={urls} formatPrice={formatPrice} />
 
             {isEmpty ? (

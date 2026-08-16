@@ -1375,3 +1375,358 @@ body.wc-merchant .wc-empty-icon {
         border-radius: 12px;
     }
 }
+/* ============================================================
+   DASHBOARD DARK PRO  (panel marchand uniquement)
+   ============================================================ */
+
+body.wc-merchant .wc-dash-dark {
+    background:
+        radial-gradient(900px 420px at 12% -8%, rgba(16, 185, 129, .10), transparent 60%),
+        radial-gradient(760px 380px at 88% -6%, rgba(139, 92, 246, .12), transparent 62%),
+        #0a0f1e;
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+/* ---------- Texte ---------- */
+
+body.wc-merchant .wc-dash-dark .text-wc-ink { color: #f1f5f9; }
+body.wc-merchant .wc-dash-dark .text-wc-muted { color: #94a3b8; }
+body.wc-merchant .wc-dash-dark .text-wc-muted-2 { color: #64748b; }
+body.wc-merchant .wc-dash-dark .text-wc-primary-dark { color: #34d399; }
+body.wc-merchant .wc-dash-dark .text-wc-primary { color: #34d399; }
+
+/* ---------- Cartes : verre sombre ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .022));
+    border: 1px solid rgba(255, 255, 255, .085);
+    border-radius: 16px;
+    box-shadow: 0 1px 2px rgba(2, 6, 23, .5), 0 10px 30px rgba(2, 6, 23, .35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+body.wc-merchant .wc-dash-dark .wc-card:hover {
+    border-color: rgba(255, 255, 255, .14);
+    box-shadow: 0 2px 4px rgba(2, 6, 23, .5), 0 16px 44px rgba(2, 6, 23, .45);
+}
+
+body.wc-merchant .wc-dash-dark .wc-card-header {
+    background: rgba(255, 255, 255, .03);
+    border-bottom: 1px solid rgba(255, 255, 255, .07);
+}
+
+body.wc-merchant .wc-dash-dark .wc-card-icon {
+    background: rgba(255, 255, 255, .06);
+    color: #cbd5e1;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
+}
+
+body.wc-merchant .wc-dash-dark .wc-card-title {
+    color: #f1f5f9;
+}
+
+/* ---------- KPI ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-kpi {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .025));
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(2, 6, 23, .5), 0 8px 24px rgba(2, 6, 23, .3);
+    color: #f1f5f9;
+}
+
+body.wc-merchant .wc-dash-dark .wc-kpi::after {
+    background: linear-gradient(135deg, rgba(255, 255, 255, .09), transparent 55%);
+}
+
+body.wc-merchant .wc-dash-dark .wc-kpi:hover {
+    border-color: rgba(52, 211, 153, .45);
+    box-shadow: 0 2px 4px rgba(2, 6, 23, .55), 0 18px 48px rgba(2, 6, 23, .5), 0 0 0 1px rgba(52, 211, 153, .12);
+    transform: translateY(-3px);
+}
+
+body.wc-merchant .wc-dash-dark .wc-kpi-icon {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+}
+
+body.wc-merchant .wc-dash-dark .wc-kpi-value {
+    color: #f8fafc;
+}
+
+/* ---------- Héros ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero {
+    background: linear-gradient(140deg, #101b33 0%, #0d1526 52%, #141230 100%);
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(2, 6, 23, .5), 0 20px 50px rgba(2, 6, 23, .45);
+    position: relative;
+    overflow: hidden;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero::before,
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero::before {
+    width: 380px;
+    height: 380px;
+    top: -190px;
+    right: -80px;
+    background: rgba(139, 92, 246, .28);
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero::after {
+    width: 300px;
+    height: 300px;
+    bottom: -170px;
+    left: -60px;
+    background: rgba(16, 185, 129, .22);
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero-main {
+    position: relative;
+    z-index: 1;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-hero-icon {
+    background: rgba(255, 255, 255, .08);
+    color: #34d399;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 0 24px rgba(16, 185, 129, .25);
+}
+
+body.wc-merchant .wc-dash-dark .wc-eyebrow {
+    color: #94a3b8;
+}
+
+body.wc-merchant .wc-dash-dark .wc-period-badge {
+    background: rgba(139, 92, 246, .16);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, .3);
+}
+
+body.wc-merchant .wc-dash-dark .wc-period-badge i {
+    color: #a78bfa;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-title {
+    color: #f8fafc;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-title span {
+    background: linear-gradient(90deg, #34d399, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dashboard-subtitle {
+    color: #94a3b8;
+}
+
+/* ---------- Filtre / champs ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-date-field {
+    background: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .12);
+}
+
+body.wc-merchant .wc-dash-dark .wc-date-field > i {
+    color: #94a3b8;
+}
+
+body.wc-merchant .wc-dash-dark .wc-input {
+    background: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .12);
+    color: #f1f5f9;
+}
+
+body.wc-merchant .wc-dash-dark .wc-input::placeholder {
+    color: #64748b;
+}
+
+body.wc-merchant .wc-dash-dark .wc-input:focus {
+    border-color: rgba(52, 211, 153, .55);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, .16);
+    background: rgba(255, 255, 255, .07);
+}
+
+/* ---------- Boutons ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-btn-primary {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, .32);
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-primary:hover {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 8px 26px rgba(16, 185, 129, .45);
+    transform: translateY(-1px);
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-dark {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(139, 92, 246, .32);
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-dark:hover {
+    background: linear-gradient(135deg, #a78bfa, #818cf8);
+    box-shadow: 0 8px 26px rgba(139, 92, 246, .45);
+    transform: translateY(-1px);
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-outline {
+    background: rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .16);
+    color: #e2e8f0;
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-outline:hover {
+    background: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .28);
+    color: #fff;
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-ghost {
+    background: rgba(255, 255, 255, .06);
+    color: #e2e8f0;
+}
+
+body.wc-merchant .wc-dash-dark .wc-btn-ghost:hover {
+    background: rgba(255, 255, 255, .12);
+    color: #fff;
+}
+
+/* ---------- Tableau ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-table thead th {
+    background: rgba(255, 255, 255, .035);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .08);
+    color: #94a3b8;
+}
+
+body.wc-merchant .wc-dash-dark .wc-table tbody td {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, .055);
+}
+
+body.wc-merchant .wc-dash-dark .wc-table tbody tr:hover td {
+    background: rgba(255, 255, 255, .04);
+}
+
+body.wc-merchant .wc-dash-dark .wc-table .wc-badge {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+}
+
+body.wc-merchant .wc-dash-dark .wc-sortable:hover {
+    color: #e2e8f0;
+}
+
+/* ---------- Badges sombres ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-badge-pending { background: rgba(245, 158, 11, .14); color: #fbbf24; }
+body.wc-merchant .wc-dash-dark .wc-badge-transit { background: rgba(56, 189, 248, .13); color: #7dd3fc; }
+body.wc-merchant .wc-dash-dark .wc-badge-delivered { background: rgba(16, 185, 129, .15); color: #34d399; }
+body.wc-merchant .wc-dash-dark .wc-badge-partial { background: rgba(139, 92, 246, .15); color: #c4b5fd; }
+body.wc-merchant .wc-dash-dark .wc-badge-returned { background: rgba(244, 63, 94, .14); color: #fb7185; }
+body.wc-merchant .wc-dash-dark .wc-badge-neutral { background: rgba(148, 163, 184, .14); color: #cbd5e1; }
+body.wc-merchant .wc-dash-dark .wc-badge-success { background: rgba(16, 185, 129, .15); color: #34d399; }
+body.wc-merchant .wc-dash-dark .wc-badge-warning { background: rgba(245, 158, 11, .14); color: #fbbf24; }
+body.wc-merchant .wc-dash-dark .wc-badge-error { background: rgba(244, 63, 94, .14); color: #fb7185; }
+body.wc-merchant .wc-dash-dark .wc-badge-info { background: rgba(56, 189, 248, .13); color: #7dd3fc; }
+body.wc-merchant .wc-dash-dark .wc-badge-default { background: rgba(148, 163, 184, .14); color: #cbd5e1; }
+
+/* ---------- Avatar ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-avatar {
+    background: rgba(139, 92, 246, .2);
+    color: #c4b5fd;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+}
+
+/* ---------- Progression / finances ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-progress {
+    background: rgba(255, 255, 255, .09);
+}
+
+body.wc-merchant .wc-dash-dark .wc-progress-bar {
+    background: linear-gradient(90deg, #10b981, #34d399);
+    box-shadow: 0 0 12px rgba(16, 185, 129, .5);
+}
+
+/* ---------- Séparateurs ---------- */
+
+body.wc-merchant .wc-dash-dark .divide-wc-border > * + * {
+    border-color: rgba(255, 255, 255, .07);
+}
+
+body.wc-merchant .wc-dash-dark .border-wc-border {
+    border-color: rgba(255, 255, 255, .08);
+}
+
+body.wc-merchant .wc-dash-dark .border-t-wc-border {
+    border-color: rgba(255, 255, 255, .08);
+}
+
+/* ---------- Lignes de transactions (hover) ---------- */
+
+body.wc-merchant .wc-dash-dark .rt-row {
+    transition: background .14s ease;
+}
+
+body.wc-merchant .wc-dash-dark .rt-row:hover {
+    background: rgba(255, 255, 255, .035);
+}
+
+/* ---------- État vide ---------- */
+
+body.wc-merchant .wc-dash-dark .wc-empty {
+    background: transparent;
+}
+
+body.wc-merchant .wc-dash-dark .wc-empty-icon {
+    background: rgba(255, 255, 255, .06);
+    color: #34d399;
+    box-shadow: 0 0 32px rgba(16, 185, 129, .2);
+}
+
+body.wc-merchant .wc-dash-dark .wc-empty h2 {
+    color: #f1f5f9;
+}
+
+/* ---------- Animations ---------- */
+
+body.wc-merchant .wc-dash-dark .animate-wcRowIn {
+    animation: wcRowIn .35s ease both;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dash-balance-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, .13);
+    border: 1px solid rgba(16, 185, 129, .28);
+    color: #34d399;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+body.wc-merchant .wc-dash-dark .wc-dash-balance-chip i {
+    font-size: 10.5px;
+}

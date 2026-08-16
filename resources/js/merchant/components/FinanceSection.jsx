@@ -2,9 +2,15 @@ import React from 'react';
 
 function StatTile({ label, value, accent, icon }) {
     return (
-        <div className="flex items-center gap-3 p-4 rounded-[12px] bg-wc-bg border border-wc-border min-h-[72px]">
+        <div className="flex items-center gap-3 p-4 rounded-[12px] border min-h-[72px]"
+            style={{
+                background: 'rgba(255,255,255,.035)',
+                borderColor: 'rgba(255,255,255,.08)',
+            }}>
             <div className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px] flex-shrink-0"
-                style={{ background: accent ? '#ecfdf5' : '#eef1f5', color: accent ? '#059669' : '#475569' }}>
+                style={accent
+                    ? { background: 'rgba(16,185,129,.15)', color: '#34d399' }
+                    : { background: 'rgba(148,163,184,.14)', color: '#cbd5e1' }}>
                 <i className={`fas ${icon}`}></i>
             </div>
             <div className="min-w-0">
@@ -25,7 +31,7 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
             {/* Solde */}
             <div className="wc-card overflow-hidden">
                 <div className="wc-card-header">
-                    <div className="wc-card-icon bg-[#eef1f5] text-[#475569]">
+                    <div className="wc-card-icon" style={{ background: 'rgba(148,163,184,.14)', color: '#cbd5e1' }}>
                         <i className="fas fa-wallet"></i>
                     </div>
                     <div>
@@ -33,13 +39,13 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <p className="text-[12px] text-wc-muted m-0">Disponible pour vos envois</p>
                     </div>
                 </div>
-                <div className="px-5 py-5 border-b border-wc-border bg-gradient-to-br from-[#eef1f5] to-transparent">
+                <div className="px-5 py-5 border-b border-wc-border" style={{ background: 'linear-gradient(180deg, rgba(139,92,246,.14), rgba(139,92,246,.02))' }}>
                     <p className="text-[12px] font-bold text-wc-muted m-0">Solde actuel</p>
                     <p className="text-[30px] font-extrabold text-wc-ink m-0 mt-1 wc-tabular tracking-tight">
                         {formatPrice(merchant.currentBalance)}
                     </p>
                     <div className="flex items-center gap-2 mt-2.5">
-                        <span className="wc-badge !bg-[#f3f4f6] !text-[#4b5563]">
+                        <span className="wc-badge" style={{ background: 'rgba(255,255,255,.07)', color: '#94a3b8' }}>
                             <i className="fas fa-coins text-[11px]"></i>
                             Wallet : {formatPrice(merchant.walletBalance)}
                         </span>
@@ -55,7 +61,7 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <span className="text-[14.5px] font-extrabold text-wc-ink wc-tabular">{formatPrice(merchant.vat)}</span>
                     </div>
                 </div>
-                <div className="px-5 py-3 text-[12.5px] text-wc-muted border-t border-wc-border bg-wc-bg/60">
+                <div className="px-5 py-3 text-[12.5px] text-wc-muted border-t border-wc-border" style={{ background: 'rgba(255,255,255,.03)' }}>
                     <i className="fas fa-info-circle mr-1.5 text-wc-muted-2"></i>
                     Le solde wallet est utilisé pour les envois en prépaiement.
                 </div>
@@ -64,7 +70,7 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
             {/* Aperçu de la période */}
             <div className="wc-card overflow-hidden">
                 <div className="wc-card-header">
-                    <div className="wc-card-icon bg-wc-warning-soft text-[#d97706]">
+                    <div className="wc-card-icon" style={{ background: 'rgba(245,158,11,.14)', color: '#fbbf24' }}>
                         <i className="fas fa-chart-bar"></i>
                     </div>
                     <div>
@@ -95,13 +101,13 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <div className="wc-progress-bar" style={{ width: `${paidShare}%` }}></div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 mt-4">
-                        <div className="rounded-[10px] bg-wc-warning-soft px-3.5 py-3 text-center">
-                            <p className="text-[11px] font-extrabold uppercase tracking-wide text-[#b45309] m-0">En attente</p>
-                            <p className="text-[15px] font-extrabold text-[#b45309] m-0 mt-0.5 wc-tabular">{formatPrice(payments.pending)}</p>
+                        <div className="rounded-[10px] px-3.5 py-3 text-center" style={{ background: 'rgba(245,158,11,.12)', border: '1px solid rgba(245,158,11,.22)' }}>
+                            <p className="text-[11px] font-extrabold uppercase tracking-wide m-0" style={{ color: '#fbbf24' }}>En attente</p>
+                            <p className="text-[15px] font-extrabold m-0 mt-0.5 wc-tabular" style={{ color: '#fbbf24' }}>{formatPrice(payments.pending)}</p>
                         </div>
-                        <div className="rounded-[10px] bg-[#eef1f5] px-3.5 py-3 text-center">
-                            <p className="text-[11px] font-extrabold uppercase tracking-wide text-[#334155] m-0">Payés</p>
-                            <p className="text-[15px] font-extrabold text-[#334155] m-0 mt-0.5 wc-tabular">{formatPrice(payments.paid)}</p>
+                        <div className="rounded-[10px] px-3.5 py-3 text-center" style={{ background: 'rgba(148,163,184,.12)', border: '1px solid rgba(148,163,184,.22)' }}>
+                            <p className="text-[11px] font-extrabold uppercase tracking-wide m-0" style={{ color: '#cbd5e1' }}>Payés</p>
+                            <p className="text-[15px] font-extrabold m-0 mt-0.5 wc-tabular" style={{ color: '#cbd5e1' }}>{formatPrice(payments.paid)}</p>
                         </div>
                     </div>
                 </div>

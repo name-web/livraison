@@ -48,7 +48,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
         <div className="wc-card overflow-hidden h-full">
             <div className="wc-card-header justify-between gap-4 flex-wrap">
                 <div className="flex items-center gap-3">
-                    <div className="wc-card-icon bg-[#eef1f5] text-[#475569]">
+                    <div className="wc-card-icon" style={{ background: 'rgba(16,185,129,.15)', color: '#34d399' }}>
                         <i className="fas fa-box"></i>
                     </div>
                     <div>
@@ -75,7 +75,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
 
             {parcels.length === 0 ? (
                 <div className="text-center py-14 px-6">
-                    <i className="fas fa-inbox text-[34px] text-wc-border mb-3 block"></i>
+                    <i className="fas fa-inbox text-[34px] mb-3 block" style={{ color: 'rgba(255,255,255,.14)' }}></i>
                     <p className="text-[14.5px] font-bold text-wc-ink m-0">Aucun colis pour le moment</p>
                     <p className="text-[13px] text-wc-muted m-0 mt-1">Vos derniers colis apparaîtront ici.</p>
                 </div>
@@ -105,7 +105,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
                                 return (
                                     <tr key={p.id} style={{ animationDelay: `${i * 0.04}s` }} className="animate-wcRowIn">
                                         <td data-label="Référence">
-                                            <span className="font-bold text-wc-primary-dark wc-tabular text-[13.5px]">
+                                            <span className="font-bold wc-tabular text-[13.5px]" style={{ color: '#34d399' }}>
                                                 {p.tracking_id}
                                             </span>
                                         </td>
