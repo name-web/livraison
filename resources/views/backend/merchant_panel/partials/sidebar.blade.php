@@ -12,7 +12,7 @@
             {{ strtoupper(substr(Auth::user()->merchant->business_name, 0, 1)) }}
         </div>
         <div class="overflow-hidden min-w-0">
-            <div class="font-bold text-[13.5px] text-wc-ink truncate leading-tight wc-sidebar-merchant-name">{{ Auth::user()->merchant->business_name }}</div>
+            <div class="font-bold text-[13.5px] text-white truncate leading-tight wc-sidebar-merchant-name">{{ Auth::user()->merchant->business_name }}</div>
             <div class="wc-sidebar-merchant-role">Marchand</div>
         </div>
     </div>
