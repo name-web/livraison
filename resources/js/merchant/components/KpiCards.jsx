@@ -32,15 +32,17 @@ function Tile({ icon, iconBg, iconColor, label, value, url, delay, money, format
             className="wc-kpi group"
             style={{ animationDelay: `${delay}s` }}
         >
-            <div className="wc-kpi-icon" style={{ background: iconBg, color: iconColor }}>
-                <i className={`fas ${icon}`}></i>
-            </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-[12.5px] text-wc-muted font-bold m-0 leading-tight truncate">{label}</p>
-                <p className="text-[24px] font-extrabold text-wc-ink m-0 leading-tight tracking-tight wc-tabular">
-                    {money ? formatPrice(Math.round(count)) : Math.round(count).toLocaleString('fr-FR')}
+            <div className="flex items-center justify-between gap-3 w-full">
+                <div className="wc-kpi-icon" style={{ background: iconBg, color: iconColor }}>
+                    <i className={`fas ${icon}`}></i>
+                </div>
+                <p className="text-[12px] text-wc-muted font-bold m-0 leading-tight truncate text-right">
+                    {label}
                 </p>
             </div>
+            <p className="wc-kpi-value">
+                {money ? formatPrice(Math.round(count)) : Math.round(count).toLocaleString('fr-FR')}
+            </p>
         </a>
     );
 }

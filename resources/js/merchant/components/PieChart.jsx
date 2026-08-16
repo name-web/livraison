@@ -12,7 +12,7 @@ export default function PieChart({ counts }) {
         const options = {
             chart: {
                 type: 'donut',
-                height: 300,
+                height: 320,
                 fontFamily: 'Inter, Nunito, sans-serif',
                 animations: { enabled: true, easing: 'easeinout', speed: 500 },
             },
@@ -77,7 +77,7 @@ export default function PieChart({ counts }) {
     }, [counts, total]);
 
     return (
-        <div className="wc-card overflow-hidden h-full">
+        <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
                 <div className="wc-card-icon bg-wc-warning-soft text-[#d97706]">
                     <i className="fas fa-chart-pie"></i>
@@ -87,7 +87,7 @@ export default function PieChart({ counts }) {
                     <p className="text-[12px] text-wc-muted m-0">Par statut, sur la période</p>
                 </div>
             </div>
-            <div className="p-4 md:p-5">
+            <div className="p-4 md:p-5 flex-1 min-h-0 flex flex-col justify-center">
                 <div ref={chartRef} id="wc-pie-chart"></div>
             </div>
         </div>

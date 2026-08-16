@@ -10,7 +10,7 @@ export default function AreaChart({ series }) {
         const options = {
             chart: {
                 type: 'area',
-                height: 330,
+                height: 320,
                 toolbar: { show: false },
                 fontFamily: 'Inter, Nunito, sans-serif',
                 background: 'transparent',
@@ -73,7 +73,7 @@ export default function AreaChart({ series }) {
     }, [series]);
 
     return (
-        <div className="wc-card overflow-hidden h-full">
+        <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
                 <div className="wc-card-icon bg-[#eef1f5] text-[#475569]">
                     <i className="fas fa-chart-line"></i>
@@ -83,7 +83,7 @@ export default function AreaChart({ series }) {
                     <p className="text-[12px] text-wc-muted m-0">Évolution quotidienne sur la période</p>
                 </div>
             </div>
-            <div className="p-4 md:p-5">
+            <div className="p-4 md:p-5 flex-1 min-h-0">
                 <div ref={chartRef} id="wc-area-chart"></div>
             </div>
         </div>

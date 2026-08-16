@@ -2,14 +2,14 @@ import React from 'react';
 
 function StatTile({ label, value, accent, icon }) {
     return (
-        <div className="flex items-start gap-3 p-4 rounded-[12px] bg-wc-bg border border-wc-border">
+        <div className="flex items-center gap-3 p-4 rounded-[12px] bg-wc-bg border border-wc-border min-h-[72px]">
             <div className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[14px] flex-shrink-0"
-                style={{ background: accent ? '#ecfdf5' : '#fff', color: accent ? '#059669' : '#6b7280' }}>
+                style={{ background: accent ? '#ecfdf5' : '#eef1f5', color: accent ? '#059669' : '#475569' }}>
                 <i className={`fas ${icon}`}></i>
             </div>
             <div className="min-w-0">
-                <p className="text-[12px] font-bold text-wc-muted m-0 leading-tight">{label}</p>
-                <p className="text-[16.5px] font-extrabold text-wc-ink m-0 mt-0.5 wc-tabular leading-tight">{value}</p>
+                <p className="text-[12px] font-bold text-wc-muted m-0 leading-tight truncate">{label}</p>
+                <p className="text-[16.5px] font-extrabold text-wc-ink m-0 mt-0.5 wc-tabular leading-tight truncate">{value}</p>
             </div>
         </div>
     );
@@ -95,11 +95,11 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <div className="wc-progress-bar" style={{ width: `${paidShare}%` }}></div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 mt-4">
-                        <div className="rounded-[10px] bg-wc-warning-soft px-3.5 py-3">
+                        <div className="rounded-[10px] bg-wc-warning-soft px-3.5 py-3 text-center">
                             <p className="text-[11px] font-extrabold uppercase tracking-wide text-[#b45309] m-0">En attente</p>
                             <p className="text-[15px] font-extrabold text-[#b45309] m-0 mt-0.5 wc-tabular">{formatPrice(payments.pending)}</p>
                         </div>
-                        <div className="rounded-[10px] bg-[#eef1f5] px-3.5 py-3">
+                        <div className="rounded-[10px] bg-[#eef1f5] px-3.5 py-3 text-center">
                             <p className="text-[11px] font-extrabold uppercase tracking-wide text-[#334155] m-0">Payés</p>
                             <p className="text-[15px] font-extrabold text-[#334155] m-0 mt-0.5 wc-tabular">{formatPrice(payments.paid)}</p>
                         </div>

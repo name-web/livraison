@@ -96,7 +96,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
                                 <th className="wc-sortable" onClick={() => toggleSort('status')}>
                                     Statut <SortArrow col="status" />
                                 </th>
-                                <th>Mis à jour</th>
+                                <th className="text-right">Mis à jour</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +134,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
                                                 {badge.label}
                                             </span>
                                         </td>
-                                        <td data-label="Mis à jour" className="text-[12.5px] text-wc-muted whitespace-nowrap">
+                                        <td data-label="Mis à jour" className="text-[12.5px] text-wc-muted whitespace-nowrap text-right">
                                             {p.updated_at || p.created_at}
                                         </td>
                                     </tr>
