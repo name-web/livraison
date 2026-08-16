@@ -40,6 +40,7 @@
             'payments' => $data['payments'],
             'series'   => $series,
             'recent'   => $recentParcels,
+            'transactions' => $recentTransactions,
             'period'   => $periodData,
             'urls'     => [
                 'filter'      => route('merchant-panel.dashboard.filter'),

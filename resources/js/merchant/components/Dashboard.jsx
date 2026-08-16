@@ -5,9 +5,10 @@ import ParcelTable from './ParcelTable';
 import AreaChart from './AreaChart';
 import PieChart from './PieChart';
 import FinanceSection from './FinanceSection';
+import RecentTransactions from './RecentTransactions';
 import EmptyState from './EmptyState';
 
-export default function Dashboard({ merchant, counts, amounts, sales, payments, series, recent, period, urls, formatPrice, getStatusBadge }) {
+export default function Dashboard({ merchant, counts, amounts, sales, payments, series, recent, transactions, period, urls, formatPrice, getStatusBadge }) {
     const isEmpty = counts.total === 0 && payments.total === 0;
 
     return (
@@ -29,9 +30,13 @@ export default function Dashboard({ merchant, counts, amounts, sales, payments, 
 
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
                         <div className="xl:col-span-2">
-                            <ParcelTable parcels={recent || []} urls={urls} getStatusBadge={getStatusBadge} formatPrice={formatPrice} />
+                            <RecentTransactions transactions={transactions || []} urls={urls} formatPrice={formatPrice} />
                         </div>
                         <FinanceSection amounts={amounts} sales={sales} payments={payments} merchant={merchant} formatPrice={formatPrice} />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-5">
+                        <ParcelTable parcels={recent || []} urls={urls} getStatusBadge={getStatusBadge} formatPrice={formatPrice} />
                     </div>
                 </>
             )}

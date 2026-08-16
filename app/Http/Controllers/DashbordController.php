@@ -84,7 +84,20 @@ public function index(Request $request)
                     'updated_at' => $p->updated_at?->format('d/m/Y H:i'),
                 ]);
 
-            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams', 'recentParcels'));
+            $recentTransactions = MerchantStatement::where('merchant_id', $merchant->id)
+                ->with('parcel')
+                ->orderByDesc('id')
+                ->take(7)
+                ->get()
+                ->map(fn($t) => [
+                    'id'          => $t->id,
+                    'type'        => (int) $t->type,
+                    'amount'      => (float) $t->amount,
+                    'tracking_id' => optional($t->parcel)->tracking_id,
+                    'created_at'  => $t->created_at?->format('d/m/Y H:i'),
+                ]);
+
+            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams', 'recentParcels', 'recentTransactions'));
 
         }elseif(Auth::user()->user_type == UserType::ADMIN){
 
