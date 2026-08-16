@@ -5,20 +5,11 @@
 @section('maincontent')
 <!-- wrapper  -->
 <div class="container-fluid  dashboard-content">
-    <!-- pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="page-header">
-                <div class="page-breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('levels.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('parcel.index')}}" class="breadcrumb-link">{{ __('parcel.title') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link active">{{__('levels.logs')}}</a></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('parcel.title') }} · {{__('levels.logs')}}</h1>
+            <p class="wc-page-subtitle">Suivi du colis {{ @$parcel->tracking_id }}</p>
         </div>
     </div>
     <section class="mt-5 pt-5">

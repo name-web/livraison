@@ -3,64 +3,49 @@
     {{ __('delivery_charge.cod_charges') }} {{ __('levels.list') }}
 @endsection
 @section('maincontent')
-<!-- wrapper  -->
-<div class="container-fluid  dashboard-content">
-    <!-- pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="page-header">
-                <div class="page-breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('levels.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">{{ __('menus.settings') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">{{ __('delivery_charge.cod_charges') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link active">{{ __('levels.list') }}</a></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+<div class="container-fluid dashboard-content">
+
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('delivery_charge.cod_charges') }}</h1>
+            <p class="wc-page-subtitle">{{ __('menus.settings') }} · frais de contre-remboursement par zone</p>
         </div>
     </div>
-    <!-- end pageheader -->
-    <div class="row">
-        <!-- data table  -->
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="card">
-                <div class="row pl-4 pr-4 pt-4">
-                    <div class="col-6">
-                        <p class="h3">{{ __('delivery_charge.cod_charges') }}</p>
-                    </div>
+
+    <div class="wc-card">
+        <div class="wc-card-header">
+            <div class="flex items-center gap-3">
+                <div class="wc-card-icon bg-wc-primary-soft text-wc-primary">
+                    <i class="fas fa-percent"></i>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table   " style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('levels.id') }}</th>
-                                    <th>{{ __('settings.location') }}</th>
-                                    <th>{{ __('settings.charges') }} (%)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $i=1; @endphp
-                                @foreach($cod_charges->cod_charges as $key=>$charge)
-                                <tr>
-                                    <td>{{$i++}}</td>
-                                    <td>{{ __('merchant.'.$key) }}</td>
-                                    <td>{{$charge}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                <div>
+                    <h3 class="wc-card-title">{{ __('delivery_charge.cod_charges') }}</h3>
+                    <p class="text-[12px] text-wc-muted m-0">Frais appliqués sur les paiements à la livraison.</p>
                 </div>
             </div>
         </div>
-        <!-- end data table  -->
+        <div class="wc-table-wrap">
+            <table class="wc-table">
+                <thead>
+                    <tr>
+                        <th>{{ __('levels.id') }}</th>
+                        <th>{{ __('settings.location') }}</th>
+                        <th class="text-right">{{ __('settings.charges') }} (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $i=1; @endphp
+                    @foreach($cod_charges->cod_charges as $key=>$charge)
+                    <tr>
+                        <td class="text-wc-muted-2 wc-tabular">{{$i++}}</td>
+                        <td class="font-bold text-wc-ink text-[13px]">{{ __('merchant.'.$key) }}</td>
+                        <td class="text-right wc-tabular"><span class="wc-badge wc-badge-info-soft">{{$charge}}%</span></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<!-- end wrapper  -->
 @endsection()
-
-

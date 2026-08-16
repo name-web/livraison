@@ -3,96 +3,79 @@
     {{ __('merchantshops.title') }} {{ __('levels.add') }}
 @endsection
 @section('maincontent')
-<!-- wrapper  -->
-<div class="container-fluid  dashboard-content">
-    <!-- pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="page-header">
-                <div class="page-breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('levels.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('merchant-panel.shops.index') }}" class="breadcrumb-link">{{ __('merchantshops.title') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link active">{{ __('levels.create') }}</a></li>
-                        </ol>
-                    </nav>
+<div class="container-fluid dashboard-content">
+
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('merchantshops.create_shops') }}</h1>
+            <p class="wc-page-subtitle">{{ __('merchantshops.title') }} · ajouter un point de dépôt</p>
+        </div>
+    </div>
+
+    <div class="wc-card !max-w-[860px]">
+        <div class="wc-card-header">
+            <div class="flex items-center gap-3">
+                <div class="wc-card-icon bg-wc-primary-soft text-wc-primary">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div>
+                    <h3 class="wc-card-title">{{ __('merchantshops.create_shops') }}</h3>
+                    <p class="text-[12px] text-wc-muted m-0">Les champs marqués d'un <span class="text-wc-danger">*</span> sont obligatoires.</p>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="pageheader-title">{{ __('merchantshops.create_shops') }}</h2>
-                    <form action="{{route('merchant-panel.shops.store')}}"  method="POST" enctype="multipart/form-data" id="basicform">
-                        @csrf
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="name">{{ __('levels.name') }}</label> <span class="text-danger">*</span>
-                                    <input id="name" type="text" name="name" data-parsley-trigger="change" placeholder="{{ __('merchantPlaceholder.name') }}" autocomplete="off" class="form-control" value="{{old('name')}}" require>
-                                    @error('name')
-                                    <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
+        <div class="p-4 sm:p-6">
+            <form action="{{route('merchant-panel.shops.store')}}" method="POST" enctype="multipart/form-data" id="basicform">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="wc-form-group m-0">
+                        <label class="wc-label" for="name">{{ __('levels.name') }} <span class="text-wc-danger">*</span></label>
+                        <input id="name" type="text" name="name" data-parsley-trigger="change" placeholder="{{ __('merchantPlaceholder.name') }}" autocomplete="off" class="wc-input" value="{{old('name')}}" required>
+                        @error('name')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
+                    </div>
+                    <div class="wc-form-group m-0">
+                        <label class="wc-label" for="contact">{{ __('merchantshops.contact') }} <span class="text-wc-danger">*</span></label>
+                        <input id="contact" type="phone" name="contact_no" data-parsley-trigger="change" placeholder="{{ __('merchantPlaceholder.phone') }}" autocomplete="off" class="wc-input" value="{{old('contact_no')}}" required>
+                        @error('contact_no')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
+                    </div>
+                    <div class="wc-form-group m-0 md:col-span-2">
+                        <label class="wc-label" for="autocomplete-input">{{ __('levels.address') }} <span class="text-wc-danger">*</span></label>
+                        <input type="hidden" id="lat" name="lat" required="" value="">
+                        <input type="hidden" id="long" name="long" required="" value="">
+                        <div class="main-search-input-item location location-search">
+                            <div id="autocomplete-container" class="random-search">
+                                <div class="flex items-center gap-2">
+                                    <input id="autocomplete-input" type="text" name="address" class="recipe-search2 wc-input flex-1" placeholder="Location Here!" required="">
+                                    <a href="javascript:void(0)" class="submit-btn btn current-location wc-btn wc-btn-outline wc-btn-sm !shrink-0" id="locationIcon" onclick="getLocation()">
+                                        <i class="fa fa-crosshairs"></i>
+                                    </a>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contact">{{ __('merchantshops.contact') }}</label> <span class="text-danger">*</span>
-                                    <input id="contact" type="phone" name="contact_no" data-parsley-trigger="change" placeholder="{{ __('merchantPlaceholder.phone') }}" autocomplete="off" class="form-control" value="{{old('contact_no')}}" require>
-                                    @error('contact_no')
-                                    <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="address" class="col-form-label text-sm-right">{{ __('levels.address') }}</label> <span class="text-danger">*</span>
-                                    <input type="hidden" id="lat" name="lat" required="" value="">
-                                    <input type="hidden" id="long" name="long" required="" value="">
-                                    <div class="main-search-input-item location location-search">
-                                        <div id="autocomplete-container" class="form-group random-search">
-                                            <input id="autocomplete-input" type="text" name="address" class="recipe-search2 form-control" placeholder="Location Here!" required="">
-                                            <a href="javascript:void(0)" class="submit-btn btn current-location" id="locationIcon" onclick="getLocation()">
-                                                <i class="fa fa-crosshairs"></i>
-                                            </a>
-                                            @error('address')
-                                            <small class="text-danger mt-2">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <div id="googleMap" class="custom-map"></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="status">{{__('levels.status')}}</label> <span class="text-danger">*</span>
-                                    <select name="status" class="form-control @error('status') is-invalid @enderror">
-                                        @foreach(trans('status') as $key => $status)
-                                            <option value="{{ $key }}" {{ (old('status',\App\Enums\Status::ACTIVE) == $key) ? 'selected' : '' }}>{{ $status }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('status')
-                                    <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                @error('address')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-space btn-primary">{{ __('levels.save') }}</button>
-                                    <a href="{{ route('merchant-panel.shops.index') }}" class="btn btn-space btn-secondary">{{ __('levels.cancel') }}</a>
-                                </div>
-                            </div>
+                        <div class="mt-3">
+                            <div id="googleMap" class="custom-map rounded-lg border border-wc-border"></div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="wc-form-group m-0 md:col-span-2">
+                        <label class="wc-label" for="status">{{__('levels.status')}} <span class="text-wc-danger">*</span></label>
+                        <select name="status" class="wc-select @error('status') is-invalid @enderror">
+                            @foreach(trans('status') as $key => $status)
+                                <option value="{{ $key }}" {{ (old('status',\App\Enums\Status::ACTIVE) == $key) ? 'selected' : '' }}>{{ $status }}</option>
+                            @endforeach
+                        </select>
+                        @error('status')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
+                    </div>
                 </div>
-            </div>
+                <div class="flex items-center gap-2 mt-5">
+                    <button type="submit" class="wc-btn wc-btn-primary"><i class="fa fa-check text-[12px]"></i> {{ __('levels.save') }}</button>
+                    <a href="{{ route('merchant-panel.shops.index') }}" class="wc-btn wc-btn-outline">{{ __('levels.cancel') }}</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<!-- end wrapper  -->
 @endsection()
 
 @push('styles')
@@ -102,13 +85,11 @@
             margin-top: 3px;
             position: relative;
         }
-
         #autocomplete-container,
         #autocomplete-input {
             position: relative;
             z-index: 101;
         }
-
         .main-search-input input,
         .main-search-input input:focus {
             font-size: 16px;
@@ -150,6 +131,7 @@
         }
     </style>
 @endpush
+
 @push('scripts')
     <script>
         var mapLat = '';

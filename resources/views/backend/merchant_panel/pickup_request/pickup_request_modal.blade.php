@@ -9,13 +9,13 @@
         </div>
         <div class="row pickup-request" style="margin:auto">
             <div class="col-6">
-                <div class="btn btn-primary regular-btn font-bold" data-toggle="modal" data-target="#regular">
+                <div class="wc-btn wc-btn-primary regular-btn font-bold" data-toggle="modal" data-target="#regular">
                     <h2 class="text-white mb-2"  ><b>{{ __('pickupRequest.regular') }}</b></h2>
                     <p>{{ __('pickupRequest.delivery') }}</p>
                 </div>
             </div>
             <div class="col-6">
-                <div class="btn btn-primary regular-btn font-bold" data-toggle="modal" data-target="#express">
+                <div class="wc-btn wc-btn-primary regular-btn font-bold" data-toggle="modal" data-target="#express">
                     <h2 class="text-white  mb-2"  ><b>{{ __('pickupRequest.express') }}</b></h2>
                     <p>{{ __('pickupRequest.delivery') }}</p>
                 </div>

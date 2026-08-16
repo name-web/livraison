@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/sass/merchant.scss',
                 'resources/js/app.js',
                 'resources/css/merchant.css',
                 'resources/js/merchant/app.jsx',

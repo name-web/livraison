@@ -1,95 +1,91 @@
-
 @extends('backend.partials.master')
 @section('title')
-    {{ __('menus.payments_received') }}  {{ __('levels.list') }}
+    {{ __('menus.payments_received') }} {{ __('levels.list') }}
 @endsection
 @section('maincontent')
-    <div class="container-fluid dashboard-container">
-        <!-- pageheader -->
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('levels.dashboard') }}</a></li>
-                                <li class="breadcrumb-item"><a href="" class="breadcrumb-link">{{ __('menus.payments_received') }}</a></li>
-                                <li class="breadcrumb-item"><a href="" class="breadcrumb-link active">{{ __('levels.list') }}</a></li>
-                            </ol>
-                        </nav>
-                    </div>
+<div class="container-fluid dashboard-content">
+
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('menus.payments_received') }}</h1>
+            <p class="wc-page-subtitle">Paiements en ligne reçus sur vos comptes</p>
+        </div>
+    </div>
+
+    <div class="wc-card">
+        <div class="wc-card-header">
+            <div class="flex items-center gap-3">
+                <div class="wc-card-icon bg-wc-primary-soft text-wc-primary">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div>
+                    <h3 class="wc-card-title">{{ __('menus.payments_received') }}</h3>
+                    <p class="text-[12px] text-wc-muted m-0">Historique des encaissements.</p>
                 </div>
             </div>
         </div>
-        <!-- end pageheader -->
-    <div class="row">
-        <div class="col-md-12 col-md-offset-3  ">
-            <div class="card">
-                <div class=" card-body panel panel-default credit-card-box">
-                    <p class="h3">{{ __('menus.payments_received') }} {{ __('levels.list') }}</p>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table   " style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('levels.id') }}</th>
-                                        <th>{{ __('levels.card_type') }}</th>
-                                        <th>{{ __('levels.from_account') }}</th>
-                                        <th>{{ __('levels.transaction_id') }}</th>
-                                        <th>{{ __('levels.amount') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @php $i=1; @endphp
-                                @foreach($Payments as $payment)
-                                    <tr>
-                                        <td>{{$i++}}</td>
-                                        <td>{{ @__('PaymentType.'.$payment->payment_type) }}</td>
-                                        <td>
-                                            <div>
-                                                @if(@$payment->account->gateway == 1)
-                                                   {{ @$payment->account->user->name }} ( Cash )
-                                                @elseif (@$payment->account->gateway == 2)
-                                                    {{ @$payment->account->account_holder_name }} <br/>
-                                                    {{ @$payment->account->account_no }} <br/>
-                                                    {{ @$payment->account->branch_name }}
-                                                @else
-                                                    @if (@$payment->account->gateway == 3)
-                                                        Bkash
-                                                    @elseif (@$payment->account->gateway == 4)
-                                                        Rocket
-                                                    @elseif (@$payment->account->gateway == 5)
-                                                        Nagad
-                                                    @endif
-                                                    {{ @$payment->account->mobile }} <br/>
-                                                    {{ @$payment->account->account_type }}
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td> {{ @$payment->transaction_id }} </td>
-                                        <td> {{ @$payment->amount }} </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="px-3 d-flex flex-row-reverse align-items-center">
-                        <span>{{ $Payments->links() }}</span>
-                        <p class="p-2 small">
-                            {!! __('Showing') !!}
-                            <span class="font-medium">{{ $Payments->firstItem() }}</span>
-                            {!! __('to') !!}
-                            <span class="font-medium">{{ $Payments->lastItem() }}</span>
-                            {!! __('of') !!}
-                            <span class="font-medium">{{ $Payments->total() }}</span>
-                            {!! __('results') !!}
-                        </p>
-                    </div>
-                </div>
+
+        @if(count($Payments) === 0)
+            <div class="wc-empty">
+                <div class="wc-empty-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <p class="wc-empty-title">Aucun paiement reçu</p>
             </div>
-        </div>
+        @else
+            <div class="wc-table-wrap">
+                <table class="wc-table">
+                    <thead>
+                        <tr>
+                            <th>{{ __('levels.id') }}</th>
+                            <th>{{ __('levels.card_type') }}</th>
+                            <th>{{ __('levels.from_account') }}</th>
+                            <th>{{ __('levels.transaction_id') }}</th>
+                            <th class="text-right">{{ __('levels.amount') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $i=1; @endphp
+                        @foreach($Payments as $payment)
+                            <tr>
+                                <td class="text-wc-muted-2 wc-tabular">{{$i++}}</td>
+                                <td><span class="wc-badge wc-badge-success-soft">{{ @__('PaymentType.'.$payment->payment_type) }}</span></td>
+                                <td>
+                                    <div class="text-[12.5px] leading-relaxed text-wc-ink-2">
+                                        @if(@$payment->account->gateway == 1)
+                                            <span class="font-bold text-wc-ink">{{ @$payment->account->user->name }}</span> (Cash)
+                                        @elseif (@$payment->account->gateway == 2)
+                                            <span class="font-bold text-wc-ink">{{ @$payment->account->account_holder_name }}</span><br/>
+                                            {{ @$payment->account->account_no }}<br/>
+                                            {{ @$payment->account->branch_name }}
+                                        @else
+                                            @if (@$payment->account->gateway == 3)
+                                                Bkash
+                                            @elseif (@$payment->account->gateway == 4)
+                                                Rocket
+                                            @elseif (@$payment->account->gateway == 5)
+                                                Nagad
+                                            @endif
+                                            {{ @$payment->account->mobile }}<br/>
+                                            {{ @$payment->account->account_type }}
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="wc-tabular font-bold text-wc-ink text-[13px]">{{ @$payment->transaction_id }}</td>
+                                <td class="text-right font-bold text-wc-success wc-tabular">{{ formatPrice(@$payment->amount) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex items-center justify-between gap-3 flex-wrap px-4 py-3 border-t border-wc-border">
+                <p class="m-0 text-[12.5px] text-wc-muted">
+                    {!! __('Showing') !!} <span class="font-bold text-wc-ink">{{ $Payments->firstItem() }}</span>
+                    {!! __('to') !!} <span class="font-bold text-wc-ink">{{ $Payments->lastItem() }}</span>
+                    {!! __('of') !!} <span class="font-bold text-wc-ink">{{ $Payments->total() }}</span> {!! __('results') !!}
+                </p>
+                <span class="flex items-center gap-1">{{ $Payments->links() }}</span>
+            </div>
+        @endif
     </div>
 </div>
 @endsection
-

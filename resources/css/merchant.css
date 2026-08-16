@@ -3,54 +3,12 @@
 @tailwind utilities;
 
 /* ============================================================
-   MERCHANT DASHBOARD — DESIGN SYSTEM
+   MERCHANT — APPLICATION LAYER
+   (tokens & design system dans resources/sass/_merchant-*.scss,
+   chargés avant ce fichier via resources/sass/merchant.scss)
    ============================================================ */
 
 @layer base {
-    :root {
-        --wc-primary: #059669;
-        --wc-primary-dark: #047857;
-        --wc-primary-soft: #ecfdf5;
-        --wc-primary-faint: #f0fdf4;
-
-        --wc-bg: #f6f8f7;
-        --wc-surface: #ffffff;
-        --wc-surface-soft: #fafcfb;
-
-        --wc-ink: #111827;
-        --wc-ink-2: #334155;
-        --wc-muted: #64748b;
-        --wc-muted-2: #94a3b8;
-
-        --wc-border: #e7ebe9;
-        --wc-border-strong: #dce3df;
-
-        --wc-warning: #d97706;
-        --wc-warning-soft: #fffbeb;
-
-        --wc-info: #2563eb;
-        --wc-info-soft: #eff6ff;
-
-        --wc-success: #059669;
-        --wc-success-soft: #ecfdf5;
-
-        --wc-violet: #7c3aed;
-        --wc-violet-soft: #f5f3ff;
-
-        --wc-danger: #dc2626;
-        --wc-danger-soft: #fef2f2;
-
-        --wc-shadow-xs: 0 1px 2px rgba(15, 23, 42, .03);
-        --wc-shadow-sm: 0 2px 8px rgba(15, 23, 42, .045);
-        --wc-shadow-md: 0 8px 24px rgba(15, 23, 42, .065);
-        --wc-shadow-lg: 0 16px 40px rgba(15, 23, 42, .08);
-
-        --wc-radius-sm: 10px;
-        --wc-radius-md: 14px;
-        --wc-radius-lg: 18px;
-        --wc-radius-xl: 22px;
-    }
-
     body.wc-merchant {
         background: var(--wc-bg);
         color: var(--wc-ink);
@@ -77,54 +35,18 @@
 @layer components {
 
     /* ========================================================
-       CARDS
-       ======================================================== */
-
-    .wc-card {
-        @apply bg-white border overflow-hidden;
-        border-color: var(--wc-border);
-        border-radius: var(--wc-radius-lg);
-        box-shadow: var(--wc-shadow-xs);
-        transition:
-            box-shadow .2s ease,
-            border-color .2s ease,
-            transform .2s ease;
-    }
-
-    .wc-card-hover:hover {
-        box-shadow: var(--wc-shadow-md);
-        border-color: var(--wc-border-strong);
-        transform: translateY(-1px);
-    }
-
-    .wc-card-header {
-        @apply flex items-center gap-3 px-5 py-4;
-        min-height: 70px;
-        border-bottom: 1px solid var(--wc-border);
-        background: rgba(255, 255, 255, .72);
-    }
-
-    .wc-card-title {
-        @apply text-[14px] font-extrabold m-0 leading-tight;
-        color: var(--wc-ink);
-        letter-spacing: -.01em;
-    }
-
-    .wc-card-icon {
-        @apply w-10 h-10 flex items-center justify-center flex-shrink-0;
-        border-radius: 11px;
-        font-size: 14px;
-    }
-
-    /* ========================================================
-       KPI
+       KPI (dashboard)
        ======================================================== */
 
     .wc-kpi {
-        @apply relative flex items-center gap-3.5 bg-white border;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 14px;
         min-height: 92px;
         padding: 17px;
-        border-color: var(--wc-border);
+        background: #fff;
+        border: 1px solid var(--wc-border);
         border-radius: var(--wc-radius-md);
         box-shadow: var(--wc-shadow-xs);
         color: var(--wc-ink);
@@ -141,11 +63,7 @@
         inset: 0;
         border-radius: inherit;
         pointer-events: none;
-        background: linear-gradient(
-            135deg,
-            rgba(255,255,255,.8),
-            transparent 55%
-        );
+        background: linear-gradient(135deg, rgba(255, 255, 255, .8), transparent 55%);
     }
 
     .wc-kpi:hover {
@@ -156,7 +74,10 @@
     }
 
     .wc-kpi-icon {
-        @apply flex items-center justify-center flex-shrink-0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
         width: 43px;
         height: 43px;
         border-radius: 12px;
@@ -166,275 +87,6 @@
 
     .wc-kpi:hover .wc-kpi-icon {
         transform: scale(1.06);
-    }
-
-    /* ========================================================
-       BUTTONS
-       ======================================================== */
-
-    .wc-btn {
-        @apply inline-flex items-center justify-center gap-2 font-bold;
-        min-height: 38px;
-        padding: 0 14px;
-        border: 1px solid transparent;
-        border-radius: 10px;
-        font-size: 13px;
-        line-height: 1;
-        white-space: nowrap;
-        transition:
-            background .18s ease,
-            border-color .18s ease,
-            color .18s ease,
-            transform .18s ease,
-            box-shadow .18s ease;
-    }
-
-    .wc-btn:hover {
-        transform: translateY(-1px);
-    }
-
-    .wc-btn-primary {
-        background: var(--wc-primary);
-        color: #fff !important;
-        box-shadow: 0 4px 12px rgba(5, 150, 105, .16);
-    }
-
-    .wc-btn-primary:hover {
-        background: var(--wc-primary-dark);
-        box-shadow: 0 7px 18px rgba(5, 150, 105, .22);
-    }
-
-    .wc-btn-soft {
-        background: var(--wc-primary-soft);
-        color: var(--wc-primary-dark) !important;
-        border-color: #d5f3e5;
-    }
-
-    .wc-btn-soft:hover {
-        background: #dff8eb;
-        border-color: #bfe9d4;
-    }
-
-    .wc-btn-outline {
-        background: #fff;
-        color: var(--wc-ink-2) !important;
-        border-color: var(--wc-border-strong);
-    }
-
-    .wc-btn-outline:hover {
-        background: var(--wc-surface-soft);
-        border-color: #cbd5d1;
-    }
-
-    .wc-btn-ghost {
-        background: transparent;
-        color: var(--wc-muted) !important;
-        border-color: transparent;
-    }
-
-    .wc-btn-ghost:hover {
-        background: var(--wc-primary-faint);
-        color: var(--wc-primary-dark) !important;
-    }
-
-    .wc-btn-danger-soft {
-        background: var(--wc-danger-soft);
-        color: #b91c1c !important;
-        border-color: #fee2e2;
-    }
-
-    .wc-btn-sm {
-        min-height: 34px;
-        padding: 0 11px;
-        font-size: 12.5px;
-        border-radius: 9px;
-    }
-
-    .wc-btn-lg {
-        min-height: 46px;
-        padding: 0 18px;
-        font-size: 14px;
-        border-radius: 12px;
-    }
-
-    /* ========================================================
-       BADGES
-       ======================================================== */
-
-    .wc-badge {
-        @apply inline-flex items-center gap-1.5 font-bold;
-        min-height: 25px;
-        padding: 4px 9px;
-        border-radius: 999px;
-        font-size: 11px;
-        line-height: 1;
-        white-space: nowrap;
-    }
-
-    .wc-badge::before {
-        content: "";
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: currentColor;
-        opacity: .7;
-    }
-
-    .wc-badge-pending {
-        background: var(--wc-warning-soft);
-        color: #b45309;
-    }
-
-    .wc-badge-transit {
-        background: var(--wc-info-soft);
-        color: #1d4ed8;
-    }
-
-    .wc-badge-delivered {
-        background: var(--wc-success-soft);
-        color: #047857;
-    }
-
-    .wc-badge-partial {
-        background: var(--wc-violet-soft);
-        color: #6d28d9;
-    }
-
-    .wc-badge-returned {
-        background: var(--wc-danger-soft);
-        color: #b91c1c;
-    }
-
-    .wc-badge-neutral {
-        background: #f3f4f6;
-        color: #4b5563;
-    }
-
-    /* ========================================================
-       TABLE
-       ======================================================== */
-
-    .wc-table-wrap {
-        @apply overflow-x-auto;
-    }
-
-    .wc-table {
-        @apply w-full border-collapse;
-        min-width: 720px;
-    }
-
-    .wc-table thead th {
-        padding: 12px 18px;
-        background: #fafbfb;
-        border-bottom: 1px solid var(--wc-border);
-        color: var(--wc-muted-2);
-        font-size: 10.5px;
-        font-weight: 800;
-        letter-spacing: .055em;
-        text-transform: uppercase;
-        text-align: left;
-        white-space: nowrap;
-    }
-
-    .wc-table th.wc-sortable {
-        cursor: pointer;
-        user-select: none;
-        transition: color .15s ease;
-    }
-
-    .wc-table th.wc-sortable:hover {
-        color: var(--wc-primary);
-    }
-
-    .wc-table tbody td {
-        padding: 14px 18px;
-        border-bottom: 1px solid var(--wc-border);
-        color: var(--wc-ink-2);
-        font-size: 13px;
-        vertical-align: middle;
-    }
-
-    .wc-table tbody tr {
-        transition: background .15s ease;
-    }
-
-    .wc-table tbody tr:hover td {
-        background: var(--wc-primary-faint);
-    }
-
-    .wc-table tbody tr:last-child td {
-        border-bottom: 0;
-    }
-
-    /* ========================================================
-       INPUTS
-       ======================================================== */
-
-    .wc-input {
-        @apply bg-white border outline-none;
-        width: 100%;
-        min-height: 40px;
-        padding: 0 12px;
-        border-color: var(--wc-border-strong);
-        border-radius: 10px;
-        color: var(--wc-ink);
-        font-size: 13px;
-        transition:
-            border-color .18s ease,
-            box-shadow .18s ease;
-    }
-
-    .wc-input::placeholder {
-        color: var(--wc-muted-2);
-    }
-
-    .wc-input:focus {
-        border-color: var(--wc-primary);
-        box-shadow: 0 0 0 4px rgba(5, 150, 105, .09);
-    }
-
-    /* ========================================================
-       AVATAR
-       ======================================================== */
-
-    .wc-avatar {
-        @apply flex items-center justify-center flex-shrink-0 font-extrabold;
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: var(--wc-primary-soft);
-        color: var(--wc-primary-dark);
-    }
-
-    /* ========================================================
-       PROGRESS
-       ======================================================== */
-
-    .wc-progress {
-        width: 100%;
-        height: 7px;
-        overflow: hidden;
-        background: #edf1ef;
-        border-radius: 999px;
-    }
-
-    .wc-progress-bar {
-        height: 100%;
-        border-radius: inherit;
-        background: linear-gradient(
-            90deg,
-            var(--wc-primary),
-            #10b981
-        );
-        transition: width .5s ease;
-    }
-
-    /* ========================================================
-       TYPOGRAPHY / NUMBERS
-       ======================================================== */
-
-    .wc-tabular {
-        font-variant-numeric: tabular-nums;
     }
 
     /* ========================================================
@@ -473,199 +125,448 @@
 }
 
 /* ============================================================
-   MERCHANT SIDEBAR
+   MERCHANT SHELL — LAYOUT (sidebar fixe + header fixe + drawer)
    ============================================================ */
 
 body.wc-merchant .wc-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 264px;
     background: #fff;
     border-right: 1px solid var(--wc-border);
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    transition: width .3s ease, transform .3s ease;
 }
 
-body.wc-merchant .wc-sidebar-item {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar {
+    width: 80px;
+}
+
+body.wc-merchant .wc-sidebar-collapsed main.dashboard-ecommerce {
+    padding-left: 80px !important;
+}
+
+body.wc-merchant .wc-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 264px;
+    height: 64px;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--wc-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    z-index: 1040;
+    transition: left .3s ease;
+}
+
+body.wc-merchant .wc-sidebar-collapsed .wc-header {
+    left: 80px;
+}
+
+body.wc-merchant main.dashboard-ecommerce {
+    padding-left: 264px;
+    transition: padding-left .3s ease;
+    margin-top: 64px;
+}
+
+@media (max-width: 991.98px) {
+    body.wc-merchant .wc-sidebar {
+        transform: translateX(-105%);
+        width: 280px;
+    }
+
+    body.wc-merchant .wc-sidebar-collapsed .wc-sidebar {
+        width: 280px;
+        transform: translateX(-105%);
+    }
+
+    body.wc-merchant.wc-drawer-open .wc-sidebar {
+        transform: translateX(0);
+    }
+
+    body.wc-merchant .wc-header {
+        left: 0 !important;
+    }
+
+    body.wc-merchant main.dashboard-ecommerce {
+        padding-left: 0 !important;
+    }
+}
+
+/* ============================================================
+   MERCHANT SHELL — SIDEBAR COMPONENTS
+   ============================================================ */
+
+.wc-sidebar-brand {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--wc-border);
+    flex-shrink: 0;
+}
+
+.wc-sidebar-brand-logo {
+    max-height: 34px;
+    width: auto;
+    object-fit: contain;
+}
+
+.wc-sidebar-merchant {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 14px 14px 8px;
+    padding: 11px 12px;
+    background: var(--wc-surface-soft);
+    border: 1px solid var(--wc-border);
+    border-radius: 13px;
+}
+
+.wc-sidebar-merchant-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--wc-primary-soft);
+    color: var(--wc-primary-dark);
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.wc-sidebar-merchant-name {
+    font-size: 13.5px;
+}
+
+.wc-sidebar-merchant-role {
     color: var(--wc-muted);
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.wc-sidebar-group-label {
+    padding: 14px 12px 6px;
+    color: var(--wc-muted-2);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+
+.wc-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    color: var(--wc-muted);
+    font-size: 13px;
+    font-weight: 600;
     transition:
         background .18s ease,
         color .18s ease,
         transform .18s ease;
 }
 
-body.wc-merchant .wc-sidebar-item:hover {
+.wc-sidebar-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.wc-sidebar-item:hover {
+    background: var(--wc-surface-soft);
+    color: var(--wc-primary-dark);
+    text-decoration: none;
+}
+
+.wc-sidebar-item.active {
+    background: var(--wc-primary-soft);
+    color: var(--wc-primary-dark);
+}
+
+.wc-sidebar-item.active i {
+    color: var(--wc-primary);
+}
+
+.wc-sidebar-collapse-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: var(--wc-muted);
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+}
+
+.wc-sidebar-collapse-btn:hover {
     background: var(--wc-surface-soft);
     color: var(--wc-primary-dark);
 }
 
-body.wc-merchant .wc-sidebar-item.active {
-    background: var(--wc-primary-soft);
-    color: var(--wc-primary-dark);
+.wc-sidebar-collapse-btn i {
+    width: 20px;
+    text-align: center;
+    font-size: 13px;
+    transition: transform .25s ease;
 }
 
-body.wc-merchant .wc-sidebar-item.active i {
-    color: var(--wc-primary);
+.wc-sidebar-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--wc-border);
+    color: var(--wc-muted-2);
+    font-size: 10.5px;
+    font-weight: 600;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Sidebar repliée (mode compact) */
+.wc-sidebar-collapsed .wc-sidebar-brand {
+    padding: 0 16px;
+}
+
+.wc-sidebar-collapsed .wc-sidebar-merchant {
+    justify-content: center;
+    padding: 10px 6px;
+}
+
+.wc-sidebar-collapsed .wc-sidebar-item {
+    justify-content: center;
+    padding: 11px 0;
+}
+
+.wc-sidebar-collapsed .wc-sidebar-item span,
+.wc-sidebar-collapsed .wc-sidebar-group-label,
+.wc-sidebar-collapsed .wc-sidebar-merchant-role,
+.wc-sidebar-collapsed .wc-sidebar-merchant-name,
+.wc-sidebar-collapsed .wc-sidebar-collapse-btn span,
+.wc-sidebar-collapsed .wc-sidebar-footer {
+    display: none;
+}
+
+.wc-sidebar-collapsed .wc-sidebar-collapse-btn {
+    justify-content: center;
+    padding: 11px 0;
+}
+
+.wc-sidebar-collapsed .wc-sidebar-item[data-tooltip] {
+    position: relative;
 }
 
 /* ============================================================
-   LEGACY BOOTSTRAP COMPATIBILITY
+   MERCHANT SHELL — HEADER COMPONENTS
    ============================================================ */
 
-body.wc-merchant .btn-primary {
+.wc-header-burger {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 12px;
+    background: var(--wc-surface-soft);
+    border: 1px solid var(--wc-border);
+    border-radius: 10px;
+    color: var(--wc-ink-2);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.wc-header-title {
+    margin: 0;
+    color: var(--wc-ink);
+    font-size: 15.5px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wc-header-wallet {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 13px;
+    background: var(--wc-primary-soft);
+    border: 1px solid #d5f3e5;
+    border-radius: 999px;
+    color: var(--wc-primary-dark);
+    font-size: 12.5px;
+    font-weight: 800;
+}
+
+.wc-header-wallet:hover {
+    background: #dff8eb;
+    color: var(--wc-primary-dark);
+    text-decoration: none;
+}
+
+.wc-header-create {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 38px;
+    padding: 0 14px;
     background: var(--wc-primary);
-    border-color: var(--wc-primary);
-}
-
-body.wc-merchant .btn-primary:hover {
-    background: var(--wc-primary-dark);
-    border-color: var(--wc-primary-dark);
-}
-
-body.wc-merchant .btn-outline-primary {
-    color: var(--wc-primary);
-    border-color: var(--wc-primary);
-}
-
-body.wc-merchant .btn-outline-primary:hover {
-    background: var(--wc-primary);
-    border-color: var(--wc-primary);
+    border-radius: 10px;
     color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    box-shadow: var(--wc-shadow-primary, 0 4px 12px rgba(5, 150, 105, .16));
+    transition: background .18s ease, transform .18s ease;
 }
 
-body.wc-merchant .table tbody tr:hover {
+.wc-header-create:hover {
+    background: var(--wc-primary-dark);
+    color: #fff;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.wc-header-icon,
+.wc-header-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--wc-muted);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+}
+
+.wc-header-icon:hover,
+.wc-header-profile:hover,
+.wc-header-icon.show,
+.wc-header-profile.show {
+    background: var(--wc-surface-soft);
+    color: var(--wc-ink-2);
+}
+
+.wc-notif-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--wc-danger);
+    border: 2px solid #fff;
+}
+
+.wc-notif-menu {
+    min-width: 340px;
+    max-width: 92vw;
+    border: 1px solid var(--wc-border);
+    border-radius: 14px;
+    box-shadow: var(--wc-shadow-lg);
+    padding: 0;
+    overflow: hidden;
+}
+
+.wc-notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--wc-border);
+    transition: background .15s ease;
+}
+
+.wc-notif-item:last-child {
+    border-bottom: 0;
+}
+
+.wc-notif-item:hover {
     background: var(--wc-primary-faint);
+    text-decoration: none;
 }
 
-body.wc-merchant .badge-primary {
+.wc-notif-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
     background: var(--wc-primary-soft);
-    color: var(--wc-primary-dark);
+    color: var(--wc-primary);
+    font-size: 13px;
 }
 
-body.wc-merchant .daterangepicker .btn-primary {
-    background: var(--wc-primary);
-    border-color: var(--wc-primary);
+.wc-notif-subject {
+    margin: 0;
+    color: var(--wc-ink-2);
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.45;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+.wc-notif-date {
+    margin-top: 3px;
+    color: var(--wc-muted-2);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.wc-header .dropdown {
+    position: relative;
+}
 
 @media (max-width: 991.98px) {
-    body.wc-merchant .wc-card {
-        border-radius: 15px;
+    .wc-header-burger {
+        display: inline-flex;
     }
 
-    .wc-table {
-        min-width: 680px;
-    }
-}
-
-@media (max-width: 767.98px) {
-    .wc-card-header {
-        padding: 14px 16px;
-        min-height: 62px;
-    }
-
-    .wc-kpi {
-        min-height: 82px;
-        padding: 14px;
-    }
-
-    .wc-kpi-icon {
-        width: 39px;
-        height: 39px;
-    }
-
-    .wc-table-wrap {
-        overflow: visible;
-    }
-
-    .wc-table {
-        min-width: 0;
-    }
-
-    .wc-table thead {
-        display: none;
-    }
-
-    .wc-table tbody {
-        display: block;
-        padding: 8px 10px;
-    }
-
-    .wc-table tbody tr {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-        margin-bottom: 10px;
-        padding: 12px;
-        border: 1px solid var(--wc-border);
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: var(--wc-shadow-xs);
-    }
-
-    .wc-table tbody tr:last-child {
-        margin-bottom: 0;
-    }
-
-    .wc-table tbody td {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 8px 4px;
-        border: 0;
-        min-width: 0;
-    }
-
-    .wc-table tbody td::before {
-        content: attr(data-label);
-        color: var(--wc-muted-2);
-        font-size: 10px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: .04em;
-        flex-shrink: 0;
-    }
-
-    .wc-table tbody td:nth-child(1) {
-        grid-column: 1 / -1;
-        border-bottom: 1px solid var(--wc-border);
-        padding-bottom: 10px;
-        margin-bottom: 3px;
-    }
-
-    .wc-table tbody td:nth-child(2) {
-        grid-column: 1 / -1;
-    }
-
-    .wc-table tbody td:nth-child(3),
-    .wc-table tbody td:nth-child(4),
-    .wc-table tbody td:nth-child(5) {
-        grid-column: 1 / -1;
-    }
-
-    .wc-table tbody td.text-right {
-        text-align: right;
-    }
-}
-
-@media (max-width: 575.98px) {
-    body.wc-merchant {
+    .wc-header-title {
         font-size: 14px;
     }
 
-    .wc-card {
-        border-radius: 13px;
+    .wc-header-wallet span,
+    .wc-header-create span {
+        display: none;
     }
 
-    .wc-card-header {
-        align-items: flex-start;
+    .wc-header-wallet,
+    .wc-header-create {
+        width: 38px;
+        padding: 0;
+        justify-content: center;
     }
 
-    .wc-btn {
-        min-height: 37px;
-    }
-
-    .wc-kpi {
-        border-radius: 12px;
+    .wc-notif-menu {
+        min-width: 300px;
     }
 }
 
@@ -889,3 +790,561 @@ body.wc-merchant .wc-btn-dark i {
     }
 }
 
+/* ============================================================
+   LEGACY BOOTSTRAP COMPATIBILITY
+   ============================================================ */
+
+body.wc-merchant .btn-primary {
+    background: var(--wc-primary);
+    border-color: var(--wc-primary);
+}
+
+body.wc-merchant .btn-primary:hover {
+    background: var(--wc-primary-dark);
+    border-color: var(--wc-primary-dark);
+}
+
+body.wc-merchant .btn-outline-primary {
+    color: var(--wc-primary);
+    border-color: var(--wc-primary);
+}
+
+body.wc-merchant .btn-outline-primary:hover {
+    background: var(--wc-primary);
+    border-color: var(--wc-primary);
+    color: #fff;
+}
+
+body.wc-merchant .table {
+    --bs-table-bg: transparent;
+}
+
+body.wc-merchant .table thead th {
+    padding: 12px 18px;
+    background: #fafbfb;
+    border-bottom: 1px solid var(--wc-border);
+    color: var(--wc-muted-2);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+body.wc-merchant .table tbody td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--wc-border);
+    color: var(--wc-ink-2);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+body.wc-merchant .table tbody tr:hover {
+    background: var(--wc-primary-faint);
+}
+
+body.wc-merchant .badge-pill {
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+body.wc-merchant .badge-primary {
+    background: var(--wc-primary-soft);
+    color: var(--wc-primary-dark);
+}
+
+body.wc-merchant .badge-success {
+    background: var(--wc-success-soft);
+    color: #047857;
+}
+
+body.wc-merchant .badge-warning {
+    background: var(--wc-warning-soft);
+    color: #b45309;
+}
+
+body.wc-merchant .badge-danger {
+    background: var(--wc-danger-soft);
+    color: #b91c1c;
+}
+
+body.wc-merchant .badge-info {
+    background: var(--wc-info-soft);
+    color: #1d4ed8;
+}
+
+body.wc-merchant .badge-dark {
+    background: #eef0f2;
+    color: #374151;
+}
+
+body.wc-merchant .badge-secondary {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+body.wc-merchant .btn-success {
+    background: var(--wc-success);
+    border-color: var(--wc-success);
+}
+
+body.wc-merchant .btn-info {
+    background: var(--wc-info);
+    border-color: var(--wc-info);
+    color: #fff;
+}
+
+body.wc-merchant .btn-warning {
+    background: #d97706;
+    border-color: #d97706;
+    color: #fff;
+}
+
+body.wc-merchant .btn-danger {
+    background: var(--wc-danger);
+    border-color: var(--wc-danger);
+}
+
+body.wc-merchant .btn-secondary {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    color: #374151;
+}
+
+body.wc-merchant .btn-secondary:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+body.wc-merchant .btn-outline-success {
+    color: var(--wc-success);
+    border-color: var(--wc-success);
+}
+
+body.wc-merchant .btn-outline-info {
+    color: var(--wc-info);
+    border-color: var(--wc-info);
+}
+
+body.wc-merchant .btn-outline-danger {
+    color: var(--wc-danger);
+    border-color: var(--wc-danger);
+}
+
+body.wc-merchant .daterangepicker .btn-primary {
+    background: var(--wc-primary);
+    border-color: var(--wc-primary);
+}
+
+body.wc-merchant .pagination .page-link {
+    min-width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+    border: 1px solid var(--wc-border-strong);
+    border-radius: 10px !important;
+    color: var(--wc-ink-2);
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+body.wc-merchant .pagination .page-link:hover {
+    background: var(--wc-surface-soft);
+    color: var(--wc-ink);
+    border-color: #cbd5d1;
+}
+
+body.wc-merchant .pagination .page-item.active .page-link {
+    background: var(--wc-primary);
+    border-color: var(--wc-primary);
+    color: #fff;
+}
+
+body.wc-merchant .pagination .page-item.disabled .page-link {
+    opacity: .5;
+    pointer-events: none;
+}
+
+/* ============================================================
+   PRO POLISH — raffinements professionnels
+   ============================================================ */
+
+/* ---------- Boutons : profondeur, états press/focus ---------- */
+
+body.wc-merchant .wc-btn {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body.wc-merchant .wc-btn:active {
+    transform: translateY(0) scale(.97);
+}
+
+body.wc-merchant .wc-btn-primary {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .08), var(--shadow-primary);
+}
+
+body.wc-merchant .wc-btn-primary:hover {
+    box-shadow: 0 4px 14px rgba(5, 150, 105, .28);
+}
+
+body.wc-merchant .wc-btn-primary:focus-visible {
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, .18), 0 4px 14px rgba(5, 150, 105, .28);
+}
+
+body.wc-merchant .wc-btn-outline:focus-visible {
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, .14);
+}
+
+body.wc-merchant .wc-btn-danger-soft:focus-visible {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, .14);
+}
+
+body.wc-merchant .wc-btn-icon {
+    padding: 0 10px;
+}
+
+/* ---------- Tables : en-tête sticky, zèbre, hover affiné ---------- */
+
+body.wc-merchant .wc-table-wrap {
+    scrollbar-width: thin;
+    scrollbar-color: var(--wc-border-strong) transparent;
+}
+
+body.wc-merchant .wc-table-wrap::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+body.wc-merchant .wc-table-wrap::-webkit-scrollbar-thumb {
+    background: var(--wc-border-strong);
+    border-radius: 999px;
+}
+
+body.wc-merchant .wc-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+body.wc-merchant .wc-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: inset 0 -1px 0 var(--wc-border);
+    color: var(--wc-muted-2);
+    letter-spacing: .07em;
+}
+
+body.wc-merchant .wc-table tbody td {
+    background: #fff;
+    transition: background .14s ease;
+}
+
+body.wc-merchant .wc-table tbody tr:hover td {
+    background: var(--wc-primary-faint);
+}
+
+body.wc-merchant .wc-table tbody tr {
+    transition: background .14s ease;
+}
+
+body.wc-merchant .wc-table .wc-badge {
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .05);
+}
+
+/* ---------- Cartes : relief subtil ---------- */
+
+body.wc-merchant .wc-card {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 4px 16px rgba(15, 23, 42, .04);
+}
+
+body.wc-merchant .wc-card:hover {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 10px 28px rgba(15, 23, 42, .07);
+    border-color: var(--wc-border-strong);
+}
+
+body.wc-merchant .wc-card-header {
+    background: linear-gradient(180deg, rgba(248, 250, 252, .8), rgba(255, 255, 255, .72));
+}
+
+/* ---------- Menus déroulants (Bootstrap) ---------- */
+
+body.wc-merchant .dropdown-menu {
+    border: 1px solid var(--wc-border);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+    padding: 6px;
+    font-size: 13px;
+}
+
+body.wc-merchant .dropdown-menu .dropdown-item {
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--wc-ink-2);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    transition: background .12s ease, color .12s ease;
+}
+
+body.wc-merchant .dropdown-menu .dropdown-item i {
+    width: 15px;
+    text-align: center;
+    color: var(--wc-muted-2);
+    font-size: 12px;
+    transition: color .12s ease;
+}
+
+body.wc-merchant .dropdown-menu .dropdown-item:hover {
+    background: var(--wc-primary-faint);
+    color: var(--wc-primary-dark);
+}
+
+body.wc-merchant .dropdown-menu .dropdown-item:hover i {
+    color: var(--wc-primary);
+}
+
+body.wc-merchant .dropdown-menu .dropdown-divider {
+    margin: 5px 4px;
+    border-top: 1px solid var(--wc-border);
+}
+
+body.wc-merchant .dropdown-toggle::after {
+    vertical-align: 1px;
+    opacity: .65;
+}
+
+/* ---------- Formulaire : focus unifié ---------- */
+
+body.wc-merchant .form-control:focus,
+body.wc-merchant .form-select:focus,
+body.wc-merchant .select2-container .select2-selection--single:focus {
+    border-color: var(--wc-primary);
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, .1);
+}
+
+body.wc-merchant .select2-container--default .select2-selection--single {
+    border-color: var(--wc-border-strong);
+    min-height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+body.wc-merchant .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--wc-primary);
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, .1);
+}
+
+body.wc-merchant .select2-container--default .select2-dropdown {
+    border: 1px solid var(--wc-border);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+    overflow: hidden;
+}
+
+body.wc-merchant .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: var(--wc-primary-soft);
+    color: var(--wc-primary-dark);
+}
+
+/* ---------- Sidebar : indicateur d'item actif ---------- */
+
+body.wc-merchant .wc-sidebar-item {
+    position: relative;
+}
+
+body.wc-merchant .wc-sidebar-item.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    border-radius: 0 4px 4px 0;
+    background: var(--wc-primary);
+}
+
+/* ---------- Feuille de formulaire (wc-sheet) : hover + cohérence ---------- */
+
+body.wc-merchant .wc-sheet tbody tr:hover td {
+    background: #fcfdfd;
+}
+
+body.wc-merchant .wc-sheet-group td {
+    background: linear-gradient(180deg, #f8fafc, #f3f6f5);
+}
+
+/* ---------- Divers pro : sélection, scrollbar, tooltips, modales ---------- */
+
+body.wc-merchant ::selection {
+    background: rgba(5, 150, 105, .18);
+    color: var(--wc-ink);
+}
+
+body.wc-merchant .modal-content {
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, .22);
+}
+
+body.wc-merchant .modal-header {
+    border-bottom: 1px solid var(--wc-border);
+}
+
+body.wc-merchant .modal-footer {
+    border-top: 1px solid var(--wc-border);
+    background: var(--wc-surface-soft);
+    border-radius: 0 0 16px 16px;
+}
+
+body.wc-merchant .tooltip-inner {
+    background: var(--wc-ink);
+    font-size: 11.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+body.wc-merchant .tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: var(--wc-ink);
+}
+
+body.wc-merchant .daterangepicker {
+    border: 1px solid var(--wc-border);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, .14);
+    font-family: var(--font-sans);
+}
+
+body.wc-merchant .daterangepicker td.active,
+body.wc-merchant .daterangepicker td.active:hover {
+    background: var(--wc-primary);
+}
+
+body.wc-merchant .daterangepicker td.in-range {
+    background: var(--wc-primary-faint);
+}
+
+body.wc-merchant .daterangepicker .calendar-table th {
+    color: var(--wc-muted-2);
+}
+
+body.wc-merchant .wc-empty {
+    padding: 56px 20px;
+}
+
+body.wc-merchant .wc-empty-icon {
+    box-shadow: inset 0 0 0 1px rgba(5, 150, 105, .1);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+    body.wc-merchant .wc-card {
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .wc-table-wrap {
+        overflow: visible;
+    }
+
+    .wc-table {
+        min-width: 0;
+    }
+
+    .wc-table thead {
+        display: none;
+    }
+
+    .wc-table tbody {
+        display: block;
+        padding: 8px 10px;
+    }
+
+    .wc-table tbody tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        margin-bottom: 10px;
+        padding: 12px;
+        border: 1px solid var(--wc-border);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: var(--wc-shadow-xs);
+    }
+
+    .wc-table tbody tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .wc-table tbody td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 4px;
+        border: 0;
+        min-width: 0;
+    }
+
+    .wc-table tbody td::before {
+        content: attr(data-label);
+        color: var(--wc-muted-2);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        flex-shrink: 0;
+    }
+
+    .wc-table tbody td:nth-child(1) {
+        grid-column: 1 / -1;
+        border-bottom: 1px solid var(--wc-border);
+        padding-bottom: 10px;
+        margin-bottom: 3px;
+    }
+
+    .wc-table tbody td:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+
+    .wc-table tbody td:nth-child(3),
+    .wc-table tbody td:nth-child(4),
+    .wc-table tbody td:nth-child(5) {
+        grid-column: 1 / -1;
+    }
+
+    .wc-table tbody td.text-right {
+        text-align: right;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body.wc-merchant {
+        font-size: 14px;
+    }
+
+    .wc-card {
+        border-radius: 13px;
+    }
+
+    .wc-card-header {
+        align-items: flex-start;
+    }
+
+    .wc-kpi {
+        border-radius: 12px;
+    }
+}

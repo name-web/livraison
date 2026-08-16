@@ -1,35 +1,30 @@
-<div class="table-responsive ">
-    <table class="table   " style="width:100%">
+<div class="wc-table-wrap">
+    <table class="wc-table">
         <thead>
             <tr>
-
                 <th>{{ __('levels.id') }}</th>
                 <th>{{ __('parcel.source') }}</th>
                 <th>{{ __('levels.date') }}</th>
                 <th>{{ __('parcel.transaction_id') }}</th>
                 <th>{{ __('parcel.payment_method') }}</th>
-                <th>{{ __('parcel.amount') }}</th>
+                <th class="text-right">{{ __('parcel.amount') }}</th>
                 <th>{{ __('parcel.status') }}</th>
             </tr>
         </thead>
         <tbody>
-            @php
-                $i = 0;
-            @endphp
+            @php $i = 0; @endphp
             @foreach ($wallets as $wallet)
                 <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $wallet->source }}</td>
-                    <td> {{ dateFormat($wallet->created_at) }} </td>
-                    <td>{{ @$wallet->transaction_id }}</td>
-                    <td>{{ __('WalletPaymentMethod.' . $wallet->payment_method) }}</td>
-                    <td>
+                    <td class="text-wc-muted-2 wc-tabular">{{ ++$i }}</td>
+                    <td class="text-wc-ink font-bold text-[13px]">{{ $wallet->source }}</td>
+                    <td class="text-wc-muted-2 whitespace-nowrap">{{ dateFormat($wallet->created_at) }}</td>
+                    <td class="wc-tabular">{{ @$wallet->transaction_id }}</td>
+                    <td class="text-wc-muted">{{ __('WalletPaymentMethod.' . $wallet->payment_method) }}</td>
+                    <td class="text-right">
                         @if ($wallet->type == App\Enums\Wallet\WalletType::INCOME)
-                            <span class="text-success font-weight-bold"> +
-                                {{ settings()->currency }}{{ @$wallet->amount }}</span>
+                            <span class="text-wc-success font-bold wc-tabular">+ {{ formatPrice(@$wallet->amount) }}</span>
                         @elseif($wallet->type == App\Enums\Wallet\WalletType::EXPENSE)
-                            <span
-                                class="text-danger font-weight-bold"> - {{ settings()->currency }}{{ @$wallet->amount }}</span>
+                            <span class="text-wc-danger font-bold wc-tabular">- {{ formatPrice(@$wallet->amount) }}</span>
                         @endif
                     </td>
                     <td>
@@ -39,19 +34,21 @@
                     </td>
                 </tr>
             @endforeach
-            <tr>
         </tbody>
     </table>
 </div>
-<div class="px-3 d-flex flex-row-reverse align-items-center">
-    <span>{{ $wallets->links() }}</span>
-    <p class="p-2 small">
-        {!! __('Showing') !!}
-        <span class="font-medium">{{ $wallets->firstItem() }}</span>
-        {!! __('to') !!}
-        <span class="font-medium">{{ $wallets->lastItem() }}</span>
-        {!! __('of') !!}
-        <span class="font-medium">{{ $wallets->total() }}</span>
-        {!! __('results') !!}
+@if(count($wallets) === 0)
+    <div class="wc-empty">
+        <div class="wc-empty-icon"><i class="fas fa-receipt"></i></div>
+        <p class="wc-empty-title">Aucune transaction</p>
+        <p class="wc-empty-description">Vos transactions apparaîtront ici.</p>
+    </div>
+@endif
+<div class="flex items-center justify-between gap-3 flex-wrap px-4 py-3 border-t border-wc-border">
+    <p class="m-0 text-[12.5px] text-wc-muted">
+        {!! __('Showing') !!} <span class="font-bold text-wc-ink">{{ $wallets->firstItem() }}</span>
+        {!! __('to') !!} <span class="font-bold text-wc-ink">{{ $wallets->lastItem() }}</span>
+        {!! __('of') !!} <span class="font-bold text-wc-ink">{{ $wallets->total() }}</span> {!! __('results') !!}
     </p>
+    <span class="flex items-center gap-1">{{ $wallets->links() }}</span>
 </div>

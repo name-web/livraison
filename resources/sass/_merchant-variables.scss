@@ -1,0 +1,97 @@
+/* ============================================================
+   MERCHANT DESIGN SYSTEM — DESIGN TOKENS
+   Source unique de vérité : tout le CSS merchant (SCSS + merchant.css)
+   se réfère à ces variables (--color-* et alias --wc-*).
+   Aligné sur l'identité WeCourier (vert émeraude) + adaptation FCFA.
+   ============================================================ */
+
+:root {
+    /* Couleurs primaires */
+    --color-primary: #059669;
+    --color-primary-dark: #047857;
+    --color-primary-light: #d1fae5;
+    --color-primary-soft: #ecfdf5;
+    --color-primary-faint: #f0fdf4;
+
+    /* Accent doré (highlights, attention) */
+    --color-accent: #f59e0b;
+    --color-accent-dark: #d97706;
+    --color-accent-light: #fef3c7;
+
+    /* Sémantique */
+    --color-warning: #dc2626;
+    --color-warning-light: #fecaca;
+    --color-info: #2563eb;
+    --color-info-light: #bfdbfe;
+    --color-success: #059669;
+    --color-success-light: #d1fae5;
+
+    /* Surfaces */
+    --color-background: #f6f8f7;
+    --color-surface: #ffffff;
+    --color-surface-soft: #fafcfb;
+
+    /* Texte */
+    --color-text: #111827;
+    --color-text-secondary: #64748b;
+    --color-text-muted: #94a3b8;
+
+    /* Bordures */
+    --color-border: #e7ebe9;
+    --color-border-strong: #dce3df;
+
+    /* États interactifs */
+    --color-state-success: #10b981;
+    --color-state-warning: #f59e0b;
+    --color-state-error: #ef4444;
+    --color-state-info: #3b82f6;
+
+    /* Alias --wc-* (compatibilité merchant.css) */
+    --wc-primary: var(--color-primary);
+    --wc-primary-dark: var(--color-primary-dark);
+    --wc-primary-soft: var(--color-primary-soft);
+    --wc-primary-faint: var(--color-primary-faint);
+    --wc-bg: var(--color-background);
+    --wc-surface: var(--color-surface);
+    --wc-surface-soft: var(--color-surface-soft);
+    --wc-ink: var(--color-text);
+    --wc-ink-2: #334155;
+    --wc-muted: var(--color-text-secondary);
+    --wc-muted-2: var(--color-text-muted);
+    --wc-border: var(--color-border);
+    --wc-border-strong: var(--color-border-strong);
+    --wc-warning: #d97706;
+    --wc-warning-soft: #fffbeb;
+    --wc-info: #2563eb;
+    --wc-info-soft: #eff6ff;
+    --wc-success: #059669;
+    --wc-success-soft: #ecfdf5;
+    --wc-violet: #7c3aed;
+    --wc-violet-soft: #f5f3ff;
+    --wc-danger: #dc2626;
+    --wc-danger-soft: #fef2f2;
+
+    /* Ombres */
+    --shadow-xs: 0 1px 2px rgba(15, 23, 42, .03);
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, .045);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, .065);
+    --shadow-lg: 0 16px 40px rgba(15, 23, 42, .08);
+    --shadow-primary: 0 4px 12px rgba(5, 150, 105, .16);
+    --shadow-primary-hover: 0 7px 18px rgba(5, 150, 105, .22);
+
+    /* Rayons */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-full: 9999px;
+
+    /* Typographie */
+    --font-sans: 'Inter', 'Nunito', 'system-ui', sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'Menlo', 'Monaco', 'Consolas', monospace;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}

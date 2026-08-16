@@ -64,8 +64,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('pickupRequest.close') }}</button>
-              <button type="submit" class="btn btn-primary">{{ __('pickupRequest.send_request') }}</button>
+              <button type="button" class="wc-btn wc-btn-outline" data-dismiss="modal">{{ __('pickupRequest.close') }}</button>
+              <button type="submit" class="wc-btn wc-btn-primary">{{ __('pickupRequest.send_request') }}</button>
             </div>
         </form>
     </div>

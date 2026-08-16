@@ -3,408 +3,462 @@
     {{ __('parcel.title') }} {{ __('levels.duplicate') }}
 @endsection
 @section('maincontent')
-    <div class="container-fluid  dashboard-content">
-        <!-- pageheader -->
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}"
-                                        class="breadcrumb-link">{{ __('parcel.dashboard') }}</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('merchant-panel.parcel.index') }}"
-                                        class="breadcrumb-link">{{ __('parcel.title') }}</a></li>
-                                <li class="breadcrumb-item"><a href=""
-                                        class="breadcrumb-link active">{{ __('levels.duplicate') }}</a></li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
+    <div class="container-fluid dashboard-content">
+        {{-- En-tête : Dupliquer un colis + actions --}}
+        <div class="wc-page-header">
+            <div>
+                <h1 class="wc-page-title">
+                    <i class="fas fa-clone text-[18px] mr-2 text-wc-primary"></i>
+                    {{ __('parcel.duplicate') }}
+                </h1>
+                <p class="wc-page-subtitle">
+                    Modifiez les informations ci-dessous puis validez pour créer une copie du colis.
+                </p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <a href="{{ route('merchant-panel.parcel.index') }}" class="wc-btn wc-btn-outline">
+                    <i class="fas fa-arrow-left text-[12px]"></i> {{ __('levels.cancel') }}
+                </a>
+                <button type="submit" form="basicform" class="wc-btn wc-btn-primary">
+                    <i class="fas fa-clone text-[12px]"></i> {{ __('levels.duplicate') }}
+                </button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="pageheader-title">{{ __('parcel.duplicate') }}</h2>
-                        <form action="{{ route('merchant-panel.parcel.store') }}" method="POST"
-                            enctype="multipart/form-data" id="basicform">
-                            @csrf
-                            <input type="hidden" name="parcel_id" value="{{ $parcel->id }}">
-                            <div class="row">
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="shopID">{{ __('parcel.shop') }}</label>
-                                    <select style="width: 100%" id="shopID" class="form-control" name="shop_id"
-                                        data-url="{{ route('merchant-panel.parcel.merchant.shops') }}">
-                                        <option value=""> {{ __('menus.select') }} {{ __('parcel.shop') }}</option>
-                                        @foreach ($shops as $shop)
-                                            <option value="{{ $shop->id }}"
-                                                {{ old('shop_id', $parcel->merchant_shop_id) == $shop->id ? 'selected' : '' }}>
-                                                {{ $shop->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('shop_id')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                    {{-- cod charge calculation --}}
-                                    <input type="hidden" id="inside_city"
-                                        value="{{ $merchant->cod_charges['inside_city'] }}" />
-                                    <input type="hidden" id="sub_city"
-                                        value="{{ $merchant->cod_charges['sub_city'] }}" />
-                                    <input type="hidden" id="outside_city"
-                                        value="{{ $merchant->cod_charges['outside_city'] }}" />
 
-                                </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="pickup_phone">{{ __('parcel.pickup_phone') }}</label>
-                                    <input id="pickup_phone" type="text" name="pickup_phone"
-                                        data-parsley-trigger="change" placeholder="{{ __('parcel.pickup_phone') }}"
-                                        autocomplete="off" class="form-control"
-                                        value="{{ old('pickup_phone', $parcel->pickup_phone) }}" required="">
-                                    @error('pickup_phone')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="pickup_address">{{ __('parcel.pickup_address') }}</label>
-                                    <input id="pickup_address" type="text" name="pickup_address"
-                                        data-parsley-trigger="change" placeholder="{{ __('parcel.pickup_address') }}"
-                                        autocomplete="off" class="form-control"
-                                        value="{{ old('pickup_address', $parcel->pickup_address) }}" required="">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start">
 
-                                    <input type="hidden" id="pickup_lat" name="pickup_lat" required=""
-                                        value="{{ $parcel->pickup_lat }}">
-                                    <input type="hidden" id="pickup_long" name="pickup_long" required=""
-                                        value="{{ $parcel->pickup_long }}">
-
-
-                                    @error('pickup_address')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="cash_collection">{{ __('parcel.cash_collection') }} </label> <span
-                                        class="text-danger">*</span>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control cash-collection" id="cash_collection"
-                                            value="{{ old('cash_collection', $parcel->cash_collection) }}"
-                                            name="cash_collection"
-                                            placeholder="{{ __('parcel.Cash_amount_including_delivery_charge') }}"
-                                            required="">
-                                        @error('cash_collection')
-                                            <small class="text-danger mt-2">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="selling_price">{{ __('parcel.selling_price') }} </label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control cash-collection" id="selling_price"
-                                            value="{{ old('selling_price', $parcel->selling_price) }}"
-                                            name="selling_price"
-                                            placeholder="{{ __('parcel.Selling_price_of_parcel') }}">
-                                        @error('selling_price')
-                                            <small class="text-danger mt-2">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="opening_balance">{{ __('parcel.invoice') }}</label>
-                                    <input id="invoice_no" type="text" name="invoice_no"
-                                        data-parsley-trigger="change"
-                                        placeholder="{{ __('parcel.enter_invoice_number') }}" autocomplete="off"
-                                        class="form-control" value="{{ old('invoice_no', $parcel->invoice_no) }}">
-                                    @error('invoice_no')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="merchant">{{ __('parcel.category') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <select style="width: 100%" id="category_id" class="form-control select2"
-                                        name="category_id" class="form-control @error('category_id') is-invalid @enderror"
-                                        data-url="{{ route('parcel.deliveryCategory.deliveryWeight') }}" required="">
-                                        <option value=""> {{ __('menus.select') }} {{ __('parcel.category') }}
-                                        </option>
-                                        @foreach ($deliveryCategoryCharges as $deliveryCategoryCharge)
-                                            <option value="{{ $deliveryCategories[$deliveryCategoryCharge]->id }}"
-                                                {{ old('category_id', $parcel->category_id) == $deliveryCategories[$deliveryCategoryCharge]->id ? 'selected' : '' }}>
-                                                {{ $deliveryCategories[$deliveryCategoryCharge]->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category_id')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6" id="categoryWeight">
-                                    <label for="weightID">{{ __('parcel.weight') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <select style="width: 100%" id="weightID" class="form-control select2"
-                                        name="weight" required="">
-                                        <option value=""> {{ __('menus.select') }} {{ __('parcel.weight') }}
-                                        </option>
-                                        @if (!blank($deliveryCharges))
-                                            @foreach ($deliveryCharges as $deliveryCharge)
-                                                <option value="{{ $deliveryCharge->weight ?? 0 }}"
-                                                    {{ old('weight', $parcel->weight) == $deliveryCharge->weight ? 'selected' : '' }}>
-                                                    {{ $deliveryCharge->weight }} {{ $deliveryCharge->category->title }}
-                                                </option>
-                                            @endforeach
-                                        @endif
-
-                                    </select>
-                                    @error('weight')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="delivery_type_id">{{ __('parcel.delivery_type') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <select style="width: 100%" class="form-control select2" id="delivery_type_id"
-                                        name="delivery_type_id" required="">
-                                        <option value=""> {{ __('menus.select') }} {{ __('parcel.delivery_type') }}
-                                        </option>
-                                        @foreach ($deliveryTypes as $key => $status)
-                                            <option
-                                                @if ($status->key == 'same_day') value="1" @if ($parcel->delivery_type_id == 1) selected @endif
-                                            @elseif($status->key == 'next_day') value="2"
-                                                @if ($parcel->delivery_type_id == 2) selected @endif
-                                            @elseif($status->key == 'sub_city') value="3"
-                                                @if ($parcel->delivery_type_id == 3) selected @endif
-                                            @elseif($status->key == 'outside_City') value="4"
-                                                @if ($parcel->delivery_type_id == 4) selected @endif @endif
-                                                >
-                                                {{ __('deliveryType.' . $status->key) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('delivery_type_id')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="customer_name">{{ __('parcel.customer_name') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <input id="customer_name" type="text" name="customer_name"
-                                        data-parsley-trigger="change" placeholder="{{ __('parcel.customer_name') }}"
-                                        autocomplete="off" class="form-control"
-                                        value="{{ old('customer_name', $parcel->customer_name) }}" required="">
-                                    @error('customer_name')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="phone">{{ __('parcel.customer_phone') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <input id="phone" type="text" name="customer_phone"
-                                        data-parsley-trigger="change" placeholder="{{ __('parcel.customer_phone') }}"
-                                        autocomplete="off" class="form-control"
-                                        value="{{ old('customer_phone', $parcel->customer_phone) }}" required="">
-                                    @error('customer_phone')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
+            {{-- Formulaire — Détail du colis (feuille type Excel) --}}
+            <div class="xl:col-span-2">
+                <form action="{{ route('merchant-panel.parcel.store') }}" method="POST"
+                    enctype="multipart/form-data" id="basicform">
+                    @csrf
+                    <input type="hidden" name="parcel_id" value="{{ $parcel->id }}">
+                    <div class="wc-card overflow-hidden">
+                        <div class="wc-card-header">
+                            <div class="wc-card-icon bg-[#eef1f5] text-[#475569]">
+                                <i class="fas fa-file-invoice"></i>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="customer_address">{{ __('parcel.customer_address') }}</label> <span
-                                        class="text-danger">*</span>
-                                    <input type="hidden" id="lat" name="lat" required="" value="">
-                                    <input type="hidden" id="long" name="long" required="" value="">
-                                    <div class="main-search-input-item location location-search">
-                                        <div id="autocomplete-container" class="form-group random-search">
-                                            <input id="autocomplete-input" type="text" name="customer_address"
-                                                class="recipe-search2 form-control" placeholder="Location Here!"
-                                                required="">
-                                            <a href="javascript:void(0)" class="submit-btn btn current-location"
-                                                id="locationIcon" onclick="getLocation()">
-                                                <i class="fa fa-crosshairs"></i>
-                                            </a>
-                                            @error('customer_address')
-                                                <small class="text-danger mt-2">{{ $message }}</small>
+                            <div>
+                                <h3 class="wc-card-title">{{ __('parcel.duplicate') }}</h3>
+                                <p class="text-[12px] text-wc-muted m-0">Informations d'expédition, du colis et du destinataire</p>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="wc-sheet">
+                                <thead>
+                                    <tr>
+                                        <th class="wc-sheet-head wc-sheet-label">Champ</th>
+                                        <th class="wc-sheet-head">Valeur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {{-- ---------- Expédition ---------- --}}
+                                    <tr class="wc-sheet-group">
+                                        <td colspan="2"><i class="fas fa-truck"></i>Expédition</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.shop') }}</th>
+                                        <td>
+                                            <select style="width: 100%" id="shopID" class="form-control" name="shop_id"
+                                                data-url="{{ route('merchant-panel.parcel.merchant.shops') }}">
+                                                <option value=""> {{ __('menus.select') }} {{ __('parcel.shop') }}</option>
+                                                @foreach ($shops as $shop)
+                                                    <option value="{{ $shop->id }}"
+                                                        {{ old('shop_id', $parcel->merchant_shop_id) == $shop->id ? 'selected' : '' }}>
+                                                        {{ $shop->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('shop_id')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
                                             @enderror
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <div id="googleMap" class="custom-map"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label for="note">{{ __('parcel.note') }}</label>
-                                    <textarea id="note" name="note" class="form-control">{{ old('note', $parcel->note) }}</textarea>
-                                    @error('note')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
+                                            <input type="hidden" id="inside_city"
+                                                value="{{ $merchant->cod_charges['inside_city'] }}" />
+                                            <input type="hidden" id="sub_city"
+                                                value="{{ $merchant->cod_charges['sub_city'] }}" />
+                                            <input type="hidden" id="outside_city"
+                                                value="{{ $merchant->cod_charges['outside_city'] }}" />
+                                        </td>
+                                    </tr>
 
-                            <div class="row">
-                                @if (SettingHelper('fragile_liquid_status') == \App\Enums\Status::ACTIVE)
-                                    <div class="col-md-6 mt-2">
-                                        <label class="form-label"
-                                            for="fv-full-name">{{ __('parcel.liquid_check_label') }}</label>
-                                        <div class="row pt-1">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <div class="preview-block">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="fragileLiquid"
-                                                                data-amount="{{ SettingHelper('fragile_liquid_charge') }}"
-                                                                @if ($parcel->liquid_fragile_amount) checked @endif
-                                                                name="fragileLiquid" onclick="processCheck(this);">
-                                                            <label class="custom-control-label"
-                                                                for="fragileLiquid">{{ __('parcel.liquid_fragile') }}</label>
-                                                        </div>
-                                                    </div>
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.pickup_phone') }}</th>
+                                        <td>
+                                            <input id="pickup_phone" type="text" name="pickup_phone"
+                                                data-parsley-trigger="change" placeholder="{{ __('parcel.pickup_phone') }}"
+                                                autocomplete="off" class="form-control"
+                                                value="{{ old('pickup_phone', $parcel->pickup_phone) }}" required="">
+                                            @error('pickup_phone')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.pickup_address') }}</th>
+                                        <td>
+                                            <input id="pickup_address" type="text" name="pickup_address"
+                                                data-parsley-trigger="change" placeholder="{{ __('parcel.pickup_address') }}"
+                                                autocomplete="off" class="form-control"
+                                                value="{{ old('pickup_address', $parcel->pickup_address) }}" required="">
+                                            <input type="hidden" id="pickup_lat" name="pickup_lat" required=""
+                                                value="{{ $parcel->pickup_lat }}">
+                                            <input type="hidden" id="pickup_long" name="pickup_long" required=""
+                                                value="{{ $parcel->pickup_long }}">
+                                            @error('pickup_address')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    {{-- ---------- Détail du colis ---------- --}}
+                                    <tr class="wc-sheet-group">
+                                        <td colspan="2"><i class="fas fa-box-open"></i>Détail du colis</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.category') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <select style="width: 100%" id="category_id" class="form-control select2"
+                                                name="category_id"
+                                                data-url="{{ route('parcel.deliveryCategory.deliveryWeight') }}" required="">
+                                                <option value=""> {{ __('menus.select') }} {{ __('parcel.category') }}
+                                                </option>
+                                                @foreach ($deliveryCategoryCharges as $deliveryCategoryCharge)
+                                                    <option value="{{ $deliveryCategories[$deliveryCategoryCharge]->id }}"
+                                                        {{ old('category_id', $parcel->category_id) == $deliveryCategories[$deliveryCategoryCharge]->id ? 'selected' : '' }}>
+                                                        {{ $deliveryCategories[$deliveryCategoryCharge]->title }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('category_id')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr id="categoryWeight">
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.weight') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <select style="width: 100%" id="weightID" class="form-control select2"
+                                                name="weight" required="">
+                                                <option value=""> {{ __('menus.select') }} {{ __('parcel.weight') }}
+                                                </option>
+                                                @if (!blank($deliveryCharges))
+                                                    @foreach ($deliveryCharges as $deliveryCharge)
+                                                        <option value="{{ $deliveryCharge->weight ?? 0 }}"
+                                                            {{ old('weight', $parcel->weight) == $deliveryCharge->weight ? 'selected' : '' }}>
+                                                            {{ $deliveryCharge->weight }} {{ $deliveryCharge->category->title }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @error('weight')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.delivery_type') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <select style="width: 100%" class="form-control select2" id="delivery_type_id"
+                                                name="delivery_type_id" required="">
+                                                <option value=""> {{ __('menus.select') }} {{ __('parcel.delivery_type') }}
+                                                </option>
+                                                @foreach ($deliveryTypes as $key => $status)
+                                                    <option
+                                                        @if ($status->key == 'same_day') value="1" @if ($parcel->delivery_type_id == 1) selected @endif
+                                                    @elseif($status->key == 'next_day') value="2"
+                                                        @if ($parcel->delivery_type_id == 2) selected @endif
+                                                    @elseif($status->key == 'sub_city') value="3"
+                                                        @if ($parcel->delivery_type_id == 3) selected @endif
+                                                    @elseif($status->key == 'outside_City') value="4"
+                                                        @if ($parcel->delivery_type_id == 4) selected @endif @endif
+                                                        >
+                                                        {{ __('deliveryType.' . $status->key) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('delivery_type_id')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr id="PackagingID">
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.packaging') }}</th>
+                                        <td>
+                                            <select style="width: 100%" id="packaging_id" class="form-control"
+                                                name="packaging_id">
+                                                <option value=""> {{ __('menus.select') }} {{ __('parcel.packaging') }}
+                                                </option>
+                                                @foreach ($packagings as $packaging)
+                                                    <option data-packagingamount="{{ $packaging->price }}"
+                                                        value="{{ $packaging->id }}"
+                                                        {{ old('packaging_id', $parcel->packaging_id) == $packaging->id ? 'selected' : '' }}>
+                                                        {{ $packaging->name }} ( {{ number_format($packaging->price, 2) }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('packaging_id')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    @if (SettingHelper('fragile_liquid_status') == \App\Enums\Status::ACTIVE)
+                                        <tr>
+                                            <th class="wc-sheet-label" scope="row">{{ __('parcel.liquid_check_label') }}</th>
+                                            <td>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="fragileLiquid"
+                                                        data-amount="{{ SettingHelper('fragile_liquid_charge') }}"
+                                                        @if ($parcel->liquid_fragile_amount) checked @endif
+                                                        name="fragileLiquid" onclick="processCheck(this);">
+                                                    <label class="custom-control-label"
+                                                        for="fragileLiquid">{{ __('parcel.liquid_fragile') }}</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.note') }}</th>
+                                        <td>
+                                            <textarea id="note" name="note" class="form-control" rows="5">{{ old('note', $parcel->note) }}</textarea>
+                                            @error('note')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    {{-- ---------- Destinataire ---------- --}}
+                                    <tr class="wc-sheet-group">
+                                        <td colspan="2"><i class="fas fa-user"></i>Destinataire</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.customer_name') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <input id="customer_name" type="text" name="customer_name"
+                                                data-parsley-trigger="change" placeholder="{{ __('parcel.customer_name') }}"
+                                                autocomplete="off" class="form-control"
+                                                value="{{ old('customer_name', $parcel->customer_name) }}" required="">
+                                            @error('customer_name')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.customer_phone') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <input id="phone" type="text" name="customer_phone"
+                                                data-parsley-trigger="change" placeholder="{{ __('parcel.customer_phone') }}"
+                                                autocomplete="off" class="form-control"
+                                                value="{{ old('customer_phone', $parcel->customer_phone) }}" required="">
+                                            @error('customer_phone')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.customer_address') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <input type="hidden" id="lat" name="lat" required="" value="">
+                                            <input type="hidden" id="long" name="long" required="" value="">
+                                            <div class="main-search-input-item location location-search">
+                                                <div id="autocomplete-container" class="form-group random-search mb-0">
+                                                    <input id="autocomplete-input" type="text" name="customer_address"
+                                                        class="recipe-search2 form-control" placeholder="Location Here!"
+                                                        required="">
+                                                    <a href="javascript:void(0)" class="submit-btn btn current-location"
+                                                        id="locationIcon" onclick="getLocation()">
+                                                        <i class="fa fa-crosshairs"></i>
+                                                    </a>
+                                                    @error('customer_address')
+                                                        <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="form-group col-md-6" id="PackagingID">
-                                    <label for="packaging_id">{{ __('parcel.packaging') }}</label>
-                                    <select style="width: 100%" id="packaging_id" class="form-control"
-                                        name="packaging_id">
-                                        <option value=""> {{ __('menus.select') }} {{ __('parcel.packaging') }}
-                                        </option>
-                                        @foreach ($packagings as $packaging)
-                                            <option data-packagingamount="{{ $packaging->price }}"
-                                                value="{{ $packaging->id }}"
-                                                {{ old('packaging_id', $parcel->packaging_id) == $packaging->id ? 'selected' : '' }}>
-                                                {{ $packaging->name }} ( {{ number_format($packaging->price, 2) }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('packaging_id')
-                                        <small class="text-danger mt-2">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <input type="hidden" id="merchant_id" name="merchant_id"
-                                    value="{{ $merchant->id }}" />
-                                <input type="hidden" id="merchantVat" name="vat_tex"
-                                    value="{{ $parcel->vat ?? 0 }}" />
-                                <input type="hidden" id="merchantCodCharge" name="cod_charge"
-                                    value="{{ $parcel->cod_charge ?? 0 }}" />
-                                <input type="hidden" id="chargeDetails" name="chargeDetails" value="" />
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-12">
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" @if ($parcel->parcel_bank) checked @endif
-                                            name="parcel_bank" class="custom-control-input"><span
-                                            class="custom-control-label">{{ __('levels.parcel_bank') }}</span>
-                                    </label>
-                                </div>
-                            </div>
- 
-                            <h3 class="mt-2">Payment Method</h3>
-                            @error('parcel_payment_method')
-                                <p class="text-danger mt-2">{{ $message }}</p>
-                            @enderror
-                            <div class="row">
-                                <div class="col-md-2 col-6">
-                                    <input class="methodInput" type="radio" name="parcel_payment_method" id="cod"  value="{{ App\Enums\ParcelPaymentMethod::COD }}" @if ($parcel->parcel_payment_method == App\Enums\ParcelPaymentMethod::COD) checked @endif />
-                                    <label class="payment-method-box text-center d-block" for="cod">
-                                        <i class="fa fa-hand-holding-dollar" style="font-size:50px"></i>
-                                        <div class="mt-2">{{ __('ParcelPaymentMethod.'.App\Enums\ParcelPaymentMethod::COD) }}</div>
-                                    </label>
-                                </div>
-                                @if(auth()->user()->merchant->wallet_use_activation == App\Enums\Status::ACTIVE)    
-                                    <div class="col-md-2 col-6">
-                                        <input class="methodInput" type="radio" name="parcel_payment_method" id="prepaid" value="{{ App\Enums\ParcelPaymentMethod::PREPAID }}" @if ($parcel->parcel_payment_method == App\Enums\ParcelPaymentMethod::PREPAID) checked @endif/>
-                                        <label class="payment-method-box text-center d-block" for="prepaid">
-                                            <i class="fa fa-wallet" style="font-size:50px"></i>
-                                            <div class="mt-2">{{ __('ParcelPaymentMethod.'.App\Enums\ParcelPaymentMethod::PREPAID) }}</div>
-                                        </label>
-                                    </div>
-                                @endif
-                            </div>
+                                            <div class="wc-sheet-map mt-2">
+                                                <div id="googleMap" class="custom-map"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                            <div class="row mt-2">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  d-flex justify-content-end">
-                                    <button type="submit"
-                                        class="btn btn-space btn-primary">{{ __('levels.submit') }}</button>
-                                    <a href="{{ route('merchant-panel.parcel.index') }}"
-                                        class="btn btn-space btn-secondary">{{ __('levels.cancel') }}</a>
-                                </div>
-                            </div>
+                                    {{-- ---------- Paiement ---------- --}}
+                                    <tr class="wc-sheet-group">
+                                        <td colspan="2"><i class="fas fa-coins"></i>Paiement</td>
+                                    </tr>
 
-                        </form>
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.cash_collection') }} <span class="text-danger">*</span></th>
+                                        <td>
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control cash-collection" id="cash_collection"
+                                                    value="{{ old('cash_collection', $parcel->cash_collection) }}"
+                                                    name="cash_collection"
+                                                    placeholder="{{ __('parcel.Cash_amount_including_delivery_charge') }}"
+                                                    required="">
+                                                @error('cash_collection')
+                                                    <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.selling_price') }}</th>
+                                        <td>
+                                            <div class="form-control-wrap">
+                                                <input type="text" class="form-control cash-collection" id="selling_price"
+                                                    value="{{ old('selling_price', $parcel->selling_price) }}"
+                                                    name="selling_price"
+                                                    placeholder="{{ __('parcel.Selling_price_of_parcel') }}">
+                                                @error('selling_price')
+                                                    <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('parcel.invoice') }}</th>
+                                        <td>
+                                            <input id="invoice_no" type="text" name="invoice_no"
+                                                data-parsley-trigger="change"
+                                                placeholder="{{ __('parcel.enter_invoice_number') }}" autocomplete="off"
+                                                class="form-control" value="{{ old('invoice_no', $parcel->invoice_no) }}">
+                                            @error('invoice_no')
+                                                <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                            @enderror
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">Méthode de paiement <span class="text-danger">*</span></th>
+                                        <td>
+                                            @error('parcel_payment_method')
+                                                <small class="text-danger d-block mb-2">{{ $message }}</small>
+                                            @enderror
+                                            <div class="d-flex gap-3 flex-wrap">
+                                                <div>
+                                                    <input class="methodInput" type="radio" name="parcel_payment_method" id="cod" value="{{ App\Enums\ParcelPaymentMethod::COD }}" @if ($parcel->parcel_payment_method == App\Enums\ParcelPaymentMethod::COD) checked @endif />
+                                                    <label class="payment-method-box text-center d-block" for="cod">
+                                                        <i class="fa fa-hand-holding-dollar" style="font-size:34px"></i>
+                                                        <div class="mt-1">{{ __('ParcelPaymentMethod.'.App\Enums\ParcelPaymentMethod::COD) }}</div>
+                                                    </label>
+                                                </div>
+                                                @if(auth()->user()->merchant->wallet_use_activation == App\Enums\Status::ACTIVE)
+                                                    <div>
+                                                        <input class="methodInput" type="radio" name="parcel_payment_method" id="prepaid" value="{{ App\Enums\ParcelPaymentMethod::PREPAID }}" @if ($parcel->parcel_payment_method == App\Enums\ParcelPaymentMethod::PREPAID) checked @endif/>
+                                                        <label class="payment-method-box text-center d-block" for="prepaid">
+                                                            <i class="fa fa-wallet" style="font-size:34px"></i>
+                                                            <div class="mt-1">{{ __('ParcelPaymentMethod.'.App\Enums\ParcelPaymentMethod::PREPAID) }}</div>
+                                                        </label>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="wc-sheet-label" scope="row">{{ __('levels.parcel_bank') }}</th>
+                                        <td>
+                                            <label class="custom-control custom-checkbox mb-0">
+                                                <input type="checkbox" @if ($parcel->parcel_bank) checked @endif
+                                                    name="parcel_bank" class="custom-control-input"><span
+                                                    class="custom-control-label">{{ __('levels.parcel_bank') }}</span>
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="px-5 py-4 bg-[#fafbfc] border-t border-wc-border flex items-center justify-end gap-2">
+                            <a href="{{ route('merchant-panel.parcel.index') }}" class="wc-btn wc-btn-outline">
+                                <i class="fas fa-times text-[12px]"></i> {{ __('levels.cancel') }}
+                            </a>
+                            <button type="submit" class="wc-btn wc-btn-primary">
+                                <i class="fas fa-clone text-[12px]"></i> {{ __('levels.duplicate') }}
+                            </button>
+                        </div>
                     </div>
-                </div>
+
+                    <input type="hidden" id="merchant_id" name="merchant_id" value="{{ $merchant->id }}" />
+                    <input type="hidden" id="merchantVat" name="vat_tex" value="{{ $parcel->vat ?? 0 }}" />
+                    <input type="hidden" id="merchantCodCharge" name="cod_charge" value="{{ $parcel->cod_charge ?? 0 }}" />
+                    <input type="hidden" id="chargeDetails" name="chargeDetails" value="" />
+                </form>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="pageheader-title">{{ __('parcel.charge_details') }}</h2>
 
-                        <ul class="list-group">
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                <span class="float-right">{{ __('levels.amount') }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Cash_Collection') }}</span>
-                                <span class="float-right"
-                                    id="totalCashCollection">{{ $parcel->cash_collection ?? '0.00' }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Delivery_Charge') }}</span>
-                                <span class="float-right"
-                                    id="deliveryChargeAmount">{{ $parcel->delivery_charge ?? '0.00' }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('reports.COD_Charge') }}</span>
-                                <span class="float-right"
-                                    id="codChargeAmount">{{ $parcel->cod_amount ?? '0.00' }}</span>
-                            </li>
-
-
-                            <li class="list-group-item profile-list-group-item hideShowLiquidFragile">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Liquid/Fragile_Charge') }}</span>
-                                <span class="float-right"
-                                    id="liquidFragileAmount">{{ $parcel->liquid_fragile_amount ?? '0.00' }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item" id="packagingShow">
-                                <span class="float-left font-weight-bold">{{ __('reports.P.Charge') }}</span>
-                                <span class="float-right"
-                                    id="packagingAmount">{{ $parcel->packaging_amount ?? '0.00' }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Total_Charge') }}</span>
-                                <span class="float-right"
-                                    id="totalDeliveryChargeAmount">{{ $parcel->total_delivery_amount ?? '0.00' }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Vat') }}</span>
-                                <span class="float-right" id="VatAmount">{{ $parcel->vat_amount ?? '0.00' }}</span>
-                            </li>
-
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Net_Payable') }}</span>
-                                <span class="float-right" id="netPayable">
-                                    {{ $parcel->total_delivery_amount + $parcel->vat_amount }}</span>
-                            </li>
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('parcel.Current_payable') }}</span>
-                                <span class="float-right"
-                                    id="currentPayable">{{ $parcel->current_payable ?? '0.00' }}</span>
-                            </li>
-                        </ul>
+            {{-- Récapitulatif des frais --}}
+            <div class="xl:col-span-1">
+                <div class="wc-card overflow-hidden xl:sticky xl:top-5">
+                    <div class="wc-card-header">
+                        <div class="wc-card-icon bg-[#eef1f5] text-[#475569]">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div>
+                            <h3 class="wc-card-title">{{ __('parcel.charge_details') }}</h3>
+                            <p class="text-[12px] text-wc-muted m-0">Mis à jour automatiquement</p>
+                        </div>
                     </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('levels.title') }}</span>
+                            <span class="float-right font-weight-bold">{{ __('levels.amount') }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Cash_Collection') }}</span>
+                            <span class="float-right wc-tabular" id="totalCashCollection">{{ $parcel->cash_collection ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Delivery_Charge') }}</span>
+                            <span class="float-right wc-tabular" id="deliveryChargeAmount">{{ $parcel->delivery_charge ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('reports.COD_Charge') }}</span>
+                            <span class="float-right wc-tabular" id="codChargeAmount">{{ $parcel->cod_amount ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item hideShowLiquidFragile">
+                            <span class="font-weight-bold">{{ __('parcel.Liquid/Fragile_Charge') }}</span>
+                            <span class="float-right wc-tabular" id="liquidFragileAmount">{{ $parcel->liquid_fragile_amount ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item" id="packagingShow">
+                            <span class="font-weight-bold">{{ __('reports.P.Charge') }}</span>
+                            <span class="float-right wc-tabular" id="packagingAmount">{{ $parcel->packaging_amount ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Total_Charge') }}</span>
+                            <span class="float-right wc-tabular" id="totalDeliveryChargeAmount">{{ $parcel->total_delivery_amount ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Vat') }}</span>
+                            <span class="float-right wc-tabular" id="VatAmount">{{ $parcel->vat_amount ?? '0.00' }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Net_Payable') }}</span>
+                            <span class="float-right wc-tabular" id="netPayable">{{ $parcel->total_delivery_amount + $parcel->vat_amount }}</span>
+                        </li>
+                        <li class="list-group-item profile-list-group-item">
+                            <span class="font-weight-bold">{{ __('parcel.Current_payable') }}</span>
+                            <span class="float-right wc-tabular" id="currentPayable">{{ $parcel->current_payable ?? '0.00' }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 @endsection()
+
 @push('styles')
     <style>
         .main-search-input-item {
@@ -454,7 +508,8 @@
 
         .custom-map {
             width: 100%;
-            height: 17rem;
+            height: 100%;
+            min-height: 210px;
         }
 
         .pac-container {
@@ -463,6 +518,26 @@
             left: 0px !important;
             top: 28px !important;
         }
+
+        .wc-sheet-map { height: 210px; }
+
+        .wc-sheet .payment-method-box {
+            min-width: 130px;
+            padding: 12px 16px;
+            border: 1px solid #dfe3e9;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: all .15s ease;
+            margin-bottom: 0;
+        }
+        .wc-sheet .payment-method-box:hover { border-color: #94a3b8; background: #fafbfc; }
+        .wc-sheet .methodInput:checked + .payment-method-box {
+            border-color: var(--wc-primary);
+            background: var(--wc-primary-soft);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, .12);
+        }
+        .wc-sheet .methodInput { position: absolute; opacity: 0; }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush

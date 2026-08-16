@@ -3,219 +3,174 @@
     {{ __('reports.title') }} {{ __('reports.parcel_total_summery') }}
 @endsection
 @section('maincontent')
-<!-- wrapper  -->
-<div class="container-fluid  dashboard-content">
-    <!-- pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="page-header">
-                <div class="page-breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('reports.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">{{ __('reports.title') }}</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('parcel.reports') }}" class="breadcrumb-link">{{ __('reports.parcel_total_summery') }}</a></li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+<div class="container-fluid dashboard-content">
+
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('reports.parcel_total_summery') }}</h1>
+            <p class="wc-page-subtitle">{{ __('reports.title') }} · synthèse financière en FCFA</p>
         </div>
     </div>
-    <!-- end pageheader -->
-    <div class="row">
-        <!-- data table  -->
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{route('merchant.parcel.filter.total.summery')}}"  method="GET">
-                        @csrf
-                        <div class="row">
-                            <div class="form-group"  >
-                                <div class="d-flex col-12 col-md-12 col-lg-8 col-sm-12">
-                                    <input type="text" autocomplete="off" id="date" name="parcel_date" placeholder="Enter Date" class="form-control date_range_picker group-input w-50" value="{{ old('parcel_date',$request->parcel_date) }}">
-                                    <button type="submit" class="btn btn-space btn-primary group-btn ml-0"><i class="fa fa-filter"></i> {{ __('levels.filter') }}</button>
-                                    <a href="{{ route('parcel.total.summery.index') }}" class="btn btn-space btn-secondary"><i class="fa fa-eraser"></i> {{ __('levels.clear') }}</a>
-                                </div>
-                                @error('parcel_date')
-                                <small class="text-danger mt-2">{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="form-group d-inline-block   pt-1">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 pl-0 col-12 pt-4 d-flex justify-content">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+
+    {{-- Filtre --}}
+    <div class="wc-filter">
+        <form action="{{route('merchant.parcel.filter.total.summery')}}" method="GET" class="m-0">
+            @csrf
+            <div class="flex items-end gap-2 flex-wrap">
+                <div class="wc-form-group m-0 flex-1 min-w-[240px] max-w-[380px]">
+                    <label class="wc-label" for="date">{{ __('parcel.date') }}</label>
+                    <input type="text" autocomplete="off" id="date" name="parcel_date" placeholder="{{ __('merchantPlaceholder.date') }}" class="wc-input date_range_picker" value="{{ old('parcel_date',$request->parcel_date) }}">
+                    @error('parcel_date')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
+                </div>
+                <button type="submit" class="wc-btn wc-btn-primary"><i class="fa fa-filter text-[12px]"></i> {{ __('levels.filter') }}</button>
+                <a href="{{ route('parcel.total.summery.index') }}" class="wc-btn wc-btn-outline"><i class="fa fa-eraser text-[12px]"></i> {{ __('levels.clear') }}</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+        @if(!blank($parcelsStatus))
+        <div class="wc-card">
+            <div class="wc-card-header !min-h-[54px] !py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="wc-card-icon !w-9 !h-9 bg-wc-primary-soft text-wc-primary"><i class="fas fa-box-open"></i></div>
+                    <h3 class="wc-card-title">{{__('parcel.title')}} {{ __('levels.status') }}</h3>
                 </div>
             </div>
-            <div class="row">
-                @if(!blank($parcelsStatus))
-                <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="card card-height">
-                        <span class="card-header pb-1">
-                                <p class="float-left mb-0 ont-16 font-weight-bold">{{__('parcel.title')}} {{ __('levels.status') }}</p>
-                          </span>
-                        <ul class="list-group m-2">
-                            <li class="list-group-item profile-list-group-item">
-                                <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                <span class="float-right">{{  __('reports.count') }}</span>
-                            </li>
-                            @foreach($parcelsStatus as $key=>$parcelCount)
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ trans("parcelStatus." . $key) }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{ $parcelCount->count() }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
+            <div class="p-4 space-y-2">
+                @foreach($parcelsStatus as $key=>$parcelCount)
+                    <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                        <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ trans("parcelStatus." . $key) }}</span>
+                        <span class="wc-badge wc-badge-neutral wc-tabular">{{ $parcelCount->count() }}</span>
                     </div>
-                </div>
-                @endif
-                @if(!blank($parcels))
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <div class="card card-height">
-                            <span class="card-header pb-1">
-                                <p class="float-left mb-0 ont-16 font-weight-bold">{{__('reports.profit_info')}}</p>
-                            </span>
-                            <ul class="list-group m-2">
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                    <span class="float-right">{{ __('levels.amount') }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_Delivery_Charge')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['totalDeliveryCharge'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.COD_Charge')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['totalCOD'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_Vat')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['totalVat'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.F./L.Charge')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['totalLiquidFragileAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.P.Charge')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['packagingAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_Profit')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelsTotal['totalCashCollection'] - $parcelsTotal['totalSellingPrice'],2) }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <div class="card card-height">
-                            <span class="card-header pb-1">
-                                <p class="float-left mb-0 ont-16 font-weight-bold">{{__('reports.Cash_Collection_Info')}}</p>
-                            </span>
-                            <ul class="list-group m-2">
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                    <span class="float-right">{{ __('levels.amount') }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('dashboard.total_cash_collection')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelsTotal['totalCashCollection'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('dashboard.total_selling_price')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelsTotal['totalSellingPrice'],2) }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <div class="card card-height">
-                            <span class="card-header pb-1">
-                                <p class="float-left mb-0 ont-16 font-weight-bold">{{__('reports.Payable_to_Merchant')}}</p>
-                            </span>
-                            <ul class="list-group m-2">
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                    <span class="float-right">{{ __('reports.amount') }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_payable_merchant(COD)')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelsTotal['totalPaybleAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_paid_to_merchant(with Pending)')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format(0,2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_paid_by_Merchant')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($merchantTotalPayment['paidAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_Delivery_Charge(Including VAT)')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelProfit['totalDeliveryChargeVat'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Pending_Payments')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($merchantTotalPayment['pendingAmount'],2) }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-8 col-lg-12 col-md-12">
-                        <div class="card card-height">
-                            <span class="card-header pb-1">
-                                <p class="float-left mb-0 ont-16 font-weight-bold">{{__('reports.Bank_Cash_Info')}}</p>
-                            </span>
-                            <ul class="list-group m-2">
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('levels.title') }}</span>
-                                    <span class="float-right">{{ __('reports.amount') }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.total_paid_to_merchant')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($merchantTotalPayment['paidAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Pending_Payments')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($merchantTotalPayment['pendingAmount'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Total_bank_opening_balance')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}} {{ number_format($parcelsTotal['totalBankOpeningBalance'],2) }}</span>
-                                </li>
-                                <li class="list-group-item profile-list-group-item">
-                                    <span class="float-left font-weight-bold">{{ __('reports.Current_Cash_Balance')  }}</span>
-                                    <span class="float-right" id="totalCashCollection">{{settings()->currency}}  {{ number_format($parcelsTotal['totalBankBalance'],2) }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                @endif
+                @endforeach
             </div>
         </div>
-        <!-- end data table  -->
+        @endif
+
+        @if(!blank($parcels))
+        <div class="wc-card">
+            <div class="wc-card-header !min-h-[54px] !py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="wc-card-icon !w-9 !h-9 bg-wc-primary-soft text-wc-primary"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="wc-card-title">{{__('reports.profit_info')}}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2">
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_Delivery_Charge') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['totalDeliveryCharge']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.COD_Charge') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['totalCOD']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_Vat') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['totalVat']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.F./L.Charge') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['totalLiquidFragileAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.P.Charge') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['packagingAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-2">
+                    <span class="text-[12.5px] font-extrabold text-wc-ink">{{ __('reports.Total_Profit') }}</span>
+                    <span class="text-[14px] font-extrabold text-wc-success wc-tabular">{{ formatPrice($parcelsTotal['totalCashCollection'] - $parcelsTotal['totalSellingPrice']) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wc-card">
+            <div class="wc-card-header !min-h-[54px] !py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="wc-card-icon !w-9 !h-9 bg-wc-primary-soft text-wc-primary"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3 class="wc-card-title">{{__('reports.Cash_Collection_Info')}}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2">
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('dashboard.total_cash_collection') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelsTotal['totalCashCollection']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('dashboard.total_selling_price') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelsTotal['totalSellingPrice']) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wc-card">
+            <div class="wc-card-header !min-h-[54px] !py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="wc-card-icon !w-9 !h-9 bg-wc-primary-soft text-wc-primary"><i class="fas fa-money-bill-wave"></i></div>
+                    <h3 class="wc-card-title">{{__('reports.Payable_to_Merchant')}}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2">
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_payable_merchant(COD)') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelsTotal['totalPaybleAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_paid_to_merchant(with Pending)') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice(0) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_paid_by_Merchant') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($merchantTotalPayment['paidAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_Delivery_Charge(Including VAT)') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelProfit['totalDeliveryChargeVat']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-2">
+                    <span class="text-[12.5px] font-extrabold text-wc-ink">{{ __('reports.Pending_Payments') }}</span>
+                    <span class="text-[14px] font-extrabold text-wc-warning wc-tabular">{{ formatPrice($merchantTotalPayment['pendingAmount']) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wc-card lg:col-span-2 xl:col-span-4">
+            <div class="wc-card-header !min-h-[54px] !py-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="wc-card-icon !w-9 !h-9 bg-wc-primary-soft text-wc-primary"><i class="fas fa-landmark"></i></div>
+                    <h3 class="wc-card-title">{{__('reports.Bank_Cash_Info')}}</h3>
+                </div>
+            </div>
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.total_paid_to_merchant') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($merchantTotalPayment['paidAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Pending_Payments') }}</span>
+                    <span class="text-[13px] font-bold text-wc-warning wc-tabular">{{ formatPrice($merchantTotalPayment['pendingAmount']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-semibold text-wc-ink-2">{{ __('reports.Total_bank_opening_balance') }}</span>
+                    <span class="text-[13px] font-bold text-wc-ink wc-tabular">{{ formatPrice($parcelsTotal['totalBankOpeningBalance']) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 py-1.5 border-b border-wc-border last:border-0">
+                    <span class="text-[12.5px] font-extrabold text-wc-ink">{{ __('reports.Current_Cash_Balance') }}</span>
+                    <span class="text-[14px] font-extrabold text-wc-success wc-tabular">{{ formatPrice($parcelsTotal['totalBankBalance']) }}</span>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
-<!-- end wrapper  -->
 @endsection()
-<!-- css  -->
+
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <style>
-        #selectAssignType .select2-container .select2-selection--single {
-        height: 32px !important;
-    }
-    </style>
 @endpush
-<!-- js  -->
+
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script type="text/javascript" src="{{ static_asset('backend/js/date-range-picker/date-range-picker-custom.js') }}"></script>
     <script>
@@ -229,7 +184,4 @@
     <script src="{{ static_asset('backend/js/reports/print.js') }}"></script>
     <script src="{{ static_asset('backend/js/reports/jquery.table2excel.min.js') }}"></script>
     <script src="{{ static_asset('backend/js/reports/reports.js') }}"></script>
- @endpush
-
-
-
+@endpush

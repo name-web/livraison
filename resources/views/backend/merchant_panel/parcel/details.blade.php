@@ -3,150 +3,112 @@
     {{ __('parcel.title') }} {{ __('levels.view') }}
 @endsection
 @section('maincontent')
-<!-- wrapper  -->
-<div class="container-fluid  dashboard-content">
-    <!-- pageheader -->
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="page-header">
-                <div class="page-breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}" class="breadcrumb-link">{{ __('levels.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('merchant-panel.parcel.index')}}" class="breadcrumb-link">{{ __('parcel.title') }}</a></li>
-                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link active">{{__('levels.details')}}</a></li>
-                        </ol>
-                    </nav>
+<div class="container-fluid dashboard-content">
+
+    {{-- Page header --}}
+    <div class="wc-page-header">
+        <div>
+            <h1 class="wc-page-title">{{ __('invoice.invoice') }} · #{{ @$parcel->invoice_no }}</h1>
+            <p class="wc-page-subtitle">{{ __('levels.details') }} du colis {{ @$parcel->tracking_id }}</p>
+        </div>
+        <div class="wc-toolbar">
+            <a href="{{route('merchant-panel.parcel.index')}}" class="wc-btn wc-btn-outline wc-btn-sm"><i class="fas fa-arrow-left text-[12px]"></i> {{ __('levels.back') }}</a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {{-- Cash on delivery --}}
+        <div class="wc-card">
+            <div class="wc-card-header">
+                <div class="flex items-center gap-3">
+                    <div class="wc-card-icon bg-wc-primary-soft text-wc-primary"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3 class="wc-card-title">{{ __('levels.cash_on_delivery') }}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2.5">
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.delivery_fee')}}</span>
+                    <span class="font-bold text-wc-ink wc-tabular">{{ formatPrice(($parcel->total_delivery_amount - $parcel->cod_amount)) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.cod')}}</span>
+                    <span class="font-bold text-wc-ink wc-tabular">{{ formatPrice(@$parcel->cod_amount) }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13.5px]">
+                    <strong class="text-wc-ink">{{__('levels.total_cost')}}</strong>
+                    <strong class="text-wc-primary wc-tabular">{{ formatPrice(@$parcel->total_delivery_amount) }}</strong>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end pageheader -->
-    <div class="row">
-        <!-- data table  -->
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="h4">{{ __('invoice.invoice') }} : #{{ @$parcel->invoice_no }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="h4">{{ __('levels.cash_on_delivery') }}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table    table-sm">
-                                    <tbody>
-                                        <tr>
-                                            <td>{{__('levels.delivery_fee')}}</td>
-                                            <td>{{ settings()->currency }} {{@number_format(($parcel->total_delivery_amount - $parcel->cod_amount),2)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.cod')}}</td>
-                                            <td>{{@$parcel->cod_amount}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  ><strong>{{__('levels.total_cost')}}</strong></td>
-                                            <td  ><strong>{{ settings()->currency }} {{@$parcel->total_delivery_amount}}</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="h4">{{ __('levels.delivery_info') }}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table    table-sm">
-                                    <tbody>
-                                        <tr>
-                                            <td>{{__('levels.delivery_type')}}</td>
-                                            <td>
-                                                {{ @$parcel->delivery_type_name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.weight')}}</td>
-                                            <td>{{@$parcel->weight}} {{@$parcel->deliveryCategory->title}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.amount_to_collect')}}</td>
-                                            <td>{{@$parcel->cash_collection}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="h4">{{ __('levels.sender_info') }}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table    table-sm">
 
-                                    <tbody>
-                                        <tr>
-                                            <td>{{__('levels.business_name')}}</td>
-                                            <td>
-                                                {{ @$parcel->merchant->business_name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.mobile')}}</td>
-                                            <td> {{@$parcel->merchant->user->mobile}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.email')}}</td>
-                                            <td>{{@$parcel->merchant->user->email}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+        {{-- Delivery info --}}
+        <div class="wc-card">
+            <div class="wc-card-header">
+                <div class="flex items-center gap-3">
+                    <div class="wc-card-icon bg-wc-primary-soft text-wc-primary"><i class="fas fa-truck"></i></div>
+                    <h3 class="wc-card-title">{{ __('levels.delivery_info') }}</h3>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="h4">{{ __('levels.recipient_info') }}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table  table-sm">
-                                    <tbody>
-                                        <tr>
-                                            <td>{{__('levels.name')}}</td>
-                                            <td>
-                                                {{ @$parcel->customer_name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.phone')}}</td>
-                                            <td> {{@$parcel->customer_phone}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{__('levels.address')}}</td>
-                                            <td>{{@$parcel->customer_address}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="p-4 space-y-2.5">
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.delivery_type')}}</span>
+                    <span class="font-bold text-wc-ink">{{ @$parcel->delivery_type_name }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.weight')}}</span>
+                    <span class="font-bold text-wc-ink">{{@$parcel->weight}} {{@$parcel->deliveryCategory->title}}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13.5px]">
+                    <strong class="text-wc-ink">{{__('levels.amount_to_collect')}}</strong>
+                    <strong class="text-wc-primary wc-tabular">{{ formatPrice(@$parcel->cash_collection) }}</strong>
+                </div>
+            </div>
+        </div>
+
+        {{-- Sender info --}}
+        <div class="wc-card">
+            <div class="wc-card-header">
+                <div class="flex items-center gap-3">
+                    <div class="wc-card-icon bg-wc-primary-soft text-wc-primary"><i class="fas fa-user-tie"></i></div>
+                    <h3 class="wc-card-title">{{ __('levels.sender_info') }}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2.5">
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.business_name')}}</span>
+                    <span class="font-bold text-wc-ink text-right">{{ @$parcel->merchant->business_name }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.mobile')}}</span>
+                    <span class="font-bold text-wc-ink wc-tabular">{{ @$parcel->merchant->user->mobile }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px]">
+                    <span class="text-wc-muted">{{__('levels.email')}}</span>
+                    <span class="font-bold text-wc-ink text-right break-all">{{ @$parcel->merchant->user->email }}</span>
+                </div>
+            </div>
+        </div>
+
+        {{-- Recipient info --}}
+        <div class="wc-card">
+            <div class="wc-card-header">
+                <div class="flex items-center gap-3">
+                    <div class="wc-card-icon bg-wc-primary-soft text-wc-primary"><i class="fas fa-user"></i></div>
+                    <h3 class="wc-card-title">{{ __('levels.recipient_info') }}</h3>
+                </div>
+            </div>
+            <div class="p-4 space-y-2.5">
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.name')}}</span>
+                    <span class="font-bold text-wc-ink text-right">{{ @$parcel->customer_name }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px] border-b border-wc-border pb-2.5">
+                    <span class="text-wc-muted">{{__('levels.phone')}}</span>
+                    <span class="font-bold text-wc-ink wc-tabular">{{ @$parcel->customer_phone }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3 text-[13px]">
+                    <span class="text-wc-muted">{{__('levels.address')}}</span>
+                    <span class="font-bold text-wc-ink text-right">{{ @$parcel->customer_address }}</span>
                 </div>
             </div>
         </div>
