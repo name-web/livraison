@@ -3,7 +3,7 @@
     {{ __('merchant.merchant_dashboard') }}
 @endsection
 @section('maincontent')
-<div class="container-fluid dashboard-content">
+<div class="container-fluid dashboard-content wc-dash-content">
     {{-- Filter form (server-side PRG) --}}
     <form action="{{ route('merchant-panel.dashboard.filter') }}" method="POST" id="wcFilterForm" class="hidden">
         @csrf

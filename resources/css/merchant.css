@@ -193,6 +193,22 @@ body.wc-merchant main.dashboard-ecommerce {
     margin-top: 64px;
 }
 
+/* --- Contenu marchand centré ---
+   Toutes les pages marchand sont centrées à 1440px max.
+   Le dashboard (wc-dash-content) reste pleine largeur (fond sombre) :
+   son contenu React est centré en interne. */
+
+body.wc-merchant .dashboard-content:not(.wc-dash-content) {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+body.wc-merchant .wc-dash-content {
+    padding: 0;
+}
+
 /* --- Neutralisation du décalage hérité du thème admin ---
    Le shell marchand décale déjà via padding-left sur <main> :
    les marges/espaces du thème admin (main-content, dashboard-main-wrapper)

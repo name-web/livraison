@@ -27,9 +27,9 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
     const paidShare = paymentsTotal > 0 ? Math.min((parseFloat(payments.paid) / paymentsTotal) * 100, 100) : 0;
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-5 h-full flex flex-col">
             {/* Solde */}
-            <div className="wc-card overflow-hidden">
+            <div className="wc-card overflow-hidden flex-1 flex flex-col">
                 <div className="wc-card-header">
                     <div className="wc-card-icon" style={{ background: 'rgba(148,163,184,.14)', color: '#cbd5e1' }}>
                         <i className="fas fa-wallet"></i>
@@ -61,14 +61,14 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <span className="text-[14.5px] font-extrabold text-wc-ink wc-tabular">{formatPrice(merchant.vat)}</span>
                     </div>
                 </div>
-                <div className="px-5 py-3 text-[12.5px] text-wc-muted border-t border-wc-border" style={{ background: 'rgba(255,255,255,.03)' }}>
+                <div className="px-5 py-3 text-[12.5px] text-wc-muted border-t border-wc-border mt-auto" style={{ background: 'rgba(255,255,255,.03)' }}>
                     <i className="fas fa-info-circle mr-1.5 text-wc-muted-2"></i>
                     Le solde wallet est utilisé pour les envois en prépaiement.
                 </div>
             </div>
 
             {/* Aperçu de la période */}
-            <div className="wc-card overflow-hidden">
+            <div className="wc-card overflow-hidden flex-1 flex flex-col">
                 <div className="wc-card-header">
                     <div className="wc-card-icon" style={{ background: 'rgba(245,158,11,.14)', color: '#fbbf24' }}>
                         <i className="fas fa-chart-bar"></i>
@@ -78,7 +78,7 @@ export default function FinanceSection({ amounts, sales, payments, merchant, for
                         <p className="text-[12px] text-wc-muted m-0">Encaissements et ventes</p>
                     </div>
                 </div>
-                <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 content-start">
                     <StatTile icon="fa-hand-holding-usd" label="Encaissements" value={formatPrice(amounts.cash_collection)} />
                     <StatTile icon="fa-tags" label="Prix de vente" value={formatPrice(amounts.selling_price)} />
                     <StatTile icon="fa-chart-simple" label="Marge" value={formatPrice(margin)} accent />
