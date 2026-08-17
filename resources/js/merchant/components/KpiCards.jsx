@@ -23,24 +23,24 @@ function useCountUp(target, duration = 900) {
     return count;
 }
 
-function Tile({ icon, iconBg, iconColor, label, value, url, delay, money, formatPrice }) {
+function Tile({ icon, grad, g1, g2, label, value, url, delay, money, formatPrice }) {
     const count = useCountUp(value);
 
     return (
         <a
             href={url}
-            className="wc-kpi group"
-            style={{ animationDelay: `${delay}s` }}
+            className="wcp-kpi"
+            style={{ animationDelay: `${delay}s`, '--g1': g1, '--g2': g2 }}
         >
             <div className="flex items-center justify-between gap-3 w-full">
-                <div className="wc-kpi-icon" style={{ background: iconBg, color: iconColor }}>
+                <div className={`wcp-kpi-ic ${grad}`}>
                     <i className={`fas ${icon}`}></i>
                 </div>
-                <p className="text-[12px] text-wc-muted font-bold m-0 leading-tight truncate text-right">
+                <p className="wcp-kpi-label truncate text-right">
                     {label}
                 </p>
             </div>
-            <p className="wc-kpi-value">
+            <p className="wcp-kpi-value">
                 {money ? formatPrice(Math.round(count)) : Math.round(count).toLocaleString('fr-FR')}
             </p>
         </a>
@@ -52,6 +52,7 @@ export default function KpiCards({ counts, amounts, sales, merchant, urls, forma
 
     const moneyKpis = [
         {
+<<<<<<< HEAD
             icon: 'fa-hand-holding-usd', iconBg: '#ecfdf5', iconColor: '#059669',
             label: 'Encaissements', value: amounts.cash_collection, url: urls.statements, money: true,
         },
@@ -61,17 +62,37 @@ export default function KpiCards({ counts, amounts, sales, merchant, urls, forma
         },
         {
             icon: 'fa-chart-simple', iconBg: '#f5f3ff', iconColor: '#7c3aed',
+=======
+            icon: 'fa-hand-holding-usd', grad: 'g-emerald', g1: '#34d399', g2: '#059669',
+            label: 'Encaissements', value: amounts.cash_collection, url: urls.statements, money: true,
+        },
+        {
+            icon: 'fa-coins', grad: 'g-blue', g1: '#60a5fa', g2: '#2563eb',
+            label: 'Solde net', value: sales.net, url: urls.wallet, money: true,
+        },
+        {
+            icon: 'fa-chart-simple', grad: 'g-violet', g1: '#a78bfa', g2: '#7c3aed',
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
             label: 'Marge', value: margin, url: urls.transaction, money: true,
         },
     ];
 
     const volumeKpis = [
+<<<<<<< HEAD
         { icon: 'fa-box', iconBg: '#eef1f5', iconColor: '#334155', label: 'Total colis', value: counts.total, url: urls.parcelIndex },
         { icon: 'fa-clock', iconBg: '#fffbeb', iconColor: '#d97706', label: 'En attente', value: counts.pending, url: urls.parcelIndex },
         { icon: 'fa-truck', iconBg: '#eff6ff', iconColor: '#2563eb', label: 'En cours', value: counts.on_going, url: urls.parcelIndex },
         { icon: 'fa-check-circle', iconBg: '#ecfdf5', iconColor: '#059669', label: 'Livrés', value: counts.delivered, url: urls.parcelIndex },
         { icon: 'fa-hand-holding-usd', iconBg: '#f5f3ff', iconColor: '#7c3aed', label: 'Partiels', value: counts.partial, url: urls.parcelIndex },
         { icon: 'fa-undo', iconBg: '#fef2f2', iconColor: '#dc2626', label: 'Retournés', value: counts.returned, url: urls.parcelIndex },
+=======
+        { icon: 'fa-box', grad: 'g-slate', g1: '#94a3b8', g2: '#475569', label: 'Total colis', value: counts.total, url: urls.parcelIndex },
+        { icon: 'fa-clock', grad: 'g-amber', g1: '#fbbf24', g2: '#d97706', label: 'En attente', value: counts.pending, url: urls.parcelIndex },
+        { icon: 'fa-truck', grad: 'g-blue', g1: '#60a5fa', g2: '#2563eb', label: 'En cours', value: counts.on_going, url: urls.parcelIndex },
+        { icon: 'fa-check-circle', grad: 'g-emerald', g1: '#34d399', g2: '#059669', label: 'Livrés', value: counts.delivered, url: urls.parcelIndex },
+        { icon: 'fa-hand-holding-usd', grad: 'g-violet', g1: '#a78bfa', g2: '#7c3aed', label: 'Partiels', value: counts.partial, url: urls.parcelIndex },
+        { icon: 'fa-undo', grad: 'g-rose', g1: '#fb7185', g2: '#e11d48', label: 'Retournés', value: counts.returned, url: urls.parcelIndex },
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
     ];
 
     return (

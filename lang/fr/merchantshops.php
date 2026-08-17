@@ -12,6 +12,7 @@ return [
         'update_msg'        => 'Point de ramassage mis à jour avec succès.',
         'delete_msg'        => 'Point de ramassage supprimé avec succès.',
         'error_msg'         => 'Un problème est survenu.',
+        'contact_ivorian'   => 'Le contact doit être sous cette forme (ex : 07 01 02 03 04).',
         'active'            => 'Actif',
         'inactive'          => 'Inactif',
         'add_default'       => 'Ajouter par défaut',

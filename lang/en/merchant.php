@@ -110,6 +110,8 @@ return array (
   'invalid_otp'              =>  'Invalid OTP',
   'cash'                     => 'Cash',
   'wallet' => 'Wallet',
-  
+  'mobile_required'          => 'The phone number is required.',
+  'mobile_regex'            => 'The number must be a valid 10-digit Ivorian number.',
+  'mobile_unique'           => 'This phone number is already in use.'
 
 );

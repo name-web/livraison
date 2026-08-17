@@ -87,6 +87,6 @@ return [
             '10' => 500,
         ],
     ],
-    'api_key' => '123456rx-ecourier123456'
+    'api_key' => env('RXCOURIER_API_KEY', '123456rx-ecourier123456')
 
 ];

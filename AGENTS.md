@@ -1,38 +1,42 @@
-# AGENTS.md
+# Repository Guidelines
 
-WeCourier v1.8 (CodeCanyon) — courier & logistics CMS on Laravel 12 (PHP ^8.3, MySQL). CodeCanyon product code; the root README is the stock Laravel one and contains no project info.
+WeCourier v1.8 (CodeCanyon) — courier & logistics CMS on Laravel 12 (PHP ^8.3, MySQL). The root README is the stock Laravel one and contains no project info.
 
-## Setup / install gate
+## Project Structure & Module Organization
 
-- The app is installer-driven: `IsInstalledMiddleware` redirects to `/install` unless `APP_INSTALLED=yes` in `.env` AND `settings`, `general_settings`, `users` tables exist. The installer (routes/web.php:127) verifies a purchase code against the Envato API, writes `.env` via `geo-sot/laravel-env-editor`, then runs `migrate:refresh --seed`.
-- Dev database: MySQL `courierdb` (see local `.env`, user `kamal`). Normal setup is `php artisan migrate` + `php artisan db:seed`. `database/database.sql` (2950 lines) is the full-schema dump used for manual/hosting imports — don't treat it as source of truth.
-- Default seeded login: `admin@wemaxdevs.com` / `12345678` (database/seeders/UserSeeder.php).
+- **Controllers by panel**: `app/Http/Controllers/Backend/` (admin), `Backend/HubPanel/`, `Backend/MerchantPanel/`, `Frontend/`, `Api/V10/`. Models mirror this under `app/Models/Backend/`. State enums in `app/Enums/` (e.g. `ParcelStatus`, `UserType`).
+- **Repository pattern**: `app/Repositories/` holds `*Interface` + `*Repository` pairs (e.g. `MerchantPanel/Shops/ShopsInterface.php` + `ShopsRepository.php`). Controllers delegate data access to these — follow this pattern for new modules.
+- **Settings are DB-driven**, not config files: `App\Models\Config` (key/value) and `App\Models\Backend\GeneralSettings` (id=1).
+- **Assets**: `resources/` (views, sass, js), compiled into `public/build`, `public/css`, `public/js`. Tests live in `tests/`.
+- **i18n**: `lang/{ar,bn,en,es,fr,in,zh}` (PHP files + `en.json`); `LanguageManager` middleware sets locale from `session('locale')`.
 
-## Global helpers
+## Build, Test, and Development Commands
 
-`app/Http/Helper/Helper.php` is autoloaded via composer `files` — plain functions usable anywhere: `settings()` (general_settings row id=1), `settingHelper($key)` (Config key/value table), `hasPermission()`, `active_theme()`, `formatPrice()`, `pluck()`. Add new global helpers there and run `composer dump-autoload` after editing it.
+- `composer install` — install PHP dependencies.
+- `php artisan migrate` + `php artisan db:seed` — provision the MySQL schema/seed data.
+- `npm run dev` / `npm run build` — Vite dev server / production build of Sass + JS (React/Vue mix).
+- `php artisan cache:clear` — required after theme or helper changes (settings/theme are cached).
+- `composer dump-autoload` — required after editing `app/Http/Helper/Helper.php` (autoloaded via `files`).
+- `vendor/bin/pint` — run the Laravel Pint code formatter.
 
-## Architecture
+## Coding Style & Naming Conventions
 
-- **Settings are DB-driven**, not config files: `App\Models\Config` (key/value) and `App\Models\Backend\GeneralSettings` (id=1). Don't look for them in `config/`.
-- **Controllers by panel**: `app/Http/Controllers/Backend/` (admin), `Backend/HubPanel/`, `Backend/MerchantPanel/`, `Frontend/`, `Api/V10/`. Models mirror this under `app/Models/Backend/...`. State enums live in `app/Enums/` and are used pervasively (e.g. `ParcelStatus`, `UserType`).
-- **Permissions**: per-user permission arrays checked via `hasPermission()` helper + `PermissionCheckMiddleware`; seeded by `PermissionSeeder`.
-- **REST API** (`routes/api.php`, ~177 lines): prefix `/api/v10`, wrapped in `CheckApiKeyMiddleware` which requires header `apiKey` equal to `config('rxcourier.api_key')` (config/rxcourier.php, default `123456rx-ecourier123456`). Sanctum auth for logged-in endpoints. The merchant/deliveryman mobile apps consume this — keep the API key contract intact.
-- **Frontend themes**: `resources/views/frontend/theme-1`..`theme-6`. Active theme resolved by `active_theme()` which caches for 1h — run `php artisan cache:clear` after theme changes.
-- **i18n**: translations in `lang/{ar,bn,en,es,fr,in,zh}` (PHP files + `en.json`); `LanguageManager` middleware sets locale from `session('locale')`.
-- **Activity log**: spatie/laravel-activitylog trait on most models (admin `ActiveLog` views read it).
-- **Addons**: `Backend/AddonController` + `resources/views/backend/addons` — zip-based addon system, don't break it.
+- PHP follows PSR-12 via Laravel Pint (`vendor/bin/pint`).
+- Repositories: `{Name}Interface` contract + `{Name}Repository` implementation; methods named by intent (`getDashboardData`, `filterByDateRange`).
+- Global helper functions are defined in `app/Http/Helper/Helper.php` (e.g. `settings()`, `settingHelper()`, `hasPermission()`, `formatPrice()`, `active_theme()`).
 
-## Frontend build
+## Testing Guidelines
 
-Vite with the React plugin; inputs are `resources/sass/app.scss` and `resources/js/app.js` (Bootstrap + React/Vue mix). `npm run dev` / `npm run build`. Compiled assets are committed under `public/build`, `public/css`, `public/js` — prod runs off those, so rebuild after JS/Sass changes.
+- PHPUnit (PHP ^8.3); tests extend `Tests\TestCase` and use `DatabaseTransactions`.
+- Feature tests assert view data via `$response->viewData('data')` (see `tests/Feature/MerchantDashboardTest.php`).
+- Run a single test: `php artisan test --filter=MerchantDashboardTest`.
 
-## Payments / integrations
+## Commit & Pull Request Guidelines
 
-Many gateways wired in: Stripe, PayPal (config/paypal.php), Paytm, Razorpay, Skrill, SSLCommerz (app/Library/SslCommerz), bkash, Paymob, Aamarpay, Paystack, plus Twilio SMS and FCM push (both configured from `.env`). Excel import/export via maatwebsite/excel (`app/Exports`, `app/Imports`).
+- Conventional Commits, French descriptions: `feat(merchant): ...`, `fix(merchant): ...`, `perf(layout): ...`.
 
-## Verification
+## Security & Configuration
 
-- Tests are placeholders (stock Laravel ExampleTest only) — don't rely on `phpunit` for verification; it uses array cache and MySQL connection from `.env`.
-- Code style: `vendor/bin/pint` (laravel/pint) is the configured formatter.
+- Installer-driven: `IsInstalledMiddleware` redirects to `/install` unless `APP_INSTALLED=yes` and required tables exist. The installer verifies a purchase code via the Envato API.
+- REST API (`routes/api.php`, prefix `/api/v10`) requires the `apiKey` header matching `config('rxcourier.api_key')`; Sanctum auth protects logged-in endpoints. Keep the mobile-app API contract intact.
 - `.env` and `.claude/settings.local.json` hold local secrets — never commit them.

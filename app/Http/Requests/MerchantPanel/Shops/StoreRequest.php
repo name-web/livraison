@@ -24,10 +24,22 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       =>['required'],
-            'contact_no' =>['required','numeric','digits_between:11,14'],
-            'address'    =>['required'],
-            'status'     =>['required','numeric']
+            'name' => ['required'],
+            'contact_no' => ['required', 'regex:/^0[1-7][0-9]{8}$/'],
+            'address' => ['required'],
+            'status' => ['required', 'numeric'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'contact_no.regex' => __('merchantshops.contact_ivorian'),
         ];
     }
 }

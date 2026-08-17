@@ -193,6 +193,7 @@ body.wc-merchant main.dashboard-ecommerce {
     margin-top: 64px;
 }
 
+<<<<<<< HEAD
 /* --- Contenu marchand ---
    Le dashboard (wc-dash-content) gère son propre espacement (root React).
    Le contenu est aligné à gauche sur toute la largeur. */
@@ -217,6 +218,8 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     padding-top: 0;
 }
 
+=======
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
 @media (max-width: 991.98px) {
     body.wc-merchant .wc-sidebar {
         transform: translateX(-105%);
@@ -245,7 +248,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
    MERCHANT SHELL — SIDEBAR COMPONENTS
    ============================================================ */
 
-.wc-sidebar-brand {
+body.wc-merchant .wc-sidebar-brand {
     display: flex;
     align-items: center;
     height: 64px;
@@ -254,7 +257,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     flex-shrink: 0;
 }
 
-.wc-sidebar-brand-logo {
+body.wc-merchant .wc-sidebar-brand-logo {
     max-height: 34px;
     width: auto;
     object-fit: contain;
@@ -262,7 +265,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     opacity: .95;
 }
 
-.wc-sidebar-merchant {
+body.wc-merchant .wc-sidebar-merchant {
     display: flex;
     align-items: center;
     gap: 11px;
@@ -273,7 +276,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     border-radius: 13px;
 }
 
-.wc-sidebar-merchant-avatar {
+body.wc-merchant .wc-sidebar-merchant-avatar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,19 +290,19 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     font-size: 14px;
 }
 
-.wc-sidebar-merchant-name {
+body.wc-merchant .wc-sidebar-merchant-name {
     color: #fff;
     font-size: 13.5px;
 }
 
-.wc-sidebar-merchant-role {
+body.wc-merchant .wc-sidebar-merchant-role {
     color: rgba(255, 255, 255, .55);
     font-size: 11px;
     font-weight: 600;
     margin-top: 2px;
 }
 
-.wc-sidebar-group-label {
+body.wc-merchant .wc-sidebar-group-label {
     padding: 14px 12px 6px;
     color: rgba(255, 255, 255, .38);
     font-size: 10px;
@@ -308,7 +311,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     text-transform: uppercase;
 }
 
-.wc-sidebar-item {
+body.wc-merchant .wc-sidebar-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -324,29 +327,29 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
         transform .18s ease;
 }
 
-.wc-sidebar-item i {
+body.wc-merchant .wc-sidebar-item i {
     width: 20px;
     text-align: center;
     font-size: 14px;
     flex-shrink: 0;
 }
 
-.wc-sidebar-item:hover {
+body.wc-merchant .wc-sidebar-item:hover {
     background: rgba(255, 255, 255, .08);
     color: #fff;
     text-decoration: none;
 }
 
-.wc-sidebar-item.active {
+body.wc-merchant .wc-sidebar-item.active {
     background: #fff;
     color: #0f172a;
 }
 
-.wc-sidebar-item.active i {
+body.wc-merchant .wc-sidebar-item.active i {
     color: #0f172a;
 }
 
-.wc-sidebar-collapse-btn {
+body.wc-merchant .wc-sidebar-collapse-btn {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -364,19 +367,19 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     transition: background .18s ease, color .18s ease;
 }
 
-.wc-sidebar-collapse-btn:hover {
+body.wc-merchant .wc-sidebar-collapse-btn:hover {
     background: rgba(255, 255, 255, .08);
     color: #fff;
 }
 
-.wc-sidebar-collapse-btn i {
+body.wc-merchant .wc-sidebar-collapse-btn i {
     width: 20px;
     text-align: center;
     font-size: 13px;
     transition: transform .25s ease;
 }
 
-.wc-sidebar-footer {
+body.wc-merchant .wc-sidebar-footer {
     padding: 14px 20px;
     border-top: 1px solid rgba(255, 255, 255, .08);
     color: rgba(255, 255, 255, .38);
@@ -387,35 +390,35 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
 }
 
 /* Sidebar repliée (mode compact) */
-.wc-sidebar-collapsed .wc-sidebar-brand {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-brand {
     padding: 0 16px;
 }
 
-.wc-sidebar-collapsed .wc-sidebar-merchant {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-merchant {
     justify-content: center;
     padding: 10px 6px;
 }
 
-.wc-sidebar-collapsed .wc-sidebar-item {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-item {
     justify-content: center;
     padding: 11px 0;
 }
 
-.wc-sidebar-collapsed .wc-sidebar-item span,
-.wc-sidebar-collapsed .wc-sidebar-group-label,
-.wc-sidebar-collapsed .wc-sidebar-merchant-role,
-.wc-sidebar-collapsed .wc-sidebar-merchant-name,
-.wc-sidebar-collapsed .wc-sidebar-collapse-btn span,
-.wc-sidebar-collapsed .wc-sidebar-footer {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-item span,
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-group-label,
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-merchant-role,
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-merchant-name,
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-collapse-btn span,
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-footer {
     display: none;
 }
 
-.wc-sidebar-collapsed .wc-sidebar-collapse-btn {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-collapse-btn {
     justify-content: center;
     padding: 11px 0;
 }
 
-.wc-sidebar-collapsed .wc-sidebar-item[data-tooltip] {
+body.wc-merchant .wc-sidebar-collapsed .wc-sidebar-item[data-tooltip] {
     position: relative;
 }
 
@@ -423,7 +426,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
    MERCHANT SHELL — HEADER COMPONENTS
    ============================================================ */
 
-.wc-header-burger {
+body.wc-merchant .wc-header-burger {
     display: none;
     align-items: center;
     gap: 8px;
@@ -438,7 +441,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     cursor: pointer;
 }
 
-.wc-header-title {
+body.wc-merchant .wc-header-title {
     margin: 0;
     color: var(--wc-ink);
     font-size: 15.5px;
@@ -449,7 +452,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     text-overflow: ellipsis;
 }
 
-.wc-header-wallet {
+body.wc-merchant .wc-header-wallet {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -463,13 +466,13 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     font-weight: 800;
 }
 
-.wc-header-wallet:hover {
+body.wc-merchant .wc-header-wallet:hover {
     background: #dff8eb;
     color: var(--wc-primary-dark);
     text-decoration: none;
 }
 
-.wc-header-create {
+body.wc-merchant .wc-header-create {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -484,15 +487,15 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     transition: background .18s ease, transform .18s ease;
 }
 
-.wc-header-create:hover {
+body.wc-merchant .wc-header-create:hover {
     background: var(--wc-primary-dark);
     color: #fff;
     transform: translateY(-1px);
     text-decoration: none;
 }
 
-.wc-header-icon,
-.wc-header-profile {
+body.wc-merchant .wc-header-icon,
+body.wc-merchant .wc-header-profile {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -508,15 +511,15 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     transition: background .18s ease, color .18s ease;
 }
 
-.wc-header-icon:hover,
-.wc-header-profile:hover,
-.wc-header-icon.show,
-.wc-header-profile.show {
+body.wc-merchant .wc-header-icon:hover,
+body.wc-merchant .wc-header-profile:hover,
+body.wc-merchant .wc-header-icon.show,
+body.wc-merchant .wc-header-profile.show {
     background: var(--wc-surface-soft);
     color: var(--wc-ink-2);
 }
 
-.wc-notif-badge {
+body.wc-merchant .wc-notif-badge {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -527,7 +530,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     border: 2px solid #fff;
 }
 
-.wc-notif-menu {
+body.wc-merchant .wc-notif-menu {
     min-width: 340px;
     max-width: 92vw;
     border: 1px solid var(--wc-border);
@@ -537,7 +540,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     overflow: hidden;
 }
 
-.wc-notif-item {
+body.wc-merchant .wc-notif-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -546,16 +549,16 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     transition: background .15s ease;
 }
 
-.wc-notif-item:last-child {
+body.wc-merchant .wc-notif-item:last-child {
     border-bottom: 0;
 }
 
-.wc-notif-item:hover {
+body.wc-merchant .wc-notif-item:hover {
     background: var(--wc-primary-faint);
     text-decoration: none;
 }
 
-.wc-notif-dot {
+body.wc-merchant .wc-notif-dot {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -568,7 +571,7 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     font-size: 13px;
 }
 
-.wc-notif-subject {
+body.wc-merchant .wc-notif-subject {
     margin: 0;
     color: var(--wc-ink-2);
     font-size: 12.5px;
@@ -576,39 +579,42 @@ body.wc-merchant .dashboard-main-wrapper .main-content {
     line-height: 1.45;
 }
 
-.wc-notif-date {
+body.wc-merchant .wc-notif-date {
     margin-top: 3px;
     color: var(--wc-muted-2);
     font-size: 11px;
     font-weight: 600;
 }
 
-.wc-header .dropdown {
+body.wc-merchant .wc-header .dropdown {
     position: relative;
 }
 
 @media (max-width: 991.98px) {
-    .wc-header-burger {
+    body.wc-merchant .wc-header-burger {
         display: inline-flex;
     }
 
-    .wc-header-title {
+    body.wc-merchant .wc-header-title {
         font-size: 14px;
+        min-width: 0;
+        flex-shrink: 1;
     }
 
-    .wc-header-wallet span,
-    .wc-header-create span {
+    body.wc-merchant .wc-header-wallet span,
+    body.wc-merchant .wc-header-create span,
+    body.wc-merchant .wc-header-icon span {
         display: none;
     }
 
-    .wc-header-wallet,
-    .wc-header-create {
+    body.wc-merchant .wc-header-wallet,
+    body.wc-merchant .wc-header-create {
         width: 38px;
         padding: 0;
         justify-content: center;
     }
 
-    .wc-notif-menu {
+    body.wc-merchant .wc-notif-menu {
         min-width: 300px;
     }
 }
@@ -1399,21 +1405,33 @@ body.wc-merchant .wc-empty-icon {
         border-radius: 12px;
     }
 }
+<<<<<<< HEAD
 /* ============================================================
 
 /* ============================================================
    DASHBOARD — puce solde (thème clair)
    ============================================================ */
 
+=======
+
+/* ---------- Pastille de solde (dashboard) ---------- */
+
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
 body.wc-merchant .wc-dash-balance-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 4px 11px;
     border-radius: 999px;
+<<<<<<< HEAD
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
     color: #047857;
+=======
+    background: rgba(16, 185, 129, .13);
+    border: 1px solid rgba(5, 150, 105, .28);
+    color: #059669;
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
     font-size: 11.5px;
     font-weight: 700;
     line-height: 1;
@@ -1422,4 +1440,662 @@ body.wc-merchant .wc-dash-balance-chip {
 
 body.wc-merchant .wc-dash-balance-chip i {
     font-size: 10.5px;
+}
+
+/* ============================================================
+   DASHBOARD PRO v2 - design moderne du tableau de bord marchand
+   Scoped sous #merchant-app (composants React du dashboard)
+   ============================================================ */
+
+/* ---------- Fix layout legacy (panel marchand) ---------- */
+body.wc-merchant .dashboard-main-wrapper { padding-top: 0; padding-bottom: 0; }
+body.wc-merchant .dashboard-main-wrapper .main-content {
+    margin-left: 0 !important;
+    width: auto;
+    padding-top: 0;
+}
+body.wc-merchant .dashboard-content { padding: 0; }
+
+/* ---------- Hero ---------- */
+
+#merchant-app .wcp-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 22px;
+    background: linear-gradient(115deg, #0b1526 0%, #0d2240 46%, #0c3a37 100%);
+    box-shadow: 0 18px 45px rgba(11, 21, 38, .25);
+}
+
+#merchant-app .wcp-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url('/backend/images/dashboard-map.jpg') no-repeat right center / cover;
+    opacity: .38;
+}
+
+#merchant-app .wcp-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(90deg, rgba(11, 21, 38, .94) 0%, rgba(11, 21, 38, .62) 52%, rgba(12, 58, 55, .18) 100%);
+}
+
+#merchant-app .wcp-hero-glow {
+    position: absolute;
+    right: 24%;
+    top: -90px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(45, 212, 191, .3), transparent 65%);
+    pointer-events: none;
+}
+
+#merchant-app .wcp-hero-art {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 46%;
+    height: 100%;
+    z-index: 1;
+    background: url('/backend/images/dashboard-courier.png') no-repeat right 2px bottom 0 / 96% auto;
+    opacity: .92;
+    pointer-events: none;
+}
+
+#merchant-app .wcp-hero-inner {
+    position: relative;
+    z-index: 2;
+    padding: 30px 32px 26px;
+}
+
+#merchant-app .wcp-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #5eead4;
+}
+
+#merchant-app .wcp-eyebrow i { font-size: 11px; }
+
+#merchant-app .wcp-hero-title {
+    margin: 10px 0 0;
+    font-size: 27px;
+    font-weight: 850;
+    letter-spacing: -.03em;
+    color: #fff;
+    line-height: 1.2;
+}
+
+#merchant-app .wcp-hero-title span { color: #34d399; }
+
+#merchant-app .wcp-hero-sub {
+    margin: 8px 0 0;
+    font-size: 13.5px;
+    color: rgba(226, 232, 240, .88);
+    line-height: 1.55;
+    max-width: 520px;
+}
+
+#merchant-app .wcp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .16);
+    color: #e2e8f0;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#merchant-app .wcp-chip i { font-size: 10.5px; }
+
+#merchant-app .wcp-chip.wcp-chip-money {
+    background: rgba(16, 185, 129, .16);
+    border-color: rgba(52, 211, 153, .4);
+    color: #6ee7b7;
+}
+
+#merchant-app .wcp-hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+#merchant-app .wcp-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#merchant-app .wcp-date-field { position: relative; }
+
+#merchant-app .wcp-date-field > i {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: rgba(226, 232, 240, .75);
+    pointer-events: none;
+}
+
+#merchant-app .wcp-date-field .wc-input {
+    width: 215px;
+    padding-left: 36px;
+    padding-right: 12px;
+    background: rgba(255, 255, 255, .08);
+    border-color: rgba(255, 255, 255, .18);
+    color: #fff;
+}
+
+#merchant-app .wcp-date-field .wc-input::placeholder { color: rgba(226, 232, 240, .7); }
+
+#merchant-app .wcp-date-field .wc-input:focus {
+    border-color: #2dd4bf;
+    box-shadow: 0 0 0 4px rgba(45, 212, 191, .16);
+}
+
+/* Boutons */
+#merchant-app .wc-btn-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, .35);
+}
+
+#merchant-app .wc-btn-primary:hover {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+    box-shadow: 0 8px 22px rgba(16, 185, 129, .45);
+}
+
+#merchant-app .wc-btn-outline {
+    background: #fff;
+    border: 1px solid var(--wc-border-strong);
+    color: var(--wc-ink);
+}
+
+#merchant-app .wc-btn-outline:hover {
+    background: var(--wc-surface-soft);
+    color: var(--wc-ink);
+    border-color: var(--wc-border-strong);
+}
+
+#merchant-app .wc-btn-ghost {
+    background: var(--wc-surface-soft);
+    border: 1px solid var(--wc-border);
+    color: var(--wc-ink);
+}
+
+#merchant-app .wc-btn-ghost:hover {
+    background: #eef2f1;
+    color: var(--wc-ink);
+}
+
+#merchant-app .wcp-hero .wc-btn-outline {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .22);
+    color: #e2e8f0;
+}
+
+#merchant-app .wcp-hero .wc-btn-outline:hover {
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
+}
+
+/* Stats hero */
+#merchant-app .wcp-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 26px;
+}
+
+#merchant-app .wcp-hero-stat {
+    position: relative;
+    overflow: hidden;
+    padding: 13px 15px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .13);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#merchant-app .wcp-hero-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #2dd4bf, #059669);
+    opacity: .8;
+}
+
+#merchant-app .wcp-hero-stat-v {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+#merchant-app .wcp-hero-stat-l {
+    margin: 3px 0 0;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: rgba(203, 213, 225, .85);
+}
+
+/* ---------- Tuiles KPI ---------- */
+
+#merchant-app .wcp-kpi {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid var(--wc-border);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 22px rgba(15, 23, 42, .05);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+#merchant-app .wcp-kpi::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 18px;
+    right: 18px;
+    height: 3px;
+    border-radius: 0 0 8px 8px;
+    background: linear-gradient(90deg, var(--g1, #10b981), var(--g2, #059669));
+}
+
+#merchant-app .wcp-kpi:hover {
+    transform: translateY(-4px);
+    border-color: #cde9dc;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, .09);
+}
+
+#merchant-app .wcp-kpi-ic {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, .15);
+}
+
+#merchant-app .wcp-kpi-value {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--wc-ink);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+}
+
+#merchant-app .wcp-kpi-label {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--wc-muted);
+    line-height: 1.3;
+}
+
+/* Dégradés d'icônes */
+#merchant-app .g-teal { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+#merchant-app .g-emerald { background: linear-gradient(135deg, #34d399, #059669); }
+#merchant-app .g-blue { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+#merchant-app .g-violet { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+#merchant-app .g-amber { background: linear-gradient(135deg, #fbbf24, #d97706); }
+#merchant-app .g-rose { background: linear-gradient(135deg, #fb7185, #e11d48); }
+#merchant-app .g-slate { background: linear-gradient(135deg, #94a3b8, #475569); }
+
+/* ---------- Cartes ---------- */
+
+#merchant-app .wc-card {
+    border-radius: 18px;
+    border: 1px solid var(--wc-border);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 10px 28px rgba(15, 23, 42, .05);
+}
+
+#merchant-app .wc-card:hover {
+    border-color: var(--wc-border-strong);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, .05), 0 16px 38px rgba(15, 23, 42, .08);
+}
+
+#merchant-app .wc-card-header {
+    background: #fff;
+    min-height: 68px;
+    padding: 16px 20px;
+}
+
+#merchant-app .wc-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    color: #fff;
+    box-shadow: 0 5px 12px rgba(15, 23, 42, .13);
+}
+
+#merchant-app .wc-card-title { font-size: 15px; }
+#merchant-app .wc-card-header .text-wc-muted { font-size: 11.5px; }
+
+/* ---------- Stat tiles ---------- */
+
+#merchant-app .wcp-stat {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 15px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid var(--wc-border);
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+}
+
+#merchant-app .wcp-stat:hover {
+    border-color: #cde9dc;
+    background: #fcfdfd;
+    transform: translateY(-1px);
+}
+
+#merchant-app .wcp-stat-ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, .12);
+}
+
+#merchant-app .wcp-stat-l {
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--wc-muted);
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#merchant-app .wcp-stat-v {
+    margin: 3px 0 0;
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--wc-ink);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Carte finance (solde) ---------- */
+
+#merchant-app .wcp-fin {
+    position: relative;
+    overflow: hidden;
+    padding: 26px 26px 24px;
+    background: linear-gradient(135deg, #0f766e 0%, #059669 55%, #10b981 100%);
+    color: #fff;
+}
+
+#merchant-app .wcp-fin::before {
+    content: "";
+    position: absolute;
+    right: -70px;
+    top: -70px;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .1);
+}
+
+#merchant-app .wcp-fin::after {
+    content: "";
+    position: absolute;
+    right: 46px;
+    bottom: -100px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+}
+
+#merchant-app .wcp-fin-l {
+    position: relative;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: rgba(209, 250, 229, .85);
+}
+
+#merchant-app .wcp-fin-amt {
+    position: relative;
+    margin: 6px 0 0;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    line-height: 1.15;
+}
+
+#merchant-app .wcp-fin-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .15);
+    border: 1px solid rgba(255, 255, 255, .25);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+#merchant-app .wcp-fin-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--wc-border);
+}
+
+#merchant-app .wcp-fin-row:last-child { border-bottom: 0; }
+
+#merchant-app .wcp-fin-row-l {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--wc-muted);
+}
+
+#merchant-app .wcp-fin-row-v {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--wc-ink);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Transactions ---------- */
+
+#merchant-app .wcp-rt-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--wc-border-light);
+    transition: background .15s ease;
+}
+
+#merchant-app .wcp-rt-row:last-child { border-bottom: 0; }
+
+#merchant-app .wcp-rt-row:hover { background: #f6faf8; }
+
+#merchant-app .wcp-rt-ic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, .13);
+}
+
+#merchant-app .wcp-rt-in { background: linear-gradient(135deg, #34d399, #059669); }
+#merchant-app .wcp-rt-out { background: linear-gradient(135deg, #fb7185, #e11d48); }
+
+#merchant-app .wcp-rt-t {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--wc-ink);
+}
+
+#merchant-app .wcp-rt-s {
+    margin: 3px 0 0;
+    font-size: 11.5px;
+    color: var(--wc-muted);
+}
+
+#merchant-app .wcp-rt-amt {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+#merchant-app .wcp-rt-amt.in { color: #059669; }
+#merchant-app .wcp-rt-amt.out { color: #dc2626; }
+
+/* ---------- Tableau colis ---------- */
+
+#merchant-app .wc-table thead th {
+    background: #fafbfb;
+    color: #64748b;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+#merchant-app .wc-table tbody tr:hover td { background: #f6faf8; }
+
+#merchant-app .wcp-tracking {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .02em;
+    color: #0f766e;
+}
+
+#merchant-app .wcp-av {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #047857;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    flex-shrink: 0;
+}
+
+/* ---------- Progress / badges / empty ---------- */
+
+#merchant-app .wc-progress {
+    height: 8px;
+    background: #e6efe9;
+    border-radius: 999px;
+}
+
+#merchant-app .wc-progress-bar {
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 999px;
+}
+
+#merchant-app .wc-empty-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #34d399, #059669);
+    color: #fff;
+    font-size: 24px;
+    box-shadow: 0 10px 24px rgba(16, 185, 129, .3);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+    #merchant-app .wcp-hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #merchant-app .wcp-hero-art { width: 40%; }
+}
+
+@media (max-width: 767.98px) {
+    #merchant-app .wcp-hero-art { display: none; }
+    #merchant-app .wcp-hero-inner { padding: 24px 22px 22px; }
+    #merchant-app .wcp-hero-title { font-size: 22px; }
+    #merchant-app .wcp-date-field { flex: 1; min-width: 200px; }
+    #merchant-app .wcp-date-field .wc-input { width: 100%; }
+}
+
+@media (max-width: 575.98px) {
+    #merchant-app .wcp-hero { border-radius: 16px; }
+    #merchant-app .wcp-hero-stats { gap: 9px; margin-top: 20px; }
+    #merchant-app .wcp-hero-stat { padding: 11px 12px; }
+    #merchant-app .wcp-hero-stat-v { font-size: 16.5px; }
+    #merchant-app .wcp-kpi { border-radius: 15px; padding: 16px; }
+    #merchant-app .wcp-fin { padding: 22px 20px 20px; }
+    #merchant-app .wcp-fin-amt { font-size: 27px; }
+    #merchant-app .wc-card { border-radius: 15px; }
 }

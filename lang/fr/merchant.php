@@ -92,6 +92,9 @@ return [
   'payment_request' => 'Demande de paiement',
   'invalid_otp' => 'OTP invalide',
   'cash' => 'Espèces',
-  'wallet' => 'Wallet'
+  'wallet' => 'Wallet',
+  'mobile_required' => 'Le numéro de téléphone est obligatoire.',
+  'mobile_regex' => 'Le numéro doit être un numéro ivoirien valide de 10 chiffres.',
+  'mobile_unique' => 'Ce numéro de téléphone est déjà utilisé.'
 
 ];

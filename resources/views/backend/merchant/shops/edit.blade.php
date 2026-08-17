@@ -41,7 +41,12 @@
                         </div>
                         <div class="form-group">
                             <label for="contact">{{ __('merchantshops.contact') }}</label> <span class="text-danger">*</span>
-                            <input id="contact" type="number" name="contact_no" data-parsley-trigger="change" placeholder="{{ __('placeholder.Enter_contact_no') }}" autocomplete="off" class="form-control" value="{{$edit_shop->contact_no}}" require>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">+225</span>
+                                </div>
+                                <input id="contact" type="tel" name="contact_no" data-parsley-trigger="change" placeholder="07 01 02 03 04" autocomplete="off" inputmode="numeric" maxlength="10" class="form-control" value="{{ old('contact_no', str_replace(['+225',' '], '', $edit_shop->contact_no)) }}" require>
+                            </div>
                             @error('contact_no')
                             <small class="text-danger mt-2">{{ $message }}</small>
                             @enderror
@@ -150,6 +155,37 @@
     <script>
         var mapLat = '{{ $edit_shop->merchant_lat }}'
         var mapLong = '{{ $edit_shop->merchant_long }}'
+    </script>
+    <script>
+        (function () {
+            var input = document.getElementById('contact');
+            if (!input) return;
+
+            function formatMobile(value) {
+                var d = (value || '').replace(/\D/g, '');
+                if (d.length > 10) d = d.slice(0, 10);
+                var out = '';
+                if (d.length > 0) out = d.slice(0, 2);
+                if (d.length > 2) out += ' ' + d.slice(2, 4);
+                if (d.length > 4) out += ' ' + d.slice(4, 6);
+                if (d.length > 6) out += ' ' + d.slice(6, 8);
+                if (d.length > 8) out += ' ' + d.slice(8, 10);
+                return out;
+            }
+
+            input.value = formatMobile(input.value);
+
+            input.addEventListener('input', function () {
+                input.value = formatMobile(input.value);
+            });
+
+            var form = input.closest('form');
+            if (form) {
+                form.addEventListener('submit', function () {
+                    input.value = (input.value || '').replace(/\D/g, '');
+                });
+            }
+        })();
     </script>
     <script type="text/javascript" src="{{ static_asset('backend/js/map/map-current.js') }}"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ googleMapSettingKey() }}&libraries=places&callback=initMap">

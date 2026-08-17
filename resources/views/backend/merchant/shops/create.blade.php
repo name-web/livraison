@@ -42,7 +42,7 @@
 
                       <div class="form-group">
                           <label for="contact">{{ __('merchantshops.contact') }}</label> <span class="text-danger">*</span>
-                          <input id="contact" type="number" name="contact_no" data-parsley-trigger="change" placeholder="{{ __('placeholder.Enter_contact_no') }}" autocomplete="off" class="form-control" value="{{old('contact_no')}}" require>
+                          <input id="contact" type="tel" name="contact_no" data-parsley-trigger="change" placeholder="07 01 02 03 04" autocomplete="off" inputmode="numeric" maxlength="10" class="form-control" value="{{old('contact_no')}}" require>
                           @error('contact_no')
                           <small class="text-danger mt-2">{{ $message }}</small>
                           @enderror

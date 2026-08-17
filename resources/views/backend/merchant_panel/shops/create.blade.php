@@ -36,8 +36,9 @@
                     </div>
                     <div class="wc-form-group m-0">
                         <label class="wc-label" for="contact">{{ __('merchantshops.contact') }} <span class="text-wc-danger">*</span></label>
-                        <input id="contact" type="phone" name="contact_no" data-parsley-trigger="change" placeholder="{{ __('merchantPlaceholder.phone') }}" autocomplete="off" class="wc-input" value="{{old('contact_no')}}" required>
+                        <input id="contact" type="tel" name="contact_no" data-parsley-trigger="change" placeholder="07 01 02 03 04" autocomplete="off" inputmode="numeric" maxlength="10" class="wc-input" value="{{old('contact_no')}}" required>
                         @error('contact_no')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
+                        <small class="text-wc-muted mt-1 d-block">Numéro ivoirien au format 10 chiffres (ex : 07 01 02 03 04).</small>
                     </div>
                     <div class="wc-form-group m-0 md:col-span-2">
                         <label class="wc-label" for="autocomplete-input">{{ __('levels.address') }} <span class="text-wc-danger">*</span></label>

@@ -12,8 +12,13 @@ export default function Dashboard({ merchant, counts, amounts, sales, payments, 
     const isEmpty = counts.total === 0 && payments.total === 0;
 
     return (
+<<<<<<< HEAD
         <div className="py-6 px-4 md:px-8 space-y-5 animate-wcFadeUp">
             <WelcomeBanner merchant={merchant} period={period} urls={urls} formatPrice={formatPrice} />
+=======
+        <div className="py-6 px-4 md:px-8 max-w-[1440px] mx-auto space-y-6 animate-wcFadeUp">
+            <WelcomeBanner merchant={merchant} period={period} urls={urls} formatPrice={formatPrice} counts={counts} amounts={amounts} />
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
 
             {isEmpty ? (
                 <EmptyState urls={urls} />

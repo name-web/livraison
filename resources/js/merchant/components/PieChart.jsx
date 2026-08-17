@@ -16,7 +16,11 @@ export default function PieChart({ counts }) {
                 fontFamily: 'Inter, Nunito, sans-serif',
                 animations: { enabled: true, easing: 'easeinout', speed: 500 },
             },
+<<<<<<< HEAD
             colors: ['#f59e0b', '#059669', '#8b5cf6', '#ef4444'],
+=======
+            colors: ['#f59e0b', '#059669', '#8b5cf6', '#f43f5e'],
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
             series: [
                 counts.pending || 0,
                 counts.delivered || 0,
@@ -51,13 +55,17 @@ export default function PieChart({ counts }) {
                     },
                 },
             },
-            stroke: { width: 0 },
+            stroke: { width: 4, colors: ['#ffffff'] },
             dataLabels: { enabled: false },
             legend: {
                 position: 'bottom',
                 fontSize: '12.5px',
                 fontWeight: 600,
+<<<<<<< HEAD
                 labels: { colors: '#6b7280' },
+=======
+                labels: { colors: '#64748b' },
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                 markers: { radius: 3, width: 10, height: 10 },
                 itemMargin: { horizontal: 12, vertical: 4 },
             },
@@ -79,7 +87,11 @@ export default function PieChart({ counts }) {
     return (
         <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
+<<<<<<< HEAD
                 <div className="wc-card-icon bg-[#f5f3ff] text-[#7c3aed]">
+=======
+                <div className="wc-card-icon g-violet">
+>>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                     <i className="fas fa-chart-pie"></i>
                 </div>
                 <div>

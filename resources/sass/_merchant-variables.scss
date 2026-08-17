@@ -1,52 +1,67 @@
 /* ============================================================
    MERCHANT DESIGN SYSTEM — DESIGN TOKENS
-   Source unique de vérité : tout le CSS merchant (SCSS + merchant.css)
-   se réfère à ces variables (--color-* et alias --wc-*).
-   Aligné sur l'identité WeCourier (vert émeraude) + adaptation FCFA.
+   Modern pro aesthetic: vibrant gradients, glassmorphism surfaces,
+   and color-optimized for sales/inventory analytics.
    ============================================================ */
 
 :root {
-    /* Couleurs primaires */
-    --color-primary: #059669;
-    --color-primary-dark: #047857;
-    --color-primary-light: #d1fae5;
-    --color-primary-soft: #ecfdf5;
-    --color-primary-faint: #f0fdf4;
+    /* ===== GRADIENT PALETTE ===== */
+    --gradient-primary: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+    --gradient-secondary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --gradient-success: linear-gradient(135deg #10b981 0%, #34d399 100%);
+    --gradient-warning: linear-gradient(135deg #f59e0b 0%, #fbbf24 100%);
+    --gradient-info: linear-gradient(135deg #3b82f6 0%, #60a5fa 100%);
 
-    /* Accent doré (highlights, attention) */
-    --color-accent: #f59e0b;
-    --color-accent-dark: #d97706;
-    --color-accent-light: #fef3c7;
+    /* ===== SEMANTIC COLORS ===== */
+    --color-primary: #0f172a;
+    --color-primary-dark: #1e293b;
+    --color-primary-light: #cbd5e1;
+    --color-primary-soft: #e2e8f0;
+    --color-primary-faint: #f1f5f9;
 
-    /* Sémantique */
-    --color-warning: #dc2626;
-    --color-warning-light: #fecaca;
-    --color-info: #2563eb;
-    --color-info-light: #bfdbfe;
-    --color-success: #059669;
-    --color-success-light: #d1fae5;
+    --color-accent: #f97316;
+    --color-accent-dark: #ea580c;
+    --color-accent-light: #fcd34d;
+    --color-accent-soft: #fff7ed;
 
-    /* Surfaces */
-    --color-background: #f6f8f7;
+    /* Sales/Inventory semantic */
+    --color-revenue: #10b981;
+    --color-revenue-light: #d1fae5;
+    --color-inventory: #3b82f6;
+    --color-inventory-light: #bfdbfe;
+    --color-growth-positive: #059669;
+    --color-growth-negative: #dc2626;
+    --color-neutral: #64748b;
+
+    /* Surfaces avec elevation moderne */
+    --color-background: #f8fafc;
     --color-surface: #ffffff;
-    --color-surface-soft: #fafcfb;
+    --color-surface-soft: #f1f5f9;
+    --color-surface-elevated: #ffffff;
+    --color-surface-card: #ffffff;
+
+    /* Glassmorphism overlay */
+    --color-surface-glass: rgba(255, 255, 255, 0.6);
+    --color-surface-glass-dark: rgba(15, 23, 42, 0.4);
 
     /* Texte */
-    --color-text: #111827;
+    --color-text: #0f172a;
     --color-text-secondary: #64748b;
     --color-text-muted: #94a3b8;
+    --color-text-inverse: #ffffff;
 
-    /* Bordures */
-    --color-border: #e7ebe9;
-    --color-border-strong: #dce3df;
+    /* Bordures subtiles */
+    --color-border: #e2e8f0;
+    --color-border-strong: #cbd5e1;
+    --color-border-light: #f1f5f9;
 
-    /* États interactifs */
-    --color-state-success: #10b981;
+    /* États interactifs - palette moderne */
+    --color-state-success: #059669;
     --color-state-warning: #f59e0b;
     --color-state-error: #ef4444;
     --color-state-info: #3b82f6;
 
-    /* Alias --wc-* (compatibilité merchant.css) */
+    /* Alias --wc-* */
     --wc-primary: var(--color-primary);
     --wc-primary-dark: var(--color-primary-dark);
     --wc-primary-soft: var(--color-primary-soft);
@@ -54,6 +69,8 @@
     --wc-bg: var(--color-background);
     --wc-surface: var(--color-surface);
     --wc-surface-soft: var(--color-surface-soft);
+    --wc-surface-glass: var(--color-surface-glass);
+    --wc-surface-glass-dark: var(--color-surface-glass-dark);
     --wc-ink: var(--color-text);
     --wc-ink-2: #334155;
     --wc-muted: var(--color-text-secondary);
@@ -70,27 +87,30 @@
     --wc-violet-soft: #f5f3ff;
     --wc-danger: #dc2626;
     --wc-danger-soft: #fef2f2;
+    --wc-accent: var(--color-accent);
+    --wc-accent-soft: var(--color-accent-soft);
 
-    /* Ombres */
-    --shadow-xs: 0 1px 2px rgba(15, 23, 42, .03);
-    --shadow-sm: 0 2px 8px rgba(15, 23, 42, .045);
-    --shadow-md: 0 8px 24px rgba(15, 23, 42, .065);
-    --shadow-lg: 0 16px 40px rgba(15, 23, 42, .08);
-    --shadow-primary: 0 4px 12px rgba(5, 150, 105, .16);
-    --shadow-primary-hover: 0 7px 18px rgba(5, 150, 105, .22);
+    /* Ombres profondes pour elevation */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, .08);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, .1);
+    --shadow-primary: 0 4px 12px rgba(5, 150, 105, .14);
+    --shadow-primary-hover: 0 7px 18px rgba(5, 150, 105, .2);
+    --shadow-glass: 0 4px 20px rgba(0, 0, 0, .1);
 
-    /* Rayons */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --radius-xl: 18px;
+    /* Rayons arrondis modernes */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
     --radius-full: 9999px;
 
     /* Typographie */
     --font-sans: 'Inter', 'Nunito', 'system-ui', sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, 'Menlo', 'Monaco', 'Consolas', monospace;
 
-    /* Transitions */
+    /* Transitions fluides */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);

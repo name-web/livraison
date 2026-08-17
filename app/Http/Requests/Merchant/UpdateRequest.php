@@ -24,20 +24,87 @@ class UpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $user  = Merchant::findOrFail($this->id);
+        $user = Merchant::findOrFail($this->id);
         $userID = $user->user_id;
+
         return [
-            'name'                  => ['required','string','max:191'],
-            'business_name'         => 'required|string|unique:merchants,business_name,'.$this->id,
-            'mobile'                => 'required|numeric|digits_between:11,14|unique:users,mobile,'.$userID,
-            'hub'                   => ['required','numeric'],
-            'status'                => ['required','numeric'],
-            'password'              => ['nullable','min:6'],
-            'address'               => ['required','string','max:191'],
-            'payment_period'        => ['numeric'],
-            'nid'                   => ['nullable', 'file','mimes:jpg,jpeg,png,webp,pdf','max:10240'],
-            'trade_license'         => ['nullable', 'file','mimes:jpg,jpeg,png,webp,pdf','max:10240'],
-            'image_id'              => ['nullable', 'file','mimes:jpg,jpeg,png,webp,pdf','max:10240']
+            'name' => [
+                'required',
+                'string',
+                'max:191',
+            ],
+
+            'business_name' => [
+                'required',
+                'string',
+                'unique:merchants,business_name,'.$this->id,
+            ],
+
+            'mobile' => [
+                'required',
+                'regex:/^0[157][0-9]{8}$/',
+                'unique:users,mobile,'.$userID,
+            ],
+
+            'hub' => [
+                'required',
+                'numeric',
+            ],
+
+            'status' => [
+                'required',
+                'numeric',
+            ],
+
+            'password' => [
+                'nullable',
+                'min:6',
+            ],
+
+            'address' => [
+                'required',
+                'string',
+                'max:191',
+            ],
+
+            'payment_period' => [
+                'numeric',
+            ],
+
+            'nid' => [
+                'nullable',
+                'file',
+                'mimes:jpg,jpeg,png,webp,pdf',
+                'max:10240',
+            ],
+
+            'trade_license' => [
+                'nullable',
+                'file',
+                'mimes:jpg,jpeg,png,webp,pdf',
+                'max:10240',
+            ],
+
+            'image_id' => [
+                'nullable',
+                'file',
+                'mimes:jpg,jpeg,png,webp,pdf',
+                'max:10240',
+            ],
+        ];
+    }
+
+    /**
+     * Get the custom validation messages.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'mobile.required' => __('merchant.mobile_required'),
+            'mobile.regex' => __('merchant.mobile_regex'),
+            'mobile.unique' => __('merchant.mobile_unique'),
         ];
     }
 }
