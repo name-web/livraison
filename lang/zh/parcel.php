@@ -58,7 +58,6 @@ return array (
   'delivery_date'       => '交货时间',
   'deliveryman'         => '邮递员',
   'pickupman'           => '皮卡男',
-  'parcel_bank'         => '包裹银行',
   'parcel_import'       => '包裹进口',
   'print'               =>  '打印',
 

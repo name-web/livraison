@@ -31,7 +31,6 @@ return [
     'payment_processing'      =>   'পেমেন্ট প্রসেসিং',
     'paid_amount'             =>   'টাকা দেওয়া হয়েছে',
     'total_shop'              =>   'মোট দোকান',
-    'total_parcel_bank_items' => 'মোট পার্সেল ব্যাংক আইটেম',
 
     'total_pending'              =>  'মোট পার্সেল মুলতুবি',
     'total_pickup_assigned'      =>  'মোট পিকআপ অ্যাসাইনেড',
@@ -51,7 +50,6 @@ return [
     'payment_processing'    =>   'পেমেন্ট প্রসেসিং',
     'paid_amount'           =>   'টাকা দেওয়া হয়েছে',
     'total_shop'            =>   'মোট দোকান',
-    'total_parcel_bank_items'=> 'মোট পার্সেল ব্যাংক আইটেম',
 
     'total_payment_request'  => 'মোট অর্থপ্রদানের অনুরোধ',
     'total_fraud_customer'   => 'মোট জালিয়াতি গ্রাহক',

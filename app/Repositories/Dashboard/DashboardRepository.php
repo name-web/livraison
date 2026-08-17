@@ -261,7 +261,6 @@ class DashboardRepository implements DashboardInterface {
             'partial'     => 0,
             'returned'    => 0,
             'on_going'    => 0,
-            'parcel_bank' => 0,
             'shops'       => 0,
         ];
         $amounts = [
@@ -310,10 +309,6 @@ class DashboardRepository implements DashboardInterface {
             }
         }
 
-        $counts['parcel_bank'] = Parcel::where('merchant_id', $merchantId)
-            ->where('parcel_bank', 'on')
-            ->where(fn ($q) => $scope($q))
-            ->count();
         $counts['shops'] = MerchantShops::where('merchant_id', $merchantId)->count();
 
         return compact('counts', 'amounts', 'sales', 'payments');

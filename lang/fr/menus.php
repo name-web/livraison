@@ -21,7 +21,6 @@ return [
   'expense'              => 'Dépense',
   'income'               => 'Revenu',
   'user_role'            => 'Utilisateurs et rôles',
-  'parcel_bank'          => 'Banque de colis',
   'account_heads'        => 'Têtes de compte',
   'account'              => 'Compte',
   'bank_transaction'     => 'Transactions bancaires',

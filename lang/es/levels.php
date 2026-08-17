@@ -143,7 +143,6 @@ return [
 
   'print'                  => 'Imprimir',
   'print_label'            => 'Etiqueta de impresión',
-  'parcel_bank'            => '¿Es el banco de paquetería?',
   'select_bulk_type'       => 'Seleccionar a granel',
   'account_heads'          => 'Jefes de cuenta',
   'account'                => 'Cuenta',

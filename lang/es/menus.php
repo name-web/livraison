@@ -20,7 +20,6 @@ return [
   'expense'              => 'Gastos',
   'income'               => 'Ingreso',
   'user_role'            => 'Usuarios y roles',
-  'parcel_bank'          => 'Banco de paquetes',
   'account_heads'        => 'Jefes de cuenta',
   'account'              => 'Cuenta',
   'bank_transaction'     => 'Transacciones Bancarias',

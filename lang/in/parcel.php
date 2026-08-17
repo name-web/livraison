@@ -57,7 +57,6 @@ return array (
   'delivery_date'       => 'डिलीवरी का समय',
   'deliveryman'         => 'डिलीवरी मैन',
   'pickupman'           => 'पिकअप मैन',
-  'parcel_bank'         => 'पार्सल बैंक',
   'parcel_import'       => 'पार्सल आयात',
   'print'               =>  'छाप',
 

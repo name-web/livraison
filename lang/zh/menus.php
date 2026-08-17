@@ -20,7 +20,6 @@ return [
   'expense'              => '费用',
   'income'               => '收入',
   'user_role'            => '用户和角色',
-  'parcel_bank'          => '包裹银行',
   'account_heads'        => '客户主管',
   'account'              => '帐户',
   'bank_transaction'     => '银行交易',

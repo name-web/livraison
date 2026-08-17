@@ -31,7 +31,6 @@ return [
     'payment_processing'    =>   'भुगतान प्रक्रिया',
     'paid_amount'           =>   'भरी गई राशि',
     'total_shop'            =>   'कुल दुकान',
-    'total_parcel_bank_items'=> 'कुल पार्सल बैंक आइटम',
 
 
     'total_pending'              => 'कुल पार्सल लंबित',

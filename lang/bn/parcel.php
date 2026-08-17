@@ -57,7 +57,6 @@ return array (
   'delivery_date'       => 'ডেলিভারি তারিখ',
   'deliveryman'         => 'সরবরাহকারী',
   'pickupman'           => 'পিকআপ ম্যান',
-  'parcel_bank'         => 'পার্সেল ব্যাংক',
   'parcel_import'       => 'পার্সেল ইম্পোর্ট',
   'print'               => 'প্রিন্ট',
 

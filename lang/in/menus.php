@@ -21,7 +21,6 @@ return [
   'expense'              => 'व्यय',
   'income'               => 'आय',
   'user_role'            => 'उपयोगकर्ता और भूमिकाएँ',
-  'parcel_bank'          => 'पार्सल बैंक',
   'account_heads'        => 'खाता शीर्ष',
   'account'              => 'खाता',
   'bank_transaction'     => 'बैंक लेनदेन',

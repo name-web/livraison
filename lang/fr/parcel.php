@@ -58,7 +58,6 @@ return array (
   'delivery_date'       => 'Heure de livraison',
   'deliveryman'         => 'Livreur',
   'pickupman'           => 'Ramasseur',
-  'parcel_bank'         => 'Banque de colis',
   'parcel_import'       => 'Importation de colis',
   'print'               => 'Imprimer',
 

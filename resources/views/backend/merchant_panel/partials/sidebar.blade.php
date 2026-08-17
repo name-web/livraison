@@ -25,10 +25,6 @@
                 <span class="gc-count">{{ $gcTotalParcels > 999 ? '999+' : $gcTotalParcels }}</span>
             @endif
         </a>
-        <a href="{{ route('merchant-panel.parcel-bank.index') }}" class="gc-navlink {{ request()->routeIs('merchant-panel.parcel-bank.index') ? 'active' : '' }}">
-            <span class="gc-navicon"><i class="fas fa-warehouse"></i></span>
-            <span class="gc-navlabel">{{ __('menus.parcel_bank') }}</span>
-        </a>
     </div>
 
     {{-- Gestion --}}

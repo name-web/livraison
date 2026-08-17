@@ -58,7 +58,6 @@ return array (
   'delivery_date'       => 'El tiempo de entrega',
   'deliveryman'         => 'Repartidor',
   'pickupman'           => 'Recolector',
-  'parcel_bank'         => 'Banco de paquetes',
   'parcel_import'       => 'Importación de paquetes',
   'print'               =>  'Imprimir',
 

@@ -113,7 +113,6 @@ return [
   'clone'                  => '克隆',
   'print'                  => '打印',
   'print_label'            => '打印标签',
-  'parcel_bank'            => '是包裹银行吗？',
   'select_bulk_type'       => '选择批量',
   'account_heads'          => '客户主管',
   'account'                => '帐户',

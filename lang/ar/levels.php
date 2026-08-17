@@ -113,7 +113,6 @@ return [
   'clone'                  => 'استنساخ',
   'print'                  => 'مطبعة',
   'print_label'            => 'تسمية الطباعة',
-  'parcel_bank'            => 'هل هو بنك لا يتجزأ؟',
   'select_bulk_type'       => 'حدد نوع الجملة',
   'account_heads'          =>  'رؤساء الحساب',
   'account'                =>  'الحساب',

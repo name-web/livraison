@@ -348,16 +348,6 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <th class="wc-sheet-label" scope="row">{{ __('levels.parcel_bank') }}</th>
-                                        <td>
-                                            <label class="custom-control custom-checkbox mb-0">
-                                                <input type="checkbox" name="parcel_bank" class="custom-control-input"><span
-                                                    class="custom-control-label">{{ __('levels.parcel_bank') }}</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>

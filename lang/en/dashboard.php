@@ -31,7 +31,6 @@ return [
     'payment_processing'    =>   'Payment processing',
     'paid_amount'           =>   'Paid amount',
     'total_shop'            =>   'Total shop',
-    'total_parcel_bank_items'=> 'Total parcel bank items',
 
 
     'total_pending'              => 'Total parcels pending',
@@ -111,6 +110,5 @@ return [
     'activity_chart'               => 'Activity trend',
     'parcel_repartition'           => 'Parcel breakdown',
     'shop_count'                   => 'Shops',
-    'parcel_bank_count'            => 'Parcel bank',
 
 ];

@@ -53,7 +53,6 @@ class DashboardController extends Controller
             $t_delivered    = Parcel::where('status',ParcelStatus::DELIVERED)->where('merchant_id',auth()->user()->merchant->id)->count();
             $t_return       = Parcel::where('status',ParcelStatus::RETURN_RECEIVED_BY_MERCHANT)->where('merchant_id',auth()->user()->merchant->id)->count();
             $t_shop         = MerchantShops::where('merchant_id',auth()->user()->merchant->id)->count();
-            $t_parcel_bank  = Parcel::where('merchant_id',auth()->user()->merchant->id)->where('parcel_bank','on')->count();
             $merchant       = Merchant::where('id',auth()->user()->merchant->id)->first();
 
             $parcels        = Parcel::where('merchant_id',auth()->user()->merchant->id)->get();
@@ -130,7 +129,6 @@ class DashboardController extends Controller
             $this->data['merchant'] = $merchant;
             $this->data['t_fraud'] = (int) $t_fraud;
             $this->data['t_shop'] = (int) $t_shop;
-            $this->data['t_parcel_bank'] = (int) $t_parcel_bank;
             $this->data['t_cash_collection'] = (string) number_format($t_cash_collection,2,'.','');
             $this->data['t_selling_price'] = (string) number_format($t_selling_price,2,'.','');
             $this->data['t_liquid_fragile'] = (string) number_format($t_liquid_fragile,2,'.','');
@@ -175,7 +173,6 @@ class DashboardController extends Controller
         $t_parcel       = Parcel::where('merchant_id',auth()->user()->merchant->id)->whereBetween('created_at', [$from, $to])->count();
         $t_delivered    = Parcel::where('status',ParcelStatus::DELIVERED)->where('merchant_id',auth()->user()->merchant->id)->whereBetween('created_at', [$from, $to])->count();
         $t_return       = Parcel::where('status',ParcelStatus::RETURN_RECEIVED_BY_MERCHANT)->where('merchant_id',auth()->user()->merchant->id)->whereBetween('created_at', [$from, $to])->count();
-        $t_parcel_bank  = Parcel::where('merchant_id',auth()->user()->merchant->id)->where('parcel_bank','on')->whereBetween('created_at', [$from, $to])->count();
         $t_sale         = Parcel::where('merchant_id',auth()->user()->merchant->id)->whereBetween('created_at', [$from, $to])->where('status',ParcelStatus::DELIVERED)->orwhere('status',ParcelStatus::PARTIAL_DELIVERED)->sum('cash_collection');
         $t_delivery_fee = Parcel::where('merchant_id',auth()->user()->merchant->id)->whereBetween('created_at', [$from, $to])->where('status',ParcelStatus::DELIVERED)->orwhere('status',ParcelStatus::PARTIAL_DELIVERED)->sum('total_delivery_amount');
         $t_balance_proc = Payment::where('merchant_id',auth()->user()->merchant->id)->where('status',ApprovalStatus::PENDING)->whereBetween('created_at', [$from, $to])->sum('amount');
@@ -252,7 +249,6 @@ class DashboardController extends Controller
          $this->data['merchant'] = $merchant;
          $this->data['t_fraud'] = (int) $t_fraud;
          $this->data['t_shop'] = (int) $t_shop;
-         $this->data['t_parcel_bank'] = (int) $t_parcel_bank;
          $this->data['t_cash_collection'] = (string) number_format($t_cash_collection,2,'.','');
          $this->data['t_selling_price'] = (string) number_format($t_selling_price,2,'.','');
          $this->data['t_liquid_fragile'] = (string) number_format($t_liquid_fragile,2,'.','');

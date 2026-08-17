@@ -30,7 +30,6 @@ return [
     'payment_processing'    => 'Traitement des paiements',
     'paid_amount'           => 'Montant payé',
     'total_shop'            => 'Total des boutiques',
-    'total_parcel_bank_items' => 'Total des articles bancaires de colis',
 
     'total_pending'              => 'Total des colis en attente',
     'total_pickup_assigned'      => 'Total des enlèvements assignés',
@@ -109,7 +108,6 @@ return [
     'activity_chart'               => 'Évolution de l\'activité',
     'parcel_repartition'           => 'Répartition des colis',
     'shop_count'                   => 'Boutiques',
-    'parcel_bank_count'            => 'Colis en banque',
 
 ];
 

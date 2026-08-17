@@ -31,7 +31,6 @@ return [
     'payment_processing'    =>   '交付过程',
     'paid_amount'           =>   '已付金额',
     'total_shop'            =>   '总店',
-    'total_parcel_bank_items'=> '包裹银行项目总数',
 
 
     'total_pending'              => '待处理包裹总数',

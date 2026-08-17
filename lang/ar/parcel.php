@@ -57,7 +57,6 @@ return array (
   'delivery_date'       => 'موعد التسليم',
   'deliveryman'         => 'رجل التوصيل',
   'pickupman'           => 'الرجل الصغير',
-  'parcel_bank'         => 'بنك الطرود',
   'parcel_import'       => 'استيراد الطرود',
   'print'               =>  'مطبعة',
 

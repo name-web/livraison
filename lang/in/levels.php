@@ -112,7 +112,6 @@ return [
   'clone'                  => 'क्लोन',
   'print'                  => 'छाप',
   'print_label'            => 'प्रिंट लेबल',
-  'parcel_bank'            => 'क्या यह पार्सल बैंक है?',
   'select_bulk_type'       => 'थोक प्रकार का चयन करें',
   'account_heads'          => 'खाता शीर्ष',
   'account'                => 'खाता',

@@ -62,7 +62,6 @@ return array (
   'delivery_date'       => 'Delivery Time',
   'deliveryman'         => 'Delivery Man',
   'pickupman'           => 'Pickup Man',
-  'parcel_bank'         => 'Parcels Bank',
   'parcel_import'       => 'Parcels import',
   'print'               =>  'Print',
 

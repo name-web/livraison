@@ -31,7 +31,6 @@ return [
     'payment_processing'    =>   'Procesando pago',
     'paid_amount'           =>   'Monto de pago',
     'total_shop'            =>   'tienda total',
-    'total_parcel_bank_items'=> 'Total de artículos del banco de parcelas',
 
 
     'total_pending'              => 'Paquetes totales pendientes',

@@ -114,7 +114,6 @@ return [
 'clone'                  => 'Dupliquer',
 'print'                  => 'Imprimer',
 'print_label'            => 'Imprimer l\'étiquette',
-'parcel_bank'            => 'S\'agit-il d\'une banque de colis ?',
 'select_bulk_type'       => 'Sélectionnez la catégorie',
 'account_heads'          => 'Têtes de compte',
 'account'                => 'Compte',

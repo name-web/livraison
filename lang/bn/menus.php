@@ -21,7 +21,6 @@ return [
   'expense'              => 'ব্যয়',
   'income'               => 'আয়',
   'user_role'            => 'ব্যবহারকারী & ভূমিকা',
-  'parcel_bank'          => 'পার্সেল ব্যাংক',
   'account_heads'        => 'অ্যাকাউন্ট প্রধান',
   'account'              => 'অ্যাকাউন্ট',
   'bank_transaction'     => 'ব্যাংক ট্রান্জেকশন',

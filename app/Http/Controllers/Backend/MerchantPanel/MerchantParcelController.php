@@ -48,14 +48,6 @@ class MerchantParcelController extends Controller
         $statusCounts = $this->statusCounts($merchant->id);
         return view('backend.merchant_panel.parcel.index',compact('parcels','request','statusCounts'));
     }
-    public function parcelBank(Request $request)
-    {
-        $userID = Auth::user()->id;
-        $merchant = $this->repo->getMerchant($userID);
-        $parcels = $this->repo->parcelBank($merchant->id);
-        return view('backend.merchant_panel.parcel.parcel_bank',compact('parcels','request' ));
-    }
-
     public function filter(Request $request)
     {
         $userID = Auth::user()->id;

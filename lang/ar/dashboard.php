@@ -31,7 +31,6 @@ return [
     'payment_processing'    =>   'معالجة الدفع',
     'paid_amount'           =>   'المبلغ المدفوع',
     'total_shop'            =>   'إجمالي متجر',
-    'total_parcel_bank_items'=> 'مجموع بنود بنك الطرود',
 
 
     'total_pending'              => 'مجموع الطرود معلقة',

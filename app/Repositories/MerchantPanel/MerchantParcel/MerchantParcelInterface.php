@@ -5,7 +5,6 @@ interface MerchantParcelInterface {
 
     public function all($merchant_id);
     public function parcelAll($merchant_id);
-    public function parcelBank($merchant_id);
     public function filter($merchant_id,$request);
     public function parcelEvents($id);
     public function get($id);

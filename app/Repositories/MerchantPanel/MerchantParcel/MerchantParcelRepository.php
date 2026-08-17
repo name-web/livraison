@@ -53,10 +53,6 @@ class MerchantParcelRepository implements MerchantParcelInterface {
         return Config::whereIn('key',$types)->where('value',1)->get();
     }
 
-    public function parcelBank($merchant_id){
-        return Parcel::where('parcel_bank', "on")->where('merchant_id',$merchant_id)->orderByDesc('id')->paginate(10);
-    }
-
     public function filter($merchant_id,$request){
 
         return Parcel::where('merchant_id',$merchant_id)->orderByDesc('id')->where(function( $query ) use ( $request ) {
@@ -242,7 +238,6 @@ class MerchantParcelRepository implements MerchantParcelInterface {
             $parcel->total_delivery_amount  = $chargeDetails->totalDeliveryChargeAmount;
             $parcel->current_payable        = $chargeDetails->currentPayable;
             $parcel->note                   = $request->note;
-            $parcel->parcel_bank            = $request->parcel_bank;
             $parcel->status                 = ParcelStatus::PENDING;
             if($request->packaging_id){
                 $parcel->packaging_id               = $request->packaging_id;
@@ -311,7 +306,6 @@ class MerchantParcelRepository implements MerchantParcelInterface {
 
             $parcel->delivery_type_id       = $request->delivery_type_id;
             $parcel->note                   = $request->note;
-            $parcel->parcel_bank            = $request->parcel_bank;
             $parcel->status                 = ParcelStatus::PENDING;
 
             // Pickup & Delivery Time
@@ -509,8 +503,7 @@ class MerchantParcelRepository implements MerchantParcelInterface {
             // End Pickup & Delivery Time
 
                 $parcel->note                   = $request->note;
-                $parcel->parcel_bank            = $request->parcel_bank;
-
+    
             if(!blank($chargeDetails)){
                     $parcel->vat                    = $chargeDetails->vatTex;
                     $parcel->vat_amount             = $chargeDetails->VatAmount;

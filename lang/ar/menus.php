@@ -21,7 +21,6 @@ return [
   'expense'              => 'مصروف',
   'income'               => 'دخل',
   'user_role'            => 'المستخدمون والأدوار',
-  'parcel_bank'          => 'بنك الطرود',
   'account_heads'        => 'رؤساء الحساب',
   'account'              => 'الحساب',
   'bank_transaction'     => 'معاملات بنكية',

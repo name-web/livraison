@@ -113,7 +113,6 @@ return [
   'clone'                  => 'Clone',
   'print'                  => 'Print',
   'print_label'            => 'Print Label',
-  'parcel_bank'            => 'Is it parcel bank ?',
   'select_bulk_type'       => 'Select Bulk',
   'account_heads'          => 'Account Heads',
   'account'                => 'Account',
