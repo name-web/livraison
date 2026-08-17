@@ -107,6 +107,9 @@ return array (
   'amount'                   =>     'টাকা',
   'payble_amount'            =>      'প্রদেয় টাকা',
   'payment_request'          =>     'পেমেন্টের অনুরোধ',
-  'cash'                     =>      'নগদ'
+  'cash'                     =>      'নগদ',
+
+  'current_month' => 'This month',
+  'vs_hier'       => 'vs yesterday'
 
 );

@@ -54,6 +54,8 @@
                 <link rel="stylesheet" href="{{ asset('build/' . $merchantCss) }}">
             @endif
         @endif
+        {{-- WeCourier Green Command — chargé en dernier pour écraser l'ancien thème --}}
+        <link rel="stylesheet" href="{{ asset('backend/css/merchant-green.css') }}?v={{ file_exists(public_path('backend/css/merchant-green.css')) ? filemtime(public_path('backend/css/merchant-green.css')) : time() }}">
     @endif
     <!-- push target to head -->
     @stack('styles')

@@ -1,40 +1,40 @@
-<header class="wc-header" id="wcHeader">
+<header class="gc-topbar" id="gcTopbar">
     {{-- Burger mobile --}}
-    <button type="button" onclick="document.body.classList.toggle('wc-drawer-open');document.getElementById('wcBackdrop').classList.toggle('hidden')" class="wc-header-burger" aria-label="Ouvrir le menu">
+    <button type="button" onclick="document.body.classList.toggle('wc-drawer-open');var b=document.getElementById('wcBackdrop');if(b)b.classList.toggle('hidden')" class="gc-burger" aria-label="Ouvrir le menu">
         <i class="fas fa-bars"></i>
-        <span>Menu</span>
     </button>
 
     {{-- Titre de page --}}
-    <h1 class="wc-header-title">@yield('title')</h1>
+    <div class="gc-page-title">
+        <small>{{ __('sidebar.merchant_space') }}</small>
+        <strong>@yield('title')</strong>
+    </div>
 
     {{-- Actions --}}
-    <div class="ml-auto flex items-center gap-2">
+    <div class="gc-top-actions">
 
         {{-- Solde wallet --}}
         @php
             $walletBalance = Auth::user()->merchant->wallet_balance ?? 0;
             $currency = settings()->currency ?? 'FCFA';
         @endphp
-        <a href="{{ route('merchant-panel.my.wallet.index') }}" class="wc-header-wallet" title="{{ __('parcel.my_wallet') }}">
-            <i class="fas fa-wallet text-[12px]"></i>
+        <a href="{{ route('merchant-panel.my.wallet.index') }}" class="gc-header-wallet" title="{{ __('parcel.my_wallet') }}">
+            <i class="fas fa-wallet"></i>
             <span class="wc-tabular">{{ formatPrice($walletBalance, $currency) }}</span>
         </a>
 
         {{-- Nouveau colis --}}
-        <a href="{{ route('merchant-panel.parcel.create') }}" class="wc-header-create">
-            <i class="fas fa-plus text-[12px]"></i>
-            <span>Nouveau colis</span>
+        <a href="{{ route('merchant-panel.parcel.create') }}" class="gc-btn-new">
+            <i class="fas fa-plus"></i> <span>Nouveau colis</span>
         </a>
 
         {{-- Notifications --}}
         <div class="dropdown">
-            <button type="button" class="wc-header-icon" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="Notifications" aria-expanded="false">
+            <button type="button" class="gc-notification" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="Notifications" aria-expanded="false">
                 <i class="fas fa-bell"></i>
-                <span>Notifications</span>
-                <span class="wc-notif-badge" @if(count(notifications()) === 0) style="display:none" @endif></span>
+                <span class="gc-notif-badge" @if(count(notifications()) === 0) style="display:none" @endif></span>
             </button>
-            <div class="dropdown-menu dropdown-menu-end wc-notif-menu">
+            <div class="dropdown-menu dropdown-menu-end gc-notif-menu">
                 <div class="flex items-center justify-between px-4 py-3 border-b border-wc-border">
                     <span class="text-[14px] font-extrabold text-wc-ink">Notifications</span>
                     <span class="text-[11.5px] font-bold text-wc-muted-2">{{ count(notifications()) }}</span>
@@ -47,12 +47,17 @@
 
         {{-- Profil --}}
         <div class="dropdown">
-            <button type="button" class="wc-header-profile" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu utilisateur">
-                <div class="wc-avatar">
+            <button type="button" class="gc-profile" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu utilisateur">
+                <div class="gc-avatar">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
-                <span class="hidden lg:block text-[13.5px] font-bold text-wc-ink max-w-[110px] truncate">{{ Auth::user()->name }}</span>
-                <i class="fas fa-chevron-down text-[10px] text-wc-muted-2 hidden lg:block"></i>
+                <div class="gc-profile-info">
+                    <strong>{{ Auth::user()->name }}</strong>
+                    <span>Marchand</span>
+                </div>
+                <div class="gc-profile-arrow">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
             </button>
             <div class="dropdown-menu dropdown-menu-end">
                 <a href="{{ route('merchant-profile.index', Auth::id()) }}" class="dropdown-item">

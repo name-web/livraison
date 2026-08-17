@@ -108,6 +108,9 @@ return array (
   'payble_amount'            =>  'المبلغ المستحق',
   'payment_request'          =>  'طلب الدفع',
   'invalid_otp'              =>  'OTP غير صحيح',
-  'cash'                     => 'نقدي'
+  'cash'                     => 'نقدي',
+
+  'current_month' => 'This month',
+  'vs_hier'       => 'vs yesterday'
 
 );

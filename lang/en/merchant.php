@@ -112,6 +112,33 @@ return array (
   'wallet' => 'Wallet',
   'mobile_required'          => 'The phone number is required.',
   'mobile_regex'            => 'The number must be a valid 10-digit Ivorian number.',
-  'mobile_unique'           => 'This phone number is already in use.'
+  'mobile_unique'           => 'This phone number is already in use.',
+
+  //dashboard (Green Command mockup)
+  'chiffre_affaires'    => 'Month turnover',
+  'generes_periode'     => 'generated since the start of the period',
+  'ce_mois'             => 'this month',
+  'livres'              => 'Delivered',
+  'reussite'            => 'success rate',
+  'en_cours'            => 'In progress',
+  'colis_actifs'        => 'Active parcels',
+  'boutiques'           => 'Shops',
+  'actives'             => 'Active',
+  'etat_livraisons'     => 'Delivery status',
+  'livrees'             => 'Delivered',
+  'en_livraison'        => 'Out for delivery',
+  'a_preparer'          => 'To prepare',
+  'annulees'            => 'Cancelled',
+  'zones_actives'       => 'Active zones',
+  'top_boutiques'       => 'Top shops',
+  'aucune_boutique'     => 'No shop',
+  'aucune_boutique_desc'=> 'Create shops to track the activity of your zones.',
+  'wallet'              => 'Wallet',
+  'disponibles'         => 'available',
+  'taux_livraison'      => 'Delivery rate',
+  'taux_global'         => 'Across all parcels',
+  'colis_aujourdhui'    => 'Parcels today',
+  'current_month'       => 'This month',
+  'vs_hier'             => 'vs yesterday'
 
 );

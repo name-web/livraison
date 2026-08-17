@@ -109,6 +109,9 @@ return array (
   'payble_amount'            =>  '应付金额',
   'payment_request'          =>  '付钱请求',
   'invalid_otp'              =>  '无效一次性密码',
-  'cash'                     => '现金'
+  'cash'                     => '现金',
+
+  'current_month' => 'This month',
+  'vs_hier'       => 'vs yesterday'
 
 );

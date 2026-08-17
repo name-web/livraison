@@ -109,6 +109,9 @@ return array (
   'payble_amount'            =>  'भुगतान योग्य राशि',
   'payment_request'          =>  'भुगतान अनुरोध',
   'invalid_otp'              =>  'अमान्य ओटीपी',
-  'cash'                     => 'नकद'
+  'cash'                     => 'नकद',
+
+  'current_month' => 'This month',
+  'vs_hier'       => 'vs yesterday'
 
 );

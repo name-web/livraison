@@ -108,6 +108,9 @@ return array (
   'payble_amount'            =>  'Cantidad a pagar',
   'payment_request'          =>  'Solicitud de pago',
   'invalid_otp'              =>  'OTP no válido',
-  'cash'                     => 'Dinero'
+  'cash'                     => 'Dinero',
+
+  'current_month' => 'This month',
+  'vs_hier'       => 'vs yesterday'
 
 );
