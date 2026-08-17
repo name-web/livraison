@@ -83,6 +83,18 @@
     </div>
 </header>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var tb = document.getElementById('gcTopbar');
+    if (!tb) return;
+    var onScroll = function () {
+        tb.classList.toggle('gc-scrolled', window.scrollY > 8);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+});
+</script>
+
 {{-- Modals pickup (conservés) --}}
 @include('backend.merchant_panel.pickup_request.pickup_request_modal')
 @include('backend.merchant_panel.pickup_request.regular_modal')
