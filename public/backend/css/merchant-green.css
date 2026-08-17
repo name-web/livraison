@@ -1400,6 +1400,192 @@ body.wc-merchant .wc-btn-icon {
 }
 
 /* ============================================================
+   PAGE COLIS — chips de statut, copie, sélection flottante
+   ============================================================ */
+
+body.wc-merchant .gc-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 16px;
+}
+body.wc-merchant .gc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 13px;
+    background: #fff;
+    border: 1px solid var(--gc-border);
+    border-radius: 11px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--gc-text);
+    text-decoration: none;
+    transition: transform .2s cubic-bezier(.4, 0, .2, 1),
+                box-shadow .25s ease,
+                border-color .22s ease,
+                background-color .22s ease,
+                color .22s ease;
+}
+body.wc-merchant .gc-chip:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    border-color: var(--gc-green);
+    color: var(--gc-green);
+    box-shadow: 0 6px 16px rgba(8, 116, 67, .14);
+}
+body.wc-merchant .gc-chip i {
+    font-size: 12px;
+    color: var(--gc-green);
+    transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+}
+body.wc-merchant .gc-chip:hover i {
+    transform: scale(1.15);
+}
+body.wc-merchant .gc-chip b {
+    min-width: 22px;
+    height: 20px;
+    padding: 0 6px;
+    display: grid;
+    place-items: center;
+    background: var(--gc-green-soft);
+    color: var(--gc-green);
+    border-radius: 20px;
+    font-size: 9px;
+}
+body.wc-merchant .gc-chip.active {
+    background: var(--gc-green);
+    border-color: var(--gc-green);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(8, 116, 67, .28);
+}
+body.wc-merchant .gc-chip.active i,
+body.wc-merchant .gc-chip.active b {
+    color: #fff;
+}
+body.wc-merchant .gc-chip.active b {
+    background: rgba(255, 255, 255, .22);
+}
+
+/* identifiant de suivi + copie */
+body.wc-merchant .gc-tracking-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+body.wc-merchant .gc-copy {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--gc-border);
+    background: #fff;
+    border-radius: 7px;
+    display: inline-grid;
+    place-items: center;
+    font-size: 9px;
+    color: var(--gc-muted);
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(.8);
+    transition: opacity .2s ease, transform .2s cubic-bezier(.34, 1.56, .64, 1),
+                border-color .2s ease, color .2s ease, background-color .2s ease;
+}
+body.wc-merchant .gc-tracking-wrap:hover .gc-copy {
+    opacity: 1;
+    transform: scale(1);
+}
+body.wc-merchant .gc-copy:hover {
+    border-color: var(--gc-green);
+    color: var(--gc-green);
+    background: var(--gc-green-soft);
+}
+body.wc-merchant .gc-copy.copied {
+    border-color: var(--gc-green);
+    background: var(--gc-green);
+    color: #fff;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* lignes : apparition en cascade + curseur */
+body.wc-merchant .gc-table tbody tr {
+    cursor: pointer;
+    animation: gcFadeUp .4s cubic-bezier(.22, .8, .24, 1) both;
+}
+body.wc-merchant .gc-table tbody tr:nth-child(2) { animation-delay: .05s; }
+body.wc-merchant .gc-table tbody tr:nth-child(3) { animation-delay: .1s; }
+body.wc-merchant .gc-table tbody tr:nth-child(4) { animation-delay: .15s; }
+body.wc-merchant .gc-table tbody tr:nth-child(5) { animation-delay: .2s; }
+body.wc-merchant .gc-table tbody tr:nth-child(6) { animation-delay: .25s; }
+body.wc-merchant .gc-table tbody tr:nth-child(7) { animation-delay: .3s; }
+body.wc-merchant .gc-table tbody tr:nth-child(8) { animation-delay: .35s; }
+body.wc-merchant .gc-table tbody tr:nth-child(9) { animation-delay: .4s; }
+body.wc-merchant .gc-table tbody tr:nth-child(10) { animation-delay: .45s; }
+
+/* barre flottante de sélection */
+body.wc-merchant .gc-select-bar {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translate(-50%, 20px);
+    z-index: 1060;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 16px 12px 18px;
+    background: #0f1a14;
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, transform .25s cubic-bezier(.22, .8, .24, 1), visibility .25s;
+}
+body.wc-merchant .gc-select-bar.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+body.wc-merchant .gc-select-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #d5eee0;
+}
+body.wc-merchant .gc-select-info i {
+    color: #4ade80;
+}
+body.wc-merchant .gc-select-info b {
+    color: #fff;
+    font-size: 13px;
+}
+body.wc-merchant .gc-select-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+body.wc-merchant .gc-select-bar .gc-btn-new {
+    height: 34px;
+    padding: 0 13px;
+    font-size: 10px;
+}
+body.wc-merchant .gc-select-bar .gc-btn-soft {
+    height: 34px;
+    padding: 0 13px;
+    font-size: 10px;
+    background: rgba(255, 255, 255, .1);
+    border-color: transparent;
+    color: #fff;
+}
+body.wc-merchant .gc-select-bar .gc-btn-soft:hover {
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* ============================================================
    INTERACTIONS FLUIDES — press, focus, micro-animations
    ============================================================ */
 
@@ -1822,5 +2008,16 @@ body.wc-merchant .border-wc-border {
     }
     .gc-burger {
         display: inline-block;
+    }
+    body.wc-merchant .gc-select-bar {
+        left: 14px;
+        right: 14px;
+        transform: translateY(20px);
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    body.wc-merchant .gc-select-bar.visible {
+        transform: translateY(0);
     }
 }

@@ -45,7 +45,8 @@ class MerchantParcelController extends Controller
         $userID = Auth::user()->id;
         $merchant = $this->repo->getMerchant($userID);
         $parcels = $this->repo->all($merchant->id);
-        return view('backend.merchant_panel.parcel.index',compact('parcels','request' ));
+        $statusCounts = $this->statusCounts($merchant->id);
+        return view('backend.merchant_panel.parcel.index',compact('parcels','request','statusCounts'));
     }
     public function parcelBank(Request $request)
     {
@@ -61,10 +62,32 @@ class MerchantParcelController extends Controller
         $merchant = $this->repo->getMerchant($userID);
         if($this->repo->filter($merchant->id,$request)){
             $parcels      = $this->repo->filter($merchant->id,$request);
-            return view('backend.merchant_panel.parcel.index',compact('parcels','request' ));
+            $statusCounts = $this->statusCounts($merchant->id);
+            return view('backend.merchant_panel.parcel.index',compact('parcels','request','statusCounts'));
         }else{
             return redirect()->back();
         }
+    }
+
+    protected function statusCounts($merchantId)
+    {
+        $base = \App\Models\Backend\Parcel::query()->where('merchant_id', $merchantId);
+        return [
+            'total'     => (clone $base)->count(),
+            'pending'   => (clone $base)->whereIn('status', [ParcelStatus::PENDING])->count(),
+            'transit'   => (clone $base)->whereNotIn('status', [
+                ParcelStatus::PENDING,
+                ParcelStatus::DELIVERED,
+                ParcelStatus::PARTIAL_DELIVERED,
+                ParcelStatus::RETURNED_MERCHANT,
+                ParcelStatus::RETURN_RECEIVED_BY_MERCHANT,
+                ParcelStatus::RETURN_WAREHOUSE,
+                ParcelStatus::ASSIGN_MERCHANT,
+                ParcelStatus::RETURN_TO_COURIER,
+            ])->count(),
+            'delivered' => (clone $base)->whereIn('status', [ParcelStatus::DELIVERED, ParcelStatus::PARTIAL_DELIVERED])->count(),
+            'returned'  => (clone $base)->whereIn('status', [ParcelStatus::RETURNED_MERCHANT, ParcelStatus::RETURN_RECEIVED_BY_MERCHANT])->count(),
+        ];
     }
 
     public function create()

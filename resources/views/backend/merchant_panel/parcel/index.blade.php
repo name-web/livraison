@@ -20,9 +20,6 @@
                 <form action="{{ route('parcel.multiple.print-label') }}" method="get" target="_blank" id="print_label_form" class="d-inline">
                     @csrf
                     <div id="print_label_content"></div>
-                    <button type="submit" class="gc-btn gc-btn-soft multiplelabelprint" data-parcels='' style="display: none">
-                        <i class="fas fa-print"></i> {{ __('levels.print_label') }}
-                    </button>
                 </form>
                 <a href="{{ route('merchant-panel.parcel.parcel-import') }}" class="gc-btn gc-btn-soft">
                     <i class="fas fa-file-import"></i> {{ __('parcel.import_parcel') }}
@@ -46,9 +43,43 @@
             </div>
         </div>
 
+        {{-- Statuts rapides --}}
+        <div class="gc-chips" id="gcChips">
+            <a href="{{ route('merchant-panel.parcel.index') }}"
+               class="gc-chip {{ empty($request->parcel_status) ? 'active' : '' }}">
+                <i class="fas fa-boxes"></i>
+                <span>Tous</span>
+                <b>{{ $statusCounts['total'] ?? 0 }}</b>
+            </a>
+            <a href="{{ route('merchant-panel.parcel.filter', ['parcel_status' => \App\Enums\ParcelStatus::PENDING]) }}"
+               class="gc-chip {{ (string) $request->parcel_status === (string) \App\Enums\ParcelStatus::PENDING ? 'active' : '' }}">
+                <i class="fas fa-clock"></i>
+                <span>{{ trans('merchantParcelStatusFilter')[App\Enums\ParcelStatus::PENDING] ?? 'En attente' }}</span>
+                <b>{{ $statusCounts['pending'] ?? 0 }}</b>
+            </a>
+            <a href="{{ route('merchant-panel.parcel.filter', ['parcel_status' => \App\Enums\ParcelStatus::DELIVERY_MAN_ASSIGN]) }}"
+               class="gc-chip {{ (string) $request->parcel_status === (string) \App\Enums\ParcelStatus::DELIVERY_MAN_ASSIGN ? 'active' : '' }}">
+                <i class="fas fa-truck"></i>
+                <span>{{ __('merchant.en_cours') }}</span>
+                <b>{{ $statusCounts['transit'] ?? 0 }}</b>
+            </a>
+            <a href="{{ route('merchant-panel.parcel.filter', ['parcel_status' => \App\Enums\ParcelStatus::DELIVERED]) }}"
+               class="gc-chip {{ (string) $request->parcel_status === (string) \App\Enums\ParcelStatus::DELIVERED ? 'active' : '' }}">
+                <i class="fas fa-check-circle"></i>
+                <span>{{ trans('merchantParcelStatusFilter')[App\Enums\ParcelStatus::DELIVERED] ?? 'Livré' }}</span>
+                <b>{{ $statusCounts['delivered'] ?? 0 }}</b>
+            </a>
+            <a href="{{ route('merchant-panel.parcel.filter', ['parcel_status' => \App\Enums\ParcelStatus::RETURN_ASSIGN_TO_MERCHANT]) }}"
+               class="gc-chip {{ (string) $request->parcel_status === (string) \App\Enums\ParcelStatus::RETURN_ASSIGN_TO_MERCHANT ? 'active' : '' }}">
+                <i class="fas fa-undo"></i>
+                <span>{{ trans('merchantParcelStatusFilter')[App\Enums\ParcelStatus::RETURN_ASSIGN_TO_MERCHANT] ?? 'Retours' }}</span>
+                <b>{{ $statusCounts['returned'] ?? 0 }}</b>
+            </a>
+        </div>
+
         {{-- Filtres --}}
         <div class="gc-filters">
-            <form action="{{ route('merchant-panel.parcel.filter') }}" method="GET" class="m-0">
+            <form action="{{ route('merchant-panel.parcel.filter') }}" method="GET" class="m-0" id="gcParcelFilter">
                 @csrf
                 <div class="gc-filter-grid">
                     <div class="gc-field">
@@ -149,7 +180,7 @@
                         </thead>
                         <tbody>
                             @foreach ($parcels as $parcel)
-                                <tr>
+                                <tr data-url="{{ route('merchant-panel.parcel.details', $parcel->id) }}">
                                     <td class="gc-check">
                                         <input type="checkbox" name="parcels[][{{ $parcel->id }}]" value="{{ $parcel->id }}" class="common-key gc-checkbox form-check-input" />
                                     </td>
@@ -188,9 +219,14 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route('merchant-panel.parcel.details', $parcel->id) }}" class="gc-tracking">
-                                            {{ $parcel->tracking_id }}
-                                        </a>
+                                        <span class="gc-tracking-wrap">
+                                            <a href="{{ route('merchant-panel.parcel.details', $parcel->id) }}" class="gc-tracking">
+                                                {{ $parcel->tracking_id }}
+                                            </a>
+                                            <button type="button" class="gc-copy" data-copy="{{ $parcel->tracking_id }}" title="Copier l'identifiant">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </span>
                                     </td>
                                     <td>
                                         <div class="gc-cust">
@@ -282,6 +318,22 @@
             @endif
         </div>
     </div>
+
+    {{-- Barre flottante de sélection --}}
+    <div class="gc-select-bar" id="gcSelectBar">
+        <span class="gc-select-info">
+            <i class="fas fa-check-circle"></i>
+            <b id="gcSelCount">0</b> colis sélectionné(s)
+        </span>
+        <span class="gc-select-actions">
+            <button type="submit" form="print_label_form" class="gc-btn gc-btn-new multiplelabelprint">
+                <i class="fas fa-print"></i> {{ __('levels.print_label') }}
+            </button>
+            <button type="button" id="gcSelClear" class="gc-btn gc-btn-soft">
+                <i class="fas fa-times"></i> {{ __('levels.clear') }}
+            </button>
+        </span>
+    </div>
 </div>
 @endsection
 
@@ -301,34 +353,79 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            // impression d'étiquettes multiples
-            $('#tick-all').on('change', function () {
-                if (!$(this).is(':checked')) {
-                    $('td').closest('tr').find('.common-key').prop('checked', false);
-                } else {
-                    $('td').closest('tr').find('.common-key').prop('checked', true);
-                }
-                showPrintBtn();
-            });
-
-            $('.common-key').on('click', function () {
-                showPrintBtn();
-            });
+            var $all = $('#tick-all');
+            var $selectBar = $('#gcSelectBar');
+            var $selCount = $('#gcSelCount');
 
             function showPrintBtn() {
-                if ($('.common-key:checked').length > 0) {
-                    $('.multiplelabelprint').show();
+                var n = $('.common-key:checked').length;
+                if (n > 0) {
+                    $selectBar.addClass('visible');
+                    $selCount.text(n);
                     var inputs = '';
                     $('.common-key:checked').each(function () {
                         inputs += '<input type="hidden" name="parcels[]" value="' + $(this).val() + '"/>';
                     });
                     $('#print_label_content').html(inputs);
                 } else {
-                    $('.multiplelabelprint').hide();
-                    $('#tick-all').prop('checked', false);
+                    $selectBar.removeClass('visible');
+                    $all.prop('checked', false);
                     $('#print_label_content').html('');
                 }
+                $all.prop('indeterminate', n > 0 && n < $('.common-key').length);
             }
+
+            $all.on('change', function () {
+                $('.common-key').prop('checked', this.checked);
+                showPrintBtn();
+            });
+            $('.common-key').on('change', showPrintBtn);
+
+            $('#gcSelClear').on('click', function () {
+                $('.common-key').prop('checked', false);
+                showPrintBtn();
+            });
+
+            /* clic sur une ligne -> détails (hors éléments interactifs) */
+            $('.gc-table tbody tr').on('click', function (e) {
+                if ($(e.target).closest('a, button, input, form, .dropdown').length) return;
+                var url = $(this).data('url');
+                if (url) window.location.href = url;
+            });
+
+            /* copie de l'identifiant de suivi */
+            $('.gc-copy').on('click', function (e) {
+                e.stopPropagation();
+                var $btn = $(this);
+                var txt = $btn.data('copy') || '';
+                if (!txt) return;
+                function done() {
+                    $btn.addClass('copied').find('i').removeClass('fa-copy').addClass('fa-check');
+                    setTimeout(function () {
+                        $btn.removeClass('copied').find('i').removeClass('fa-check').addClass('fa-copy');
+                    }, 1500);
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(txt).then(done);
+                } else {
+                    var ta = document.createElement('textarea');
+                    ta.value = txt;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand('copy'); done(); } catch (err) {}
+                    document.body.removeChild(ta);
+                }
+            });
+
+            /* auto-filtre : statut immédiat, champs texte avec debounce */
+            $('#parcelStatus').on('change', function () {
+                $('#gcParcelFilter').submit();
+            });
+            var gcDebounce;
+            $('#gcParcelFilter input[name="parcel_customer"], #gcParcelFilter input[name="parcel_customer_phone"], #gcParcelFilter input[name="invoice_id"]').on('input', function () {
+                clearTimeout(gcDebounce);
+                gcDebounce = setTimeout(function () { $('#gcParcelFilter').submit(); }, 700);
+            });
         });
     </script>
 @endpush
