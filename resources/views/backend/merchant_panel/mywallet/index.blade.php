@@ -5,14 +5,32 @@
 @section('maincontent')
 <div class="container-fluid dashboard-content">
 
-    {{-- Page header --}}
-    <div class="wc-page-header">
-        <div>
-            <h1 class="wc-page-title">{{ __('parcel.my_wallet') }}</h1>
-            <p class="wc-page-subtitle">{{ __('parcel.wallet_history') }} · FCFA</p>
+    {{-- Solde --}}
+    <div class="wc-wallet-balance animate-wcFadeUp">
+        <div class="flex items-center gap-4">
+            <div class="wc-wallet-balance-ic">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="min-w-0">
+                <p class="wc-wallet-balance-label m-0">{{ __('parcel.available_balance') }}</p>
+                <p class="wc-wallet-balance-value m-0">{{ formatPrice($stats['balance']) }}</p>
+                <p class="wc-wallet-balance-meta m-0">
+                    + {{ formatPrice($stats['income']) }} {{ __('parcel.total_recharge') }}
+                    <span class="sep">·</span>
+                    - {{ formatPrice($stats['expense']) }} {{ __('parcel.total_deduction') }}
+                </p>
+            </div>
         </div>
-        <div class="wc-toolbar">
-            <a href="#" class="wc-btn wc-btn-primary modalBtn"
+        <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="wc-badge wc-badge-warning">{{ $stats['pending'] }} {{ __('WalletStatus.1') }}</span>
+                <span class="wc-badge wc-badge-success">{{ $stats['approved'] }} {{ __('WalletStatus.2') }}</span>
+                <span class="wc-badge wc-badge-error">{{ $stats['rejected'] }} {{ __('WalletStatus.3') }}</span>
+            </div>
+            @if($stats['balance'] <= 10)
+                <span class="text-[12px] font-bold text-wc-danger"><i class="fas fa-exclamation-triangle"></i> Solde faible</span>
+            @endif
+            <a href="#" class="wc-btn wc-btn-primary wc-btn-sm modalBtn"
                 data-url="{{ route('merchant-panel.my.wallet.recharge') }}"
                 data-title="{{ __('parcel.recharge_wallet') }}" data-bs-toggle="modal"
                 data-modalsize="modal-lg" data-bs-target="#dynamic-modal">
@@ -21,69 +39,8 @@
         </div>
     </div>
 
-    {{-- Filtres --}}
-    <div class="wc-filter">
-        <form action="{{ route('merchant-panel.my.wallet.index') }}" method="GET" id="filter-form" class="m-0">
-            <div class="wc-filter-grid">
-                <div class="wc-form-group m-0">
-                    <label class="wc-label" for="date">{{ __('parcel.date') }}</label>
-                    <input type="text" autocomplete="off" id="date" name="date" placeholder="{{ __('merchantPlaceholder.date') }}" class="wc-input date_range_picker" value="{{ old('date', $request->date) }}">
-                    @error('date')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
-                </div>
-                <div class="wc-form-group m-0">
-                    <label class="wc-label" for="parcelStatus">{{ __('parcel.status') }}</label>
-                    <select id="parcelStatus" name="status" class="wc-select @error('status') is-invalid @enderror">
-                        <option value="" selected>{{ __('menus.select') }} {{ __('levels.status') }}</option>
-                        @foreach (trans('WalletStatus') as $key => $status)
-                            <option value="{{ $key }}" {{ old('status', $request->status) == $key ? 'selected' : '' }}>{{ $status }}</option>
-                        @endforeach
-                    </select>
-                    @error('status')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
-                </div>
-                <div class="wc-form-group m-0">
-                    <label class="wc-label" for="search">{{ __('parcel.search') }}</label>
-                    <input id="search" type="text" name="search" placeholder="{{ __('parcel.search') }}" autocomplete="off" class="wc-input" value="{{ old('search', $request->search) }}">
-                    @error('search')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="submit" class="wc-btn wc-btn-primary"><i class="fas fa-filter text-[12px]"></i> {{ __('levels.filter') }}</button>
-                    <a href="{{ route('merchant-panel.my.wallet.index') }}" class="wc-btn wc-btn-outline"><i class="fas fa-eraser text-[12px]"></i> {{ __('levels.clear') }}</a>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    {{-- KPIs wallet --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
-        <div class="wc-kpi-card">
-            <p class="wc-kpi-label">Solde du portefeuille</p>
-            <h3 class="wc-kpi-value">{{ formatPrice(Auth::user()->merchant->wallet_balance) }}</h3>
-            @if (Auth::user()->merchant->wallet_balance <= 10)
-                <p class="text-[12px] font-bold text-wc-danger mt-2 mb-0">Solde faible, pensez à recharger.</p>
-            @endif
-        </div>
-        <div class="wc-kpi-card">
-            <p class="wc-kpi-label">Total recharges</p>
-            <h3 class="wc-kpi-value text-wc-success">{{ formatPrice(\App\Models\Backend\Wallet::where(['user_id'=>Auth::user()->id,'type'=>App\Enums\Wallet\WalletType::INCOME])->sum('amount')) }}</h3>
-        </div>
-        <div class="wc-kpi-card">
-            <p class="wc-kpi-label">Total déductions</p>
-            <h3 class="wc-kpi-value text-wc-danger">{{ formatPrice(\App\Models\Backend\Wallet::where(['user_id'=>Auth::user()->id,'type'=>App\Enums\Wallet\WalletType::EXPENSE])->sum('amount')) }}</h3>
-        </div>
-        <div class="wc-kpi-card flex items-center justify-between">
-            <div>
-                <p class="wc-kpi-label">Demandes</p>
-                <div class="flex items-center gap-3 mt-1">
-                    <span class="wc-badge wc-badge-warning">{{ \App\Models\Backend\Wallet::where('user_id', Auth::user()->id)->where('status', \App\Enums\Wallet\WalletStatus::PENDING)->count() }} en attente</span>
-                    <span class="wc-badge wc-badge-success">{{ \App\Models\Backend\Wallet::where('user_id', Auth::user()->id)->where('status', \App\Enums\Wallet\WalletStatus::APPROVED)->count() }} validées</span>
-                    <span class="wc-badge wc-badge-error">{{ \App\Models\Backend\Wallet::where('user_id', Auth::user()->id)->where('status', \App\Enums\Wallet\WalletStatus::REJECTED)->count() }} rejetées</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     {{-- Historique --}}
-    <div class="wc-card">
+    <div class="wc-card animate-wcFadeUp" style="animation-delay:.06s">
         <div class="wc-card-header">
             <div class="flex items-center gap-3">
                 <div class="wc-card-icon bg-wc-primary-soft text-wc-primary">
@@ -122,6 +79,52 @@
 
 @push('styles')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        .wc-wallet-balance {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            background: #fff;
+            border: 1px solid #e7ebe9;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .wc-wallet-balance-ic {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            background: #ecfdf5;
+            color: #059669;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .wc-wallet-balance-label {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+        .wc-wallet-balance-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #047857;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+        }
+        .wc-wallet-balance-meta {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .wc-wallet-balance-meta .sep { margin: 0 7px; opacity: .6; }
+    </style>
 @endpush
 
 @push('scripts')

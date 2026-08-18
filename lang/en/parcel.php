@@ -189,6 +189,10 @@ return array (
   'paynow'               => 'Pay Now',
   'all_transaction'      => 'All Transaction',
   'recharge'             => 'Recharge', 
+  'available_balance'    => 'Available Balance',
+  'total_recharge'       => 'Total Recharges',
+  'total_deduction'      => 'Total Deductions',
+  'wallet_history'       => 'Wallet History',
   'select'              => 'Select',
   'approve' => 'Approve',
   'reject' => 'Reject'

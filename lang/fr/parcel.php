@@ -146,6 +146,19 @@ return array (
 'deliveryman_assigned'            => 'Livreur affecté',
 'return_courier'                  => 'Retour de courrier',
 'delivered'                       => 'Livré',
-'my_wallet'                       => 'Mon wallet'
+'my_wallet'                       => 'Mon wallet',
+//wallet
+'available_balance'               => 'Solde disponible',
+'total_recharge'                  => 'Total recharges',
+'total_deduction'                 => 'Total déductions',
+'wallet_history'                  => 'Historique du portefeuille',
+'wallet_request'                  => 'Demandes',
+'paynow'                          => 'Payer maintenant',
+'all_transaction'                 => 'Toutes les transactions',
+'recharge'                        => 'Recharges',
+'source'                          => 'Source',
+'transaction_id'                  => 'ID de transaction',
+'payment_method'                  => 'Mode de paiement',
+'deduction'                       => 'Déduction'
 
 );

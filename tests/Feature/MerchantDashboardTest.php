@@ -7,10 +7,13 @@ use App\Enums\InvoiceStatus;
 use App\Enums\ParcelStatus;
 use App\Enums\Status;
 use App\Enums\UserType;
+use App\Enums\Wallet\WalletStatus;
+use App\Enums\Wallet\WalletType;
 use App\Models\Backend\Merchant;
 use App\Models\Backend\Merchantpanel\Invoice;
 use App\Models\Backend\Parcel;
 use App\Models\Backend\Payment;
+use App\Models\Backend\Wallet;
 use App\Models\MerchantShops;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -233,5 +236,94 @@ class MerchantDashboardTest extends TestCase
         $this->assertSame(160000.0, $stats['collection']);
         $this->assertSame(40000.0, $stats['charges']);
         $this->assertSame(120000.0, $stats['payable']);
+    }
+
+    public function test_payment_request_page_renders_with_stats(): void
+    {
+        [$userA, $merchantA] = $this->createMerchantUser('Marchand Paiements');
+
+        $pending = Payment::create([
+            'merchant_id' => $merchantA->id,
+            'amount' => 50000,
+            'transaction_id' => 'TXN-PENDING-1',
+            'description' => 'Retrait vers banque',
+            'created_by' => UserType::MERCHANT,
+        ]);
+        $pending->status = ApprovalStatus::PENDING;
+        $pending->save();
+
+        $processed = Payment::create([
+            'merchant_id' => $merchantA->id,
+            'amount' => 30000,
+            'transaction_id' => 'TXN-PROC-1',
+            'description' => 'Retrait traité',
+            'created_by' => UserType::MERCHANT,
+        ]);
+        $processed->status = ApprovalStatus::PROCESSED;
+        $processed->save();
+
+        $rejected = Payment::create([
+            'merchant_id' => $merchantA->id,
+            'amount' => 10000,
+            'transaction_id' => 'TXN-REJ-1',
+            'description' => 'Retrait refusé',
+            'created_by' => UserType::MERCHANT,
+        ]);
+        $rejected->status = ApprovalStatus::REJECT;
+        $rejected->save();
+
+        $response = $this->actingAs($userA)->get(route('merchant-panel.payment-request.index'));
+
+        $response->assertOk();
+        $response->assertSee('TXN-PENDING-1');
+        $response->assertSee('TXN-PROC-1');
+        $response->assertSee('En attente');
+
+        $stats = $response->viewData('stats');
+        $this->assertSame(3, $stats['total']);
+        $this->assertSame(1, $stats['pending']);
+        $this->assertSame(1, $stats['processed']);
+        $this->assertSame(1, $stats['rejected']);
+        $this->assertSame(90000.0, $stats['total_amount']);
+        $this->assertSame(50000.0, $stats['pending_amount']);
+        $this->assertSame(30000.0, $stats['processed_amount']);
+    }
+
+    public function test_wallet_page_renders_with_stats(): void
+    {
+        [$userA, $merchantA] = $this->createMerchantUser('Marchand Wallet');
+
+        $merchantA->wallet_balance = 125000;
+        $merchantA->save();
+
+        Wallet::forceCreate([
+            'user_id' => $userA->id,
+            'merchant_id' => $merchantA->id,
+            'source' => 'Recharge Mobile Money',
+            'transaction_id' => 'WAL-IN-1',
+            'amount' => 50000,
+            'type' => WalletType::INCOME,
+            'status' => WalletStatus::APPROVED,
+        ]);
+        Wallet::forceCreate([
+            'user_id' => $userA->id,
+            'merchant_id' => $merchantA->id,
+            'source' => 'Achat de crédit colis',
+            'transaction_id' => 'WAL-OUT-1',
+            'amount' => 20000,
+            'type' => WalletType::EXPENSE,
+            'status' => WalletStatus::APPROVED,
+        ]);
+
+        $response = $this->actingAs($userA)->get(route('merchant-panel.my.wallet.index'));
+
+        $response->assertOk();
+        $response->assertSee('WAL-IN-1');
+        $response->assertSee('WAL-OUT-1');
+
+        $stats = $response->viewData('stats');
+        $this->assertSame(125000.0, $stats['balance']);
+        $this->assertSame(50000.0, $stats['income']);
+        $this->assertSame(20000.0, $stats['expense']);
     }
 }
