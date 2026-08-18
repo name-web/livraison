@@ -2,6 +2,7 @@
 
 namespace App\Repositories\MerchantPanel\Shops;
 
+use App\Enums\Status;
 use App\Models\Backend\Merchant;
 use App\Models\MerchantShops;
 
@@ -15,6 +16,16 @@ class ShopsRepository implements ShopsInterface
     public function get($id)
     {
         return MerchantShops::where('id', $id)->first();
+    }
+
+    public function stats($id)
+    {
+        return [
+            'total' => MerchantShops::where('merchant_id', $id)->count(),
+            'active' => MerchantShops::where('merchant_id', $id)->where('status', Status::ACTIVE)->count(),
+            'inactive' => MerchantShops::where('merchant_id', $id)->where('status', Status::INACTIVE)->count(),
+            'default' => MerchantShops::where('merchant_id', $id)->where('default_shop', Status::ACTIVE)->count(),
+        ];
     }
 
     public function getMerchant($id)

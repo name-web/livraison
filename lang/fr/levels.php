@@ -1,8 +1,9 @@
 <?php
-
 return [
+
   'id' => '#',
   'add' => 'Ajouter',
+  'total' => 'Total',
   'submit' => 'Soumettre',
   'cancel' => 'Annuler',
   'create' => 'Créer',

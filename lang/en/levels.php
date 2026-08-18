@@ -3,6 +3,7 @@
 return [
   'id'                     => '#',
   'add'                    => 'Add',
+  'total'                  => 'Total',
   'submit'                 => 'Submit',
   'cancel'                 => 'Cancel',
   'create'                 => 'Create',

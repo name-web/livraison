@@ -17,11 +17,7 @@ export default function AreaChart({ series }) {
                 animations: { enabled: true, easing: 'easeinout', speed: 500 },
                 zoom: { enabled: false },
             },
-<<<<<<< HEAD
             colors: ['#334155', '#f59e0b', '#059669', '#8b5cf6', '#ef4444'],
-=======
-            colors: ['#0d9488', '#f59e0b', '#059669', '#8b5cf6', '#f43f5e'],
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
             series: [
                 { name: 'Total', data: series.totals || [] },
                 { name: 'En attente', data: series.pendings || [] },
@@ -55,11 +51,7 @@ export default function AreaChart({ series }) {
                 horizontalAlign: 'right',
                 fontSize: '12.5px',
                 fontWeight: 600,
-<<<<<<< HEAD
                 labels: { colors: '#6b7280' },
-=======
-                labels: { colors: '#64748b' },
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                 markers: { radius: 3, width: 10, height: 10 },
                 itemMargin: { horizontal: 12, vertical: 2 },
             },
@@ -68,11 +60,7 @@ export default function AreaChart({ series }) {
                 style: { fontSize: '13px', fontFamily: 'Inter, sans-serif' },
                 y: { formatter: (val) => `${Math.round(val)} colis` },
             },
-<<<<<<< HEAD
             grid: { borderColor: '#eef0f3', strokeDashArray: 4, padding: { top: 8 } },
-=======
-            grid: { borderColor: '#e7ebe9', strokeDashArray: 4, padding: { top: 8 } },
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
             dataLabels: { enabled: false },
         };
 
@@ -87,11 +75,7 @@ export default function AreaChart({ series }) {
     return (
         <div className="wc-card overflow-hidden h-full flex flex-col">
             <div className="wc-card-header">
-<<<<<<< HEAD
                 <div className="wc-card-icon bg-[#eef1f5] text-[#475569]">
-=======
-                <div className="wc-card-icon g-teal">
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                     <i className="fas fa-chart-line"></i>
                 </div>
                 <div>

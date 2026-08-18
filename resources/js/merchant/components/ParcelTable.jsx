@@ -48,15 +48,9 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
         <div className="wc-card overflow-hidden h-full">
             <div className="wc-card-header justify-between gap-4 flex-wrap">
                 <div className="flex items-center gap-3">
-<<<<<<< HEAD
 <div className="wc-card-icon bg-[#ecfdf5] text-[#059669]">
                     <i className="fas fa-boxes"></i>
                 </div>
-=======
-                    <div className="wc-card-icon g-teal">
-                        <i className="fas fa-box"></i>
-                    </div>
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                     <div>
                         <h3 className="wc-card-title">Derniers colis</h3>
                         <p className="text-[12px] text-wc-muted m-0">Les 5 colis les plus récents</p>
@@ -111,11 +105,7 @@ export default function ParcelTable({ parcels, getStatusBadge, formatPrice, urls
                                 return (
                                     <tr key={p.id} style={{ animationDelay: `${i * 0.04}s` }} className="animate-wcRowIn">
                                         <td data-label="Référence">
-<<<<<<< HEAD
                                             <span className="font-bold wc-tabular text-[13.5px]" style={{ color: '#059669' }}>
-=======
-                                            <span className="wcp-tracking">
->>>>>>> 7e7eef8 (feat(merchant): refonte UI dashboard + shops, formattage Pint)
                                                 {p.tracking_id}
                                             </span>
                                         </td>

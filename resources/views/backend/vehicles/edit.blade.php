@@ -31,8 +31,7 @@
                     <div class="text-right mb-2">
                         <x-back-button route="designations.index" />
                      </div>
-<<<<<<< HEAD
-                    <h2 class="pageheader-title">{{ __('levels.edit') }} {{ __('menus.vehicle') }}</h2>
+<h2 class="pageheader-title">{{ __('levels.edit') }} {{ __('menus.vehicle') }}</h2>
                     <form action="{{route('vehicles.update',['id'=>$vehicle->id])}}"  method="POST" enctype="multipart/form-data" id="basicform">
                         @csrf 
                         @method('PUT') 
@@ -122,31 +121,6 @@
                                     <small class="text-danger mt-2">{{ $message }}</small>
                                 @enderror
                             </div>
-=======
-                    <h2 class="pageheader-title">{{ __('designation.edit_designation') }}</h2>
-                    <form action="{{route('designations.update',['id'=>$designation->id])}}"  method="POST" enctype="multipart/form-data" id="basicform">
-                        @csrf
-                        @if (isset($designation))
-                            @method('PUT')
-                        @endif
-                        <div class="form-group">
-                            <label for="title">{{ __('levels.title') }}</label> <span class="text-danger">*</span>
-                            <input id="title" type="text" name="title" data-parsley-trigger="change" placeholder="{{ __('placeholder.Enter_title') }}" autocomplete="off" class="form-control @error('title') is-invalid @enderror" value="{{old('title',$designation->title)}}" require>
-                            @error('title')
-                            <small class="text-danger mt-2">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="status">{{ __('levels.status') }}</label> <span class="text-danger">*</span>
-                            <select name="status" class="form-control @error('status') is-invalid @enderror">
-                                @foreach(trans('status') as $key => $status)
-                                    <option value="{{ $key }}" {{ (old('status',$designation->status) == $key) ? 'selected' : '' }}>{{ $status }}</option>
-                                @endforeach
-                            </select>
-                            @error('status')
-                                <small class="text-danger mt-2">{{ $message }}</small>
-                            @enderror
->>>>>>> sajib
                         </div>
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">

@@ -4,10 +4,12 @@ namespace Tests\Feature;
 
 use App\Enums\ApprovalStatus;
 use App\Enums\ParcelStatus;
+use App\Enums\Status;
 use App\Enums\UserType;
 use App\Models\Backend\Merchant;
 use App\Models\Backend\Parcel;
 use App\Models\Backend\Payment;
+use App\Models\MerchantShops;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -19,34 +21,35 @@ class MerchantDashboardTest extends TestCase
     private function createMerchantUser(string $name): array
     {
         $user = User::create([
-            'name'     => $name,
-            'user_type'=> UserType::MERCHANT,
+            'name' => $name,
+            'user_type' => UserType::MERCHANT,
         ]);
         $merchant = Merchant::create([
-            'business_name'       => $name,
-            'merchant_unique_id'  => strtoupper(substr(md5($name), 0, 8)),
-            'current_balance'     => 0,
-            'opening_balance'     => 0,
-            'vat'                 => 0,
-            'user_id'             => $user->id,
+            'business_name' => $name,
+            'merchant_unique_id' => strtoupper(substr(md5($name), 0, 8)),
+            'current_balance' => 0,
+            'opening_balance' => 0,
+            'vat' => 0,
+            'user_id' => $user->id,
         ]);
+
         return [$user, $merchant];
     }
 
     private function createParcel(int $merchantId, int $status, float $cash, string $invoiceNo, array $extra = []): Parcel
     {
         return Parcel::create(array_merge([
-            'merchant_id'         => $merchantId,
-            'customer_name'       => 'Client ' . $invoiceNo,
-            'invoice_no'          => $invoiceNo,
-            'cash_collection'     => $cash,
-            'selling_price'       => $cash * 0.8,
-            'delivery_charge'     => 1000,
-            'vat_amount'          => 180,
-            'cod_amount'          => 500,
-            'total_delivery_amount'=> 1180,
-            'status'              => $status,
-            'parcel_payment_method'=> 1,
+            'merchant_id' => $merchantId,
+            'customer_name' => 'Client '.$invoiceNo,
+            'invoice_no' => $invoiceNo,
+            'cash_collection' => $cash,
+            'selling_price' => $cash * 0.8,
+            'delivery_charge' => 1000,
+            'vat_amount' => 180,
+            'cod_amount' => 500,
+            'total_delivery_amount' => 1180,
+            'status' => $status,
+            'parcel_payment_method' => 1,
         ], $extra));
     }
 
@@ -86,17 +89,17 @@ class MerchantDashboardTest extends TestCase
         ]);
 
         $from = $today->format('m/d/Y');
-        $to   = $today->format('m/d/Y');
+        $to = $today->format('m/d/Y');
 
-        $response = $this->actingAs($userA)->post(route('merchant-panel.dashboard.filter'), ['date' => $from . ' To ' . $to]);
+        $response = $this->actingAs($userA)->post(route('merchant-panel.dashboard.filter'), ['date' => $from.' To '.$to]);
         $response->assertRedirect(route('dashboard.index', [
             'from' => $today->format('Y-m-d'),
-            'to'   => $today->format('Y-m-d'),
+            'to' => $today->format('Y-m-d'),
         ]));
 
         $filtered = $this->actingAs($userA)->get(route('dashboard.index', [
             'from' => $today->format('Y-m-d'),
-            'to'   => $today->format('Y-m-d'),
+            'to' => $today->format('Y-m-d'),
         ]));
         $filtered->assertOk();
         $data = $filtered->viewData('data');
@@ -154,5 +157,40 @@ class MerchantDashboardTest extends TestCase
 
         $this->actingAs($deliveryman)->get(route('dashboard.index'))->assertRedirect(route('home'));
         $this->actingAs($deliveryman)->get(route('merchant-panel.parcel.index'))->assertForbidden();
+    }
+
+    public function test_pickup_points_page_renders_with_stats(): void
+    {
+        [$userA, $merchantA] = $this->createMerchantUser('Marchand Boutiques');
+
+        MerchantShops::create([
+            'merchant_id' => $merchantA->id,
+            'name' => 'Boutique Abidjan',
+            'contact_no' => '+2250701020304',
+            'address' => 'Treichville, Abidjan',
+            'status' => Status::ACTIVE,
+            'default_shop' => Status::ACTIVE,
+        ]);
+        MerchantShops::create([
+            'merchant_id' => $merchantA->id,
+            'name' => 'Boutique Yamoussoukro',
+            'contact_no' => '+2250705060708',
+            'address' => 'Belle Ville, Yamoussoukro',
+            'status' => Status::INACTIVE,
+            'default_shop' => Status::INACTIVE,
+        ]);
+
+        $response = $this->actingAs($userA)->get(route('merchant-panel.shops.index'));
+
+        $response->assertOk();
+        $response->assertSee('Boutique Abidjan');
+        $response->assertSee('Boutique Yamoussoukro');
+        $response->assertSee('wa.me/2250701020304');
+
+        $stats = $response->viewData('stats');
+        $this->assertSame(2, $stats['total']);
+        $this->assertSame(1, $stats['active']);
+        $this->assertSame(1, $stats['inactive']);
+        $this->assertSame(1, $stats['default']);
     }
 }
