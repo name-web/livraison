@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Enums\ApprovalStatus;
+use App\Enums\InvoiceStatus;
 use App\Enums\ParcelStatus;
 use App\Enums\Status;
 use App\Enums\UserType;
 use App\Models\Backend\Merchant;
+use App\Models\Backend\Merchantpanel\Invoice;
 use App\Models\Backend\Parcel;
 use App\Models\Backend\Payment;
 use App\Models\MerchantShops;
@@ -192,5 +194,44 @@ class MerchantDashboardTest extends TestCase
         $this->assertSame(1, $stats['active']);
         $this->assertSame(1, $stats['inactive']);
         $this->assertSame(1, $stats['default']);
+    }
+
+    public function test_invoice_page_renders_with_stats_and_details(): void
+    {
+        [$userA, $merchantA] = $this->createMerchantUser('Marchand Factures');
+
+        Invoice::forceCreate([
+            'merchant_id' => $merchantA->id,
+            'invoice_id' => 'INV-2026-0001',
+            'invoice_date' => '12-08-2026',
+            'cash_collection' => 100000,
+            'total_charge' => 25000,
+            'current_payable' => 75000,
+            'status' => InvoiceStatus::PAID,
+        ]);
+        Invoice::forceCreate([
+            'merchant_id' => $merchantA->id,
+            'invoice_id' => 'INV-2026-0002',
+            'invoice_date' => '15-08-2026',
+            'cash_collection' => 60000,
+            'total_charge' => 15000,
+            'current_payable' => 45000,
+            'status' => InvoiceStatus::UNPAID,
+        ]);
+
+        $response = $this->actingAs($userA)->get(route('merchant.panel.invoice.index'));
+
+        $response->assertOk();
+        $response->assertSee('INV-2026-0001');
+        $response->assertSee('INV-2026-0002');
+        $response->assertSee('NON PAYÉ');
+
+        $stats = $response->viewData('stats');
+        $this->assertSame(2, $stats['total']);
+        $this->assertSame(1, $stats['paid']);
+        $this->assertSame(1, $stats['unpaid']);
+        $this->assertSame(160000.0, $stats['collection']);
+        $this->assertSame(40000.0, $stats['charges']);
+        $this->assertSame(120000.0, $stats['payable']);
     }
 }
