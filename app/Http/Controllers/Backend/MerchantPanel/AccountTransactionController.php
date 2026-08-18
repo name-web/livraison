@@ -2,76 +2,98 @@
 
 namespace App\Http\Controllers\Backend\MerchantPanel;
 
+use App\Enums\ApprovalStatus;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Backend\Payment;
 use App\Models\MerchantPayment;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountTransactionController extends Controller
 {
+    public function index()
+    {
+        $merchantId = Auth::user()->merchant->id;
+        $accounts = MerchantPayment::where('merchant_id', $merchantId)->get();
+        $transactions = Payment::where('merchant_id', $merchantId)->orderByDesc('id')->paginate(15);
+        $stats = $this->computeStats($merchantId);
 
-    public function index(){
-        $accounts = MerchantPayment::where('merchant_id',Auth::user()->merchant->id)->get();
-        $transactions = Payment::where('merchant_id',Auth::user()->merchant->id)->orderByDesc('id')->paginate(10);
-        $request = [];
-        return view('backend.merchant_panel.account_transaction.index',compact('accounts','transactions','request'));
+        return view('backend.merchant_panel.account_transaction.index', compact('accounts', 'transactions', 'stats'));
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $id = Auth::user()->merchant->id;
-        if($request->date && $request->type == null && $request->account == null) {
-            $date = explode('To', $request->date);
-            if(is_array($date)) {
-                $from   = Carbon::parse(trim($date[0]))->startOfDay()->toDateTimeString();
-                $to     = Carbon::parse(trim($date[1]))->endOfDay()->toDateTimeString();
-            }
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->whereBetween('created_at', [$from, $to])->paginate(10);
+        $query = Payment::where('merchant_id', $id)->orderByDesc('id');
+
+        // Date range
+        if ($request->filled('date')) {
+            [$from, $to] = $this->parseDateRange($request->date);
+            $query->whereBetween('created_at', [$from, $to]);
         }
 
-        else if($request->type && $request->date == null && $request->account == null){
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->where('status', $request->type)->paginate(10);
+        // Status type
+        if ($request->filled('type')) {
+            $query->where('status', $request->type);
         }
 
-        else if($request->account && $request->type == null && $request->date == null){
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->where('merchant_account',$request->account)->paginate(10);
+        // Account
+        if ($request->filled('account')) {
+            $query->where('merchant_account', $request->account);
         }
 
-        else if($request->date && $request->type && $request->account == null) {
-            $date = explode('To', $request->date);
-            if(is_array($date)) {
-                $from   = Carbon::parse(trim($date[0]))->startOfDay()->toDateTimeString();
-                $to     = Carbon::parse(trim($date[1]))->endOfDay()->toDateTimeString();
-            }
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->whereBetween('created_at', [$from, $to])->where('status',$request->type)->paginate(10);
+        $transactions = $query->paginate(15)->withQueryString();
+        $accounts = MerchantPayment::where('merchant_id', $id)->get();
+        $stats = $this->computeStats($id, $request);
+
+        return view('backend.merchant_panel.account_transaction.index', compact('accounts', 'transactions', 'stats', 'request'));
+    }
+
+    private function computeStats(int $merchantId, ?Request $request = null): array
+    {
+        $query = Payment::where('merchant_id', $merchantId);
+
+        if ($request && $request->filled('date')) {
+            [$from, $to] = $this->parseDateRange($request->date);
+            $query->whereBetween('created_at', [$from, $to]);
+        }
+        if ($request && $request->filled('account')) {
+            $query->where('merchant_account', $request->account);
         }
 
-        else if($request->date == null && $request->type && $request->account) {
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->where('status',$request->type)->where('merchant_account',$request->account)->paginate(10);
-        }
-        else if($request->date && $request->type == null && $request->account) {
-            $date = explode('To', $request->date);
-            if(is_array($date)) {
-                $from   = Carbon::parse(trim($date[0]))->startOfDay()->toDateTimeString();
-                $to     = Carbon::parse(trim($date[1]))->endOfDay()->toDateTimeString();
-            }
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->whereBetween('created_at', [$from, $to])->where('merchant_account',$request->account)->paginate(10);
-        }
-        else if($request->date && $request->type && $request->account) {
-            $date = explode('To', $request->date);
+        $all = (clone $query)->get();
 
-            if(is_array($date)) {
-                $from   = Carbon::parse(trim($date[0]))->startOfDay()->toDateTimeString();
-                $to     = Carbon::parse(trim($date[1]))->endOfDay()->toDateTimeString();
-            }
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->whereBetween('created_at', [$from, $to])->where('status',$request->type)->where('merchant_account',$request->account)->paginate(10);
-        }
-        else{
-            $transactions = Payment::where('merchant_id',$id)->orderByDesc('id')->paginate(10);
-        }
-        $accounts = MerchantPayment::where('merchant_id',$id)->get();
-        return view('backend.merchant_panel.account_transaction.index',compact('accounts','transactions','request'));
+        $total = $all->sum('amount');
+        $pending = (clone $query)->where('status', ApprovalStatus::PENDING)->sum('amount');
+        $approved = (clone $query)->where('status', ApprovalStatus::APPROVED)->sum('amount');
+        $rejected = (clone $query)->where('status', ApprovalStatus::REJECT)->sum('amount');
 
+        $countPending = (clone $query)->where('status', ApprovalStatus::PENDING)->count();
+        $countApproved = (clone $query)->where('status', ApprovalStatus::APPROVED)->count();
+        $countRejected = (clone $query)->where('status', ApprovalStatus::REJECT)->count();
+
+        return [
+            'total' => $total,
+            'pending' => $pending,
+            'approved' => $approved,
+            'rejected' => $rejected,
+            'count_all' => $all->count(),
+            'count_pending' => $countPending,
+            'count_approved' => $countApproved,
+            'count_rejected' => $countRejected,
+        ];
+    }
+
+    private function parseDateRange(string $date): array
+    {
+        $parts = explode('To', $date);
+
+        $from = Carbon::parse(trim($parts[0]))->startOfDay()->toDateTimeString();
+        $to = isset($parts[1])
+            ? Carbon::parse(trim($parts[1]))->endOfDay()->toDateTimeString()
+            : Carbon::now()->endOfDay()->toDateTimeString();
+
+        return [$from, $to];
     }
 }
