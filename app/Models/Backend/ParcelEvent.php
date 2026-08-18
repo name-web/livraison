@@ -12,6 +12,21 @@ class ParcelEvent extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'parcel_id',
+        'delivery_man_id',
+        'pickup_man_id',
+        'transfer_delivery_man_id',
+        'hub_id',
+        'note',
+        'parcel_status',
+        'delivery_lat',
+        'delivery_long',
+        'signature_image',
+        'delivered_image',
+        'created_by',
+    ];
+
     public function deliveryMan(){
         return $this->belongsTo(DeliveryMan::class,'delivery_man_id','id')->with(['user']);
     }

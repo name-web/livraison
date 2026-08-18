@@ -586,4 +586,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::prefix('assets/reports')->name('assets.')->controller(AssetController::class)->group(function () {
         Route::get('/', 'reports')->name('reports')->middleware('hasPermission:assets_reports');
     });
+
+    // ─── Collection (Collecte & Livraison) ──────
+    Route::prefix('collection')->name('admin.collection.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Backend\AdminCollectionController::class, 'index'])->name('index');
+        Route::get('/{collection}', [App\Http\Controllers\Backend\AdminCollectionController::class, 'show'])->name('show');
+        Route::post('/{collection}/assign', [App\Http\Controllers\Backend\AdminCollectionController::class, 'assign'])->name('assign');
+        Route::put('/{collection}/status', [App\Http\Controllers\Backend\AdminCollectionController::class, 'updateStatus'])->name('status');
+        Route::get('/map/live', [App\Http\Controllers\Backend\AdminCollectionController::class, 'map'])->name('map');
+        Route::get('/deliveryman/{deliveryman}/location', [App\Http\Controllers\Backend\AdminCollectionController::class, 'deliverymanLocation'])->name('deliveryman.location');
+        Route::get('/stats/realtime', [App\Http\Controllers\Backend\AdminCollectionController::class, 'stats'])->name('stats');
+    });
+
 });

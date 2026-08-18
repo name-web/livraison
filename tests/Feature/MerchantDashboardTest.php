@@ -96,7 +96,12 @@ class MerchantDashboardTest extends TestCase
         $from = $today->format('m/d/Y');
         $to = $today->format('m/d/Y');
 
-        $response = $this->actingAs($userA)->post(route('merchant-panel.dashboard.filter'), ['date' => $from.' To '.$to]);
+        $response = $this->actingAs($userA)
+            ->withSession(['_token' => 'test-csrf-token'])
+            ->post(route('merchant-panel.dashboard.filter'), [
+                'date' => $from.' To '.$to,
+                '_token' => 'test-csrf-token',
+            ]);
         $response->assertRedirect(route('dashboard.index', [
             'from' => $today->format('Y-m-d'),
             'to' => $today->format('Y-m-d'),

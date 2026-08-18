@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\MerchantInvoiceController;
 use App\Http\Controllers\Backend\MerchantPanel\AccountTransactionController;
+use App\Http\Controllers\Backend\MerchantPanel\CollectionController;
 use App\Http\Controllers\Backend\MerchantPanel\FraudController as MerchantPanelFraudController;
 use App\Http\Controllers\Backend\MerchantPanel\InvoiceController;
 use App\Http\Controllers\Backend\MerchantPanel\MerchantOnlinePaymentSetupController;
@@ -169,4 +170,16 @@ Route::group(['prefix' => 'merchant', 'middleware' => 'merchant'], function () {
             Route::post('/recharge-add', 'rechargeAdd')->name('recharge.add');
             Route::post('/recharge-status', 'rechargeStatus')->name('recharge.status');
         });
+
+    // Collection
+    Route::prefix('collection')->name('merchant-panel.collection.')->group(function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('index');
+        Route::post('/', [CollectionController::class, 'store'])->name('store');
+        Route::get('/available-parcels', [CollectionController::class, 'availableParcels'])->name('available-parcels');
+        Route::get('/available-slots', [CollectionController::class, 'availableSlots'])->name('available-slots');
+        Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
+        Route::get('/{collection}/detail', [CollectionController::class, 'detail'])->name('detail');
+        Route::get('/{collection}/tracking', [CollectionController::class, 'tracking'])->name('tracking');
+        Route::post('/{collection}/cancel', [CollectionController::class, 'cancel'])->name('cancel');
+    });
 });

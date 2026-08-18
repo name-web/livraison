@@ -94,6 +94,26 @@
             <div class="gc-kpi-value gc-countup" data-target="{{ $shopsCount }}">0</div>
             <span class="gc-kpi-sub">{{ __('merchant.actives') }}</span>
         </div>
+
+        <div class="gc-kpi-card">
+            <div class="gc-kpi-top">
+                <span class="gc-kpi-label">Collectes aujourd'hui</span>
+                <span class="gc-kpi-icon"><i class="fas fa-truck-loading"></i></span>
+            </div>
+            <div class="gc-kpi-value gc-countup" data-target="{{ $collectionStats['today'] ?? 0 }}">0</div>
+            <span class="gc-kpi-sub">
+                <b class="{{ ($collectionStats['pending'] ?? 0) > 0 ? '' : '' }}">{{ $collectionStats['pending'] ?? 0 }}</b> en attente
+            </span>
+        </div>
+
+        <div class="gc-kpi-card">
+            <div class="gc-kpi-top">
+                <span class="gc-kpi-label">Collectes en cours</span>
+                <span class="gc-kpi-icon"><i class="fas fa-spinner"></i></span>
+            </div>
+            <div class="gc-kpi-value gc-countup" data-target="{{ $collectionStats['active'] ?? 0 }}">0</div>
+            <span class="gc-kpi-sub">{{ $collectionStats['completed'] ?? 0 }} terminées ce jour</span>
+        </div>
     </div>
 
     {{-- Zones + Aujourd'hui --}}

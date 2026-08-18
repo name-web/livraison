@@ -6,6 +6,7 @@ namespace App\Models\Backend;
 use App\Models\MerchantShops;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use App\Models\User;
@@ -281,13 +282,14 @@ class Parcel extends Model
             endif;
         }
         return $inv;
-    }
-
-
-       
-    public function invoice(){
+    }    public function invoice(){
         return $this->belongsTo(Invoice::class,'invoice_id','id');
     }
-    
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class, 'collection_parcels')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
 }

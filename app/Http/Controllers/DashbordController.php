@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CollectionStatus;
 use App\Enums\ParcelStatus;
 use App\Enums\StatementType;
 use App\Enums\UserType;
 use App\Models\Backend\Account;
+use App\Models\Backend\Collection;
 use App\Models\Backend\BankTransaction;
 use App\Models\Backend\CourierStatement;
 use App\Models\Backend\DeliveryMan;
@@ -155,7 +157,25 @@ class DashbordController extends Controller
                 ->take(4)
                 ->all();
 
-            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams', 'recentParcels', 'recentTransactions', 'shops', 'parcelDelta', 'todayCount', 'todayDeltaLabel'));
+            // ── KPIs Collectes ──
+            $collectionStats = [
+                'today' => Collection::where('merchant_id', $merchant->id)
+                    ->whereDate('collection_date', now()->toDateString())->count(),
+                'active' => Collection::where('merchant_id', $merchant->id)
+                    ->whereIn('status', [
+                        CollectionStatus::PENDING_ASSIGNMENT,
+                        CollectionStatus::ASSIGNED,
+                        CollectionStatus::PICKING_UP,
+                        CollectionStatus::COLLECTED,
+                    ])->count(),
+                'pending' => Collection::where('merchant_id', $merchant->id)
+                    ->where('status', CollectionStatus::PENDING_ASSIGNMENT)->count(),
+                'completed' => Collection::where('merchant_id', $merchant->id)
+                    ->where('status', CollectionStatus::COMPLETED)
+                    ->whereDate('collection_date', now()->toDateString())->count(),
+            ];
+
+            return view('backend.merchant_panel.dashboard', compact('merchant', 'data', 'series', 'currency', 'dateRange', 'period', 'filterParams', 'recentParcels', 'recentTransactions', 'shops', 'parcelDelta', 'todayCount', 'todayDeltaLabel', 'collectionStats'));
 
         } elseif (Auth::user()->user_type == UserType::ADMIN) {
 

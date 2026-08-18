@@ -25,6 +25,22 @@
                 <span class="gc-count">{{ $gcTotalParcels > 999 ? '999+' : $gcTotalParcels }}</span>
             @endif
         </a>
+        <a href="{{ route('merchant-panel.collection.index') }}" class="gc-navlink {{ request()->routeIs('merchant-panel.collection.*') ? 'active' : '' }}">
+            <span class="gc-navicon"><i class="fas fa-truck-loading"></i></span>
+            <span class="gc-navlabel">Collectes</span>
+            @php
+                try {
+                    $gcActiveCollections = \App\Models\Backend\Collection::where('merchant_id', Auth::user()->merchant->id)
+                        ->whereIn('status', [\App\Enums\CollectionStatus::PENDING_ASSIGNMENT, \App\Enums\CollectionStatus::ASSIGNED, \App\Enums\CollectionStatus::PICKING_UP])
+                        ->count();
+                } catch (\Throwable $e) {
+                    $gcActiveCollections = 0;
+                }
+            @endphp
+            @if ($gcActiveCollections > 0)
+                <span class="gc-count">{{ $gcActiveCollections }}</span>
+            @endif
+        </a>
     </div>
 
     {{-- Gestion --}}
