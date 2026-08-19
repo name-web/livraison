@@ -215,20 +215,31 @@ class CollectionService
      *
      * COLLECTED ne libère PAS le livreur.
      * Le livreur ne redevient AVAILABLE qu'à COMPLETED ou CANCELLED.
+     * CANCELLED : libère les colis → status PENDING, libère le livreur.
      */
-    public function updateStatus(Collection $collection, int $newStatus): Collection
+    public function updateStatus(Collection $collection, int $newStatus, ?string $reason = null): Collection
     {
-        DB::transaction(function () use ($collection, $newStatus) {
+        DB::transaction(function () use ($collection, $newStatus, $reason) {
 
             $updateData = ['status' => $newStatus];
 
             match ($newStatus) {
                 CollectionStatus::PICKING_UP => $updateData['picked_up_at'] = now(),
                 CollectionStatus::COLLECTED => $updateData['collected_at'] = now(),
+                CollectionStatus::CANCELLED => $updateData['cancelled_at'] = now(),
                 default => null,
             };
 
+            if ($reason && $newStatus === CollectionStatus::CANCELLED) {
+                $updateData['cancel_reason'] = $reason;
+            }
+
             $collection->update($updateData);
+
+            // CANCELLED : revenir les colis à PENDING + détacher
+            if ($newStatus === CollectionStatus::CANCELLED) {
+                $this->releaseParcels($collection);
+            }
 
             // COLLECTED : créer les CashTracking MAIS ne PAS libérer le livreur
             if ($newStatus === CollectionStatus::COLLECTED) {
@@ -245,6 +256,137 @@ class CollectionService
         broadcast(new CollectionStatusChanged($collection->fresh()));
 
         return $collection;
+    }
+
+    /**
+     * Libérer les colis d'une collecte annulée.
+     * 1. Remettre le statut du colis à PENDING.
+     * 2. Supprimer la pivot.
+     * 3. Recalculer parcel_count / total_cash / total_delivery.
+     */
+    public function releaseParcels(Collection $collection): void
+    {
+        $parcels = $collection->parcels()->get();
+
+        foreach ($parcels as $parcel) {
+            // Revenir à PENDING seulement si le colis n'a pas avancé au-delà de PICKUP_ASSIGN
+            if ($parcel->status === ParcelStatus::PICKUP_ASSIGN) {
+                $parcel->update(['status' => ParcelStatus::PENDING]);
+            }
+            $collection->parcels()->detach($parcel->id);
+        }
+
+        // Recalculer les compteurs
+        $collection->update([
+            'parcel_count' => 0,
+            'total_cash_collection' => 0,
+            'total_delivery_amount' => 0,
+        ]);
+    }
+
+    /**
+     * Ajouter un colis à une collecte existante.
+     * Vérifie les règles métier :
+     * - La collecte est active (pas terminée/annulée)
+     * - Le colis est PENDING et appartient au même marchand
+     * - Le colis n'est pas déjà dans une autre collecte active
+     * - La collecte n'a pas encore commencé le ramassage (PICKING_UP ou plus avancé)
+     * - La boutique est compatible
+     */
+    public function addParcelToCollection(Collection $collection, Parcel $parcel): Collection
+    {
+        DB::transaction(function () use ($collection, $parcel) {
+
+            // Vérification : collecte active et pas trop avancée
+            if (in_array($collection->status, [
+                CollectionStatus::COLLECTED,
+                CollectionStatus::COMPLETED,
+                CollectionStatus::CANCELLED,
+            ])) {
+                throw new \Exception('Cette collecte ne peut plus recevoir de colis.');
+            }
+
+            // Vérification : pas en ramassage avancé
+            if ($collection->status >= CollectionStatus::PICKING_UP) {
+                throw new \Exception(
+                    'Cette collecte est déjà en cours de récupération. '
+                    .'Le nouveau colis sera placé dans une nouvelle collecte.'
+                );
+            }
+
+            // Vérification : colis PENDING et du même marchand
+            if ($parcel->status !== ParcelStatus::PENDING) {
+                throw new \Exception('Ce colis n\'est plus disponible.');
+            }
+
+            if ($parcel->merchant_id !== $collection->merchant_id) {
+                throw new \Exception('Ce colis ne vous appartient pas.');
+            }
+
+            // Vérification : pas déjà dans une autre collecte active
+            $existingActive = $parcel->collections()
+                ->whereNotIn('collections.status', [
+                    CollectionStatus::COMPLETED,
+                    CollectionStatus::CANCELLED,
+                ])
+                ->where('collections.id', '!=', $collection->id)
+                ->exists();
+
+            if ($existingActive) {
+                throw new \Exception('Ce colis est déjà dans une autre collecte active.');
+            }
+
+            // Vérification boutique compatible (si les deux ont une boutique)
+            if (
+                $collection->shop_id &&
+                $parcel->merchant_shop_id &&
+                $collection->shop_id !== $parcel->merchant_shop_id
+            ) {
+                throw new \Exception('La boutique du colis ne correspond pas à celle de la collecte.');
+            }
+
+            // Détacher d'une éventuelle collecte terminée/annulée
+            $parcel->collections()->detach();
+
+            // Attacher à cette collecte
+            $collection->parcels()->attach($parcel->id, ['status' => 1]);
+
+            // Mettre à jour le statut du colis
+            $parcel->update(['status' => ParcelStatus::PICKUP_ASSIGN]);
+
+            // Recalculer les compteurs
+            $collection->update([
+                'parcel_count' => $collection->parcels()->count(),
+                'total_cash_collection' => $collection->parcels()->sum('cash_collection'),
+                'total_delivery_amount' => $collection->parcels()->sum('total_delivery_amount'),
+            ]);
+        });
+
+        // Broadcast APRÈS commit
+        broadcast(new CollectionStatusChanged($collection->fresh()));
+
+        return $collection->fresh(['parcels', 'deliveryMan.user', 'shop']);
+    }
+
+    /**
+     * Trouver une collecte compatible pour un colis.
+     * Retourne la première collecte ACTIVE du même marchand/boutique qui peut recevoir des colis.
+     */
+    public function findCompatibleCollection(Merchant $merchant, Parcel $parcel): ?Collection
+    {
+        $query = Collection::where('merchant_id', $merchant->id)
+            ->whereIn('status', [
+                CollectionStatus::PENDING_ASSIGNMENT,
+                CollectionStatus::ASSIGNED,
+            ])
+            ->where('collection_date', '>=', now()->toDateString());
+
+        // Si le colis a une boutique, chercher la même boutique
+        if ($parcel->merchant_shop_id) {
+            $query->where('shop_id', $parcel->merchant_shop_id);
+        }
+
+        return $query->orderBy('created_at')->first();
     }
 
     /**

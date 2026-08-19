@@ -10,6 +10,7 @@
         'upcoming' => ['label' => 'À venir', 'icon' => 'fas fa-clock', 'key' => 'upcoming'],
         'active' => ['label' => 'En cours', 'icon' => 'fas fa-route', 'key' => 'active'],
         'completed' => ['label' => 'Terminées', 'icon' => 'fas fa-check-circle', 'key' => 'completed'],
+        'cancelled' => ['label' => 'Annulées', 'icon' => 'fas fa-ban', 'key' => 'cancelled'],
         'pending_assignment' => ['label' => 'En attente', 'icon' => 'fas fa-hourglass-half', 'key' => 'pending_assignment'],
     ];
     // Groupes de date pour les filtres colis
@@ -113,7 +114,7 @@
     </div>
 
     {{-- ─── GPS LIVE PANEL ─────────────────────────── --}}
-    @if($gpsCollection && $gpsCollection->deliveryMan)
+    @if($gpsCollection && $gpsCollection->deliveryMan && $gpsCollection->deliveryMan->current_location_lat)
     <div class="wc-card mb-5 animate-wcFadeUp" style="animation-delay:.18s;border:none;background:linear-gradient(135deg,#059669,#047857);">
         <div class="p-5 text-white">
             <div class="flex items-center justify-between flex-wrap gap-4">
@@ -195,7 +196,7 @@
                         <td><span class="wc-badge {{ $statusBadge }}">{{ $c->status_label }}</span></td>
                         <td class="text-right">
                             <div class="flex items-center justify-end gap-1.5">
-                                @if(in_array($c->status,[1,2]))<form action="{{ route('merchant-panel.collection.cancel', $c->id) }}" method="POST" class="m-0" onsubmit="return confirm('Annuler ?')">@csrf<button type="submit" class="wc-btn wc-btn-danger-soft wc-btn-sm" title="Annuler"><i class="fas fa-times"></i></button></form>@endif
+                                @if(in_array($c->status,[1,2]))<form action="{{ route('merchant-panel.collection.cancel', $c->id) }}" method="POST" class="m-0" onsubmit="var r=prompt('Raison de l\'annulation (optionnel) :');if(r===null)return false;this.insertAdjacentHTML('beforeend','<input type=\"hidden\" name=\"cancel_reason\" value=\"'+r+'\">');return confirm('Annuler cette collecte ?');">@csrf<button type="submit" class="wc-btn wc-btn-danger-soft wc-btn-sm" title="Annuler"><i class="fas fa-times"></i></button></form>@endif
                                 @if(in_array($c->status,[2,3]) && $c->deliveryMan)<a href="https://www.google.com/maps?q={{ $c->deliveryMan->current_location_lat }},{{ $c->deliveryMan->current_location_long }}" target="_blank" class="wc-btn wc-btn-soft wc-btn-sm !text-wc-info" title="GPS"><i class="fas fa-map-marker-alt"></i></a>@endif
                                 <a href="{{ route('merchant-panel.collection.detail', $c->id) }}" class="wc-btn wc-btn-soft wc-btn-sm" title="Détails"><i class="fas fa-eye"></i></a>
                             </div>

@@ -120,6 +120,12 @@
                             </li>
                         @endif
 
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('admin/collection*') ? 'active' : '' }}"
+                                href="{{ route('admin.collection.index') }}"><i
+                                    class="fas fa-truck-loading"></i>Collectes</a>
+                        </li>
+
 
                         @if (hasPermission('news_offer_read') == true)
                             <li class="nav-item ">

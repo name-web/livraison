@@ -122,6 +122,10 @@ Route::group(['prefix' => 'merchant', 'middleware' => 'merchant'], function () {
     Route::get('fraud/filter', [MerchantPanelFraudController::class, 'filter'])->name('merchant-panel.fraud.filter');
     Route::post('fraud/check', [MerchantPanelFraudController::class, 'check'])->name('merchant-panel.fraud.check');
 
+    // Collection Reports
+    Route::get('reports/collection-reports', [MerchantReportsController::class, 'collectionReports'])->name('merchant-panel.collection.reports');
+    Route::get('reports/collection-filter-reports', [MerchantReportsController::class, 'collectionSReports'])->name('merchant-panel.collection.filter.reports');
+
     // Total Summary
     Route::get('reports/total-summery', [MerchantPanelReportsController::class, 'TotalSummeryReports'])->name('merchant.total.summery');
     Route::get('reports/total-summery-filter', [MerchantPanelReportsController::class, 'TotalSummeryReportsFilter'])->name('merchant.parcel.filter.total.summery');
@@ -177,9 +181,11 @@ Route::group(['prefix' => 'merchant', 'middleware' => 'merchant'], function () {
         Route::post('/', [CollectionController::class, 'store'])->name('store');
         Route::get('/available-parcels', [CollectionController::class, 'availableParcels'])->name('available-parcels');
         Route::get('/available-slots', [CollectionController::class, 'availableSlots'])->name('available-slots');
+        Route::get('/find-compatible', [CollectionController::class, 'findCompatible'])->name('find-compatible');
         Route::get('/{collection}', [CollectionController::class, 'show'])->name('show');
         Route::get('/{collection}/detail', [CollectionController::class, 'detail'])->name('detail');
         Route::get('/{collection}/tracking', [CollectionController::class, 'tracking'])->name('tracking');
         Route::post('/{collection}/cancel', [CollectionController::class, 'cancel'])->name('cancel');
+        Route::post('/{collection}/add-parcel', [CollectionController::class, 'addParcel'])->name('add-parcel');
     });
 });

@@ -31,7 +31,7 @@
             @php
                 try {
                     $gcActiveCollections = \App\Models\Backend\Collection::where('merchant_id', Auth::user()->merchant->id)
-                        ->whereIn('status', [\App\Enums\CollectionStatus::PENDING_ASSIGNMENT, \App\Enums\CollectionStatus::ASSIGNED, \App\Enums\CollectionStatus::PICKING_UP])
+                        ->whereNotIn('status', [\App\Enums\CollectionStatus::COMPLETED, \App\Enums\CollectionStatus::CANCELLED])
                         ->count();
                 } catch (\Throwable $e) {
                     $gcActiveCollections = 0;
@@ -91,9 +91,17 @@
                 <span class="gc-dot"></span>
             @endif
         </a>
-        <a href="{{ route('merchant-panel.news-offer.index') }}" class="gc-navlink">
-            <span class="gc-navicon"><i class="fas fa-star"></i></span>
-            <span class="gc-navlabel">{{ __('news_offer.title') }}</span>
+        <a href="{{ route('merchant-panel.fraud.index') }}" class="gc-navlink {{ request()->routeIs('merchant-panel.fraud.*') ? 'active' : '' }}">
+            <span class="gc-navicon"><i class="fas fa-shield-alt"></i></span>
+            <span class="gc-navlabel">{{ __('menus.fraud_check') }}</span>
+        </a>
+        <a href="{{ route('merchant-panel.parcel.reports') }}" class="gc-navlink {{ request()->routeIs('merchant-panel.parcel.reports*') || request()->routeIs('merchant-panel.parcel.filter.reports') ? 'active' : '' }}">
+            <span class="gc-navicon"><i class="fas fa-chart-bar"></i></span>
+            <span class="gc-navlabel">Rapports Colis</span>
+        </a>
+        <a href="{{ route('merchant-panel.collection.reports') }}" class="gc-navlink {{ request()->routeIs('merchant-panel.collection.reports*') || request()->routeIs('merchant-panel.collection.filter.reports') ? 'active' : '' }}">
+            <span class="gc-navicon"><i class="fas fa-chart-pie"></i></span>
+            <span class="gc-navlabel">Rapports Collectes</span>
         </a>
     </div>
 

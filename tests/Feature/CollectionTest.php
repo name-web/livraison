@@ -571,4 +571,250 @@ class CollectionTest extends TestCase
 
         $this->assertTrue($thrown, 'Deuxième collecte avec le même colis doit échouer');
     }
+
+    // ─── TEST 13 (Scénario B) : Annulation libère les colis ──
+
+    public function test_annulation_libere_les_colis(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $parcel = $this->createParcel($merchant->id, 4000);
+
+        $collection = $this->service->createCollection(
+            $merchant,
+            [$parcel->id],
+            null,
+            now()->addDay()->toDateString(),
+            '10:00-12:00',
+        );
+
+        // Le colis est maintenant PICKUP_ASSIGN
+        $parcel->refresh();
+        $this->assertEquals(ParcelStatus::PICKUP_ASSIGN, $parcel->status);
+
+        // Annuler la collecte
+        $this->service->updateStatus($collection->fresh(), CollectionStatus::CANCELLED, 'Plus besoin');
+
+        // Vérifier le statut DB
+        $collection->refresh();
+        $this->assertEquals(CollectionStatus::CANCELLED, $collection->status);
+        $this->assertEquals('Plus besoin', $collection->cancel_reason);
+        $this->assertNotNull($collection->cancelled_at);
+
+        // Le colis revient à PENDING
+        $parcel->refresh();
+        $this->assertEquals(ParcelStatus::PENDING, $parcel->status, 'Le colis doit revenir à PENDING après annulation');
+
+        // Le pivot doit être supprimé
+        $this->assertEquals(0, $collection->parcels()->count(), 'La collecte annulée ne doit plus avoir de colis');
+
+        // Les compteurs sont à 0
+        $this->assertEquals(0, $collection->parcel_count);
+        $this->assertEquals(0, $collection->total_cash_collection);
+    }
+
+    // ─── TEST 14 (Scénario B) : Annulation → disparition des actives + présence historique ──
+
+    public function test_annulation_disparition_actives(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $dm = $this->createDeliveryMan('Livreur 14');
+        $parcel = $this->createParcel($merchant->id);
+
+        $collection = Collection::create([
+            'merchant_id' => $merchant->id,
+            'status' => CollectionStatus::PENDING_ASSIGNMENT,
+            'collection_date' => now()->toDateString(),
+            'scheduled_at' => now()->subHour(),
+            'parcel_count' => 1,
+            'total_cash_collection' => 5000,
+            'total_delivery_amount' => 500,
+        ]);
+        $collection->parcels()->attach($parcel->id, ['status' => 1]);
+        $parcel->update(['status' => ParcelStatus::PICKUP_ASSIGN]);
+
+        // Avant annulation : la collecte est dans les actives
+        $activeCount = Collection::where('merchant_id', $merchant->id)
+            ->active()
+            ->count();
+        $this->assertEquals(1, $activeCount);
+
+        // Annuler
+        $this->service->updateStatus($collection->fresh(), CollectionStatus::CANCELLED);
+
+        // Après annulation : la collecte n'est plus dans les actives
+        $activeCount = Collection::where('merchant_id', $merchant->id)
+            ->active()
+            ->count();
+        $this->assertEquals(0, $activeCount, 'Collecte annulée ne doit plus être active');
+
+        // Elle est bien toujours en DB avec statut CANCELLED
+        $this->assertDatabaseHas('collections', [
+            'id' => $collection->id,
+            'status' => CollectionStatus::CANCELLED,
+        ]);
+    }
+
+    // ─── TEST 15 (Scénario C) : Ajouter un colis à une collecte active ──
+
+    public function test_ajouter_colis_a_collecte_active(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $shop = $this->createShop($merchant->id);
+        $parcel1 = $this->createParcel($merchant->id, 3000);
+        $parcel2 = $this->createParcel($merchant->id, 7000);
+
+        // Créer la collecte avec le colis 1
+        $collection = $this->service->createCollection(
+            $merchant,
+            [$parcel1->id],
+            $shop->id,
+            now()->addDay()->toDateString(),
+            '10:00-12:00',
+        );
+
+        $this->assertEquals(1, $collection->parcel_count);
+
+        // Ajouter le colis 2
+        $this->service->addParcelToCollection($collection, $parcel2);
+
+        $collection->refresh();
+        $this->assertEquals(2, $collection->parcel_count, 'La collecte doit maintenant avoir 2 colis');
+        $this->assertEquals(10000, (float) $collection->total_cash_collection);
+
+        // Le colis 2 est maintenant PICKUP_ASSIGN
+        $parcel2->refresh();
+        $this->assertEquals(ParcelStatus::PICKUP_ASSIGN, $parcel2->status);
+    }
+
+    // ─── TEST 16 (Scénario D) : Aucune collecte compatible → pas de proposition ──
+
+    public function test_aucune_collecte_compatible(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $parcel = $this->createParcel($merchant->id);
+
+        $collection = $this->service->findCompatibleCollection($merchant, $parcel);
+
+        $this->assertNull($collection, 'Aucune collecte ne doit exister');
+    }
+
+    // ─── TEST 17 (Scénario E) : Ajouter un colis à une collecte terminée → refusé ──
+
+    public function test_ajouter_colis_a_collecte_terminee_refuse(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $parcel1 = $this->createParcel($merchant->id, 3000);
+        $parcel2 = $this->createParcel($merchant->id, 7000);
+
+        $collection = Collection::create([
+            'merchant_id' => $merchant->id,
+            'status' => CollectionStatus::COMPLETED,
+            'collection_date' => now()->toDateString(),
+            'parcel_count' => 1,
+            'total_cash_collection' => 3000,
+            'total_delivery_amount' => 500,
+        ]);
+        $collection->parcels()->attach($parcel1->id, ['status' => 3]);
+
+        $thrown = false;
+        try {
+            $this->service->addParcelToCollection($collection, $parcel2);
+        } catch (\Exception $e) {
+            $thrown = true;
+            $this->assertStringContainsString('ne peut plus recevoir', $e->getMessage());
+        }
+
+        $this->assertTrue($thrown, 'Ajout à collecte terminée doit être refusé');
+    }
+
+    // ─── TEST 18 (Scénario E) : Ajouter un colis à une collecte en ramassage → refusé ──
+
+    public function test_ajouter_colis_a_collecte_ramassage_refuse(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $parcel1 = $this->createParcel($merchant->id, 3000);
+        $parcel2 = $this->createParcel($merchant->id, 7000);
+
+        $collection = Collection::create([
+            'merchant_id' => $merchant->id,
+            'status' => CollectionStatus::PICKING_UP,
+            'collection_date' => now()->toDateString(),
+            'parcel_count' => 1,
+            'total_cash_collection' => 3000,
+            'total_delivery_amount' => 500,
+        ]);
+        $collection->parcels()->attach($parcel1->id, ['status' => 1]);
+
+        $thrown = false;
+        try {
+            $this->service->addParcelToCollection($collection, $parcel2);
+        } catch (\Exception $e) {
+            $thrown = true;
+            $this->assertStringContainsString('récupération', $e->getMessage());
+        }
+
+        $this->assertTrue($thrown, 'Ajout à collecte en ramassage doit être refusé');
+    }
+
+    // ─── TEST 19 (Scénario F) : Annulation libère le livreur ──
+
+    public function test_annulation_libere_le_livreur(): void
+    {
+        [$user, $merchant] = $this->createMerchant();
+        $dm = $this->createDeliveryMan('Livreur 19');
+        $parcel = $this->createParcel($merchant->id, 3000);
+
+        $collection = Collection::create([
+            'merchant_id' => $merchant->id,
+            'status' => CollectionStatus::PENDING_ASSIGNMENT,
+            'collection_date' => now()->toDateString(),
+            'scheduled_at' => now()->subHour(),
+            'parcel_count' => 1,
+            'total_cash_collection' => 3000,
+            'total_delivery_amount' => 500,
+        ]);
+        $collection->parcels()->attach($parcel->id, ['status' => 1]);
+        $parcel->update(['status' => ParcelStatus::PICKUP_ASSIGN]);
+
+        // Assigner le livreur
+        $this->service->assignDeliveryman($collection, $dm);
+
+        $dm->refresh();
+        $this->assertFalse($dm->is_available);
+
+        // Annuler la collecte
+        $this->service->updateStatus($collection->fresh(), CollectionStatus::CANCELLED);
+
+        // Le livreur est libéré
+        $dm->refresh();
+        $this->assertTrue($dm->is_available, 'Le livreur doit être libéré après annulation');
+    }
+
+    // ─── TEST 20 : addParcelToCollection vérifie le marchand ──
+
+    public function test_addParcel_autre_marchand_refuse(): void
+    {
+        [$userA, $merchantA] = $this->createMerchant('Marchand A');
+        [$userB, $merchantB] = $this->createMerchant('Marchand B');
+        $parcelB = $this->createParcel($merchantB->id, 5000);
+
+        $collection = Collection::create([
+            'merchant_id' => $merchantA->id,
+            'status' => CollectionStatus::PENDING_ASSIGNMENT,
+            'collection_date' => now()->toDateString(),
+            'parcel_count' => 0,
+            'total_cash_collection' => 0,
+            'total_delivery_amount' => 0,
+        ]);
+
+        $thrown = false;
+        try {
+            $this->service->addParcelToCollection($collection, $parcelB);
+        } catch (\Exception $e) {
+            $thrown = true;
+            $this->assertStringContainsString('appartient pas', $e->getMessage());
+        }
+
+        $this->assertTrue($thrown, 'Ajout d\'un colis d\'un autre marchand doit être refusé');
+    }
 }

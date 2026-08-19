@@ -61,6 +61,7 @@ class CollectionController extends Controller
             'upcoming' => $query->where('collection_date', '>', now()->toDateString())
                 ->whereIn('status', [CollectionStatus::PENDING_ASSIGNMENT, CollectionStatus::ASSIGNED]),
             'completed' => $query->where('status', CollectionStatus::COMPLETED),
+            'cancelled' => $query->where('status', CollectionStatus::CANCELLED),
             'pending_assignment' => $query->where('status', CollectionStatus::PENDING_ASSIGNMENT),
             'active' => $query->whereIn('status', [
                 CollectionStatus::PENDING_ASSIGNMENT,
@@ -150,6 +151,16 @@ class CollectionController extends Controller
 
         if ($request->filled('shop_id')) {
             $query->where('merchant_shop_id', $request->shop_id);
+        }
+
+        // Recherche par tracking, nom ou adresse
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('tracking_id', 'LIKE', '%'.$search.'%')
+                    ->orWhere('customer_name', 'LIKE', '%'.$search.'%')
+                    ->orWhere('customer_address', 'LIKE', '%'.$search.'%');
+            });
         }
 
         $parcels = $query->get([
@@ -318,11 +329,98 @@ class CollectionController extends Controller
             CollectionStatus::PENDING_ASSIGNMENT,
             CollectionStatus::ASSIGNED,
         ])) {
-            return back()->with('error', 'Impossible d\'annuler cette collecte.');
+            $msg = 'Impossible d\'annuler cette collecte.';
+            return $request->ajax()
+                ? response()->json(['success' => false, 'message' => $msg], 400)
+                : back()->with('error', $msg);
         }
 
-        $this->collectionService->updateStatus($collection, CollectionStatus::CANCELLED);
+        $this->collectionService->updateStatus(
+            $collection,
+            CollectionStatus::CANCELLED,
+            $request->input('cancel_reason')
+        );
 
-        return back()->with('success', 'Collecte annulée.');
+        $msg = 'Collecte #'.$collection->id.' annulée.';
+        return $request->ajax()
+            ? response()->json(['success' => true, 'message' => $msg])
+            : back()->with('success', $msg);
+    }
+
+    /**
+     * Ajouter un colis à une collecte existante.
+     * POST /merchant/collection/{collection}/add-parcel
+     */
+    public function addParcel(Collection $collection, Request $request)
+    {
+        $merchant = Auth::user()->merchant;
+
+        if ($collection->merchant_id !== $merchant->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'parcel_id' => 'required|exists:parcels,id',
+        ]);
+
+        $parcel = Parcel::findOrFail($request->parcel_id);
+
+        try {
+            $this->collectionService->addParcelToCollection($collection, $parcel);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Colis #'.$parcel->tracking_id.' ajouté à la collecte #'.$collection->id.'.',
+                'collection' => $collection->fresh(['parcels', 'deliveryMan.user', 'shop']),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
+    /**
+     * API : Trouver une collecte compatible pour un colis.
+     * GET /merchant/collection/find-compatible?parcel_id=X
+     */
+    public function findCompatible(Request $request)
+    {
+        $merchant = Auth::user()->merchant;
+
+        $request->validate([
+            'parcel_id' => 'required|exists:parcels,id',
+        ]);
+
+        $parcel = Parcel::findOrFail($request->parcel_id);
+
+        if ($parcel->merchant_id !== $merchant->id) {
+            return response()->json(['success' => false, 'message' => 'Colis inconnu.'], 403);
+        }
+
+        $collection = $this->collectionService->findCompatibleCollection($merchant, $parcel);
+
+        if (! $collection) {
+            return response()->json([
+                'success' => true,
+                'compatible' => false,
+                'message' => 'Aucune collecte active disponible pour ce colis.',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'compatible' => true,
+            'collection' => [
+                'id' => $collection->id,
+                'parcel_count' => $collection->parcel_count,
+                'status' => $collection->status_label,
+                'delivery_man' => $collection->deliveryMan?->user?->name,
+                'shop' => $collection->shop?->name,
+                'date' => $collection->collection_date,
+                'time_slot' => $collection->time_slot,
+            ],
+        ]);
     }
 }

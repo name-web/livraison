@@ -33,6 +33,8 @@ class Collection extends Model
         'picked_up_at',
         'collected_at',
         'note',
+        'cancel_reason',
+        'cancelled_at',
     ];
 
     protected $casts = [
@@ -40,6 +42,7 @@ class Collection extends Model
         'assigned_at' => 'datetime',
         'picked_up_at' => 'datetime',
         'collected_at' => 'datetime',
+        'cancelled_at' => 'datetime',
         'total_cash_collection' => 'decimal:2',
         'total_delivery_amount' => 'decimal:2',
         'pickup_lat' => 'decimal:7',
