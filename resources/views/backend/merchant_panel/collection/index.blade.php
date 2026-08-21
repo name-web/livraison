@@ -359,11 +359,38 @@
 function openWizard() {
     document.getElementById('createModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    refreshSlots(document.getElementById('col_date').value);
 }
 function closeModal() {
     document.getElementById('createModal').classList.add('hidden');
     document.body.style.overflow = '';
 }
+
+/* ── Créneaux dynamiques selon la date ── */
+function refreshSlots(date) {
+    var slotSel = document.getElementById('col_slot');
+    if (!slotSel) return;
+    fetch('{{ route('merchant-panel.collection.available-slots') }}?date=' + encodeURIComponent(date), {
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+        if (!d.success) return;
+        var keys = Object.keys(d.slots);
+        if (keys.length === 0) {
+            slotSel.innerHTML = '<option value="">Plus de créneau disponible</option>';
+            slotSel.disabled = true;
+            return;
+        }
+        slotSel.disabled = false;
+        slotSel.innerHTML = keys.map(function(k) {
+            return '<option value="' + k + '">' + d.slots[k] + '</option>';
+        }).join('');
+    })
+    .catch(function() {});
+}
+var colDateInput = document.getElementById('col_date');
+if (colDateInput) colDateInput.addEventListener('change', function() { refreshSlots(this.value); });
 
 /* ── Filtres date ── */
 var activeDateFilter = 'all';

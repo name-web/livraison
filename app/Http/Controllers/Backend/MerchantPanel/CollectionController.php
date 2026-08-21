@@ -6,7 +6,6 @@ use App\Enums\CollectionStatus;
 use App\Enums\ParcelStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Collection;
-use App\Models\Backend\DeliveryMan;
 use App\Models\Backend\Parcel;
 use App\Models\MerchantShops;
 use App\Services\CollectionService;
@@ -78,16 +77,6 @@ class CollectionController extends Controller
             ->withQueryString();
 
         // ── Parcels en attente (pour le formulaire de création) ──
-        $pendingParcels = Parcel::where('merchant_id', $merchant->id)
-            ->where('status', ParcelStatus::PENDING)
-            ->whereNull('merchant_shop_id')  // pas déjà dans une boutique assignée
-            ->orWhere(function ($q) use ($merchant) {
-                $q->where('merchant_id', $merchant->id)
-                    ->where('status', ParcelStatus::PENDING);
-            })
-            ->get();
-
-        // Better: just get all pending parcels for this merchant
         $pendingParcels = Parcel::where('merchant_id', $merchant->id)
             ->where('status', ParcelStatus::PENDING)
             ->get();
@@ -195,6 +184,7 @@ class CollectionController extends Controller
             $currentHour = (int) now()->format('H');
             $slots = array_filter($slots, function ($key) use ($currentHour) {
                 $startHour = (int) explode('-', $key)[0];
+
                 return $startHour > $currentHour;
             }, ARRAY_FILTER_USE_KEY);
         }
@@ -330,6 +320,7 @@ class CollectionController extends Controller
             CollectionStatus::ASSIGNED,
         ])) {
             $msg = 'Impossible d\'annuler cette collecte.';
+
             return $request->ajax()
                 ? response()->json(['success' => false, 'message' => $msg], 400)
                 : back()->with('error', $msg);
@@ -342,6 +333,7 @@ class CollectionController extends Controller
         );
 
         $msg = 'Collecte #'.$collection->id.' annulée.';
+
         return $request->ajax()
             ? response()->json(['success' => true, 'message' => $msg])
             : back()->with('success', $msg);

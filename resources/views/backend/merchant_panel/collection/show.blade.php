@@ -168,6 +168,47 @@
                 </div>
                 @endif
             </div>
+        {{-- Cash tracking --}}
+            @if($collection->cashTrackings->count() > 0)
+            <div class="wc-card animate-wcFadeUp" style="animation-delay:.12s">
+                <div class="wc-card-header">
+                    <div class="flex items-center gap-3">
+                        <div class="wc-card-icon bg-[#fffbeb] text-[#d97706]"><i class="fas fa-coins"></i></div>
+                        <div>
+                            <h3 class="wc-card-title">Suivi de caisse COD</h3>
+                            <p class="text-[12px] text-wc-muted m-0">Encaissement et remise du cash</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="wc-badge wc-badge-neutral" style="font-size:10px;">Attendu {{ number_format($collection->cashTrackings->sum('amount_expected'), 0, ',', ' ') }}</span>
+                        <span class="wc-badge wc-badge-success" style="font-size:10px;">Encaissé {{ number_format($collection->cashTrackings->sum('amount_collected'), 0, ',', ' ') }}</span>
+                    </div>
+                </div>
+                <div class="wc-table-wrap">
+                    <table class="wc-table">
+                        <thead>
+                            <tr>
+                                <th>Tracking</th><th>Attendu</th><th>Encaissé</th><th>Restant</th><th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($collection->cashTrackings as $ct)
+                            <tr>
+                                <td><code class="text-[11px] font-bold text-wc-primary bg-wc-primary-soft px-2 py-0.5 rounded-md">{{ $ct->parcel?->tracking_id ?? '#' . $ct->parcel_id }}</code></td>
+                                <td class="wc-tabular font-semibold text-wc-ink">{{ number_format($ct->amount_expected, 0, ',', ' ') }}</td>
+                                <td class="wc-tabular font-semibold text-wc-ink">{{ number_format($ct->amount_collected, 0, ',', ' ') }}</td>
+                                <td class="wc-tabular font-extrabold {{ $ct->amount_remaining > 0 ? 'text-wc-primary' : 'text-wc-muted-2' }}">{{ number_format($ct->amount_remaining, 0, ',', ' ') }}</td>
+                                <td>
+                                    <span class="wc-badge {{ match($ct->status) { 1 => 'wc-badge-warning', 2 => 'wc-badge-info', 3 => 'wc-badge-success', 4 => 'wc-badge-delivered', 5 => 'wc-badge-error', default => 'wc-badge-neutral' } }}">{{ $ct->status_label }}</span>
+                                    @if($ct->anomaly_note)<div class="text-[10px] text-wc-muted-2 mt-0.5">{{ $ct->anomaly_note }}</div>@endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @endif
         </div>
 
         {{-- ─── COLONNE DROITE : Résumé ────────────── --}}
@@ -232,6 +273,20 @@
                                     @endif
                                 </div>
                             </div>
+                            @if(in_array($collection->status, [2, 3, 4]))
+                            <div class="flex items-center justify-between mt-3 bg-wc-surface-soft border border-wc-border rounded-xl px-3 py-2">
+                                <div>
+                                    <p class="text-[10px] text-wc-muted-2 m-0 uppercase font-bold tracking-wide">Position GPS</p>
+                                    <p class="text-[12px] font-bold text-wc-ink m-0 mt-0.5 wc-tabular" id="gpsCoords">{{ $collection->deliveryMan->current_location_lat ? number_format($collection->deliveryMan->current_location_lat, 6).', '.number_format($collection->deliveryMan->current_location_long, 6) : '—' }}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span id="gpsPulse" class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" title="Suivi GPS actif"></span>
+                                    @if($collection->deliveryMan->current_location_lat)
+                                    <a href="https://www.google.com/maps?q={{ $collection->deliveryMan->current_location_lat }},{{ $collection->deliveryMan->current_location_long }}" target="_blank" class="wc-btn wc-btn-soft wc-btn-sm !px-2"><i class="fas fa-external-link-alt text-[11px]"></i></a>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
                             @else
                             <p class="text-[13px] text-wc-muted-2 italic m-0">En attente d'affectation...</p>
                             @endif
@@ -374,6 +429,41 @@ function addParcelToCollection(parcelId, btn) {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-plus"></i> Ajouter';
     });
+}
+</script>
+@endif
+
+{{-- ─── Live : GPS livreur + statut temps réel ─── --}}
+@if($collection->deliveryMan && in_array($collection->status, [2, 3, 4]))
+<script>
+"use strict";
+var gpsEl = document.getElementById('gpsCoords');
+var lastLat = '{{ $collection->deliveryMan->current_location_lat ?? '' }}';
+var lastLng = '{{ $collection->deliveryMan->current_location_long ?? '' }}';
+function setGps(lat, lng) {
+    if (!gpsEl || !lat || !lng) return;
+    if (lat === lastLat && lng === lastLng) return;
+    lastLat = lat; lastLng = lng;
+    gpsEl.textContent = Number(lat).toFixed(6) + ', ' + Number(lng).toFixed(6);
+    var pulse = document.getElementById('gpsPulse');
+    if (pulse) { pulse.style.animation = 'none'; pulse.offsetHeight; pulse.style.animation = ''; }
+}
+setInterval(function() {
+    fetch('{{ route('merchant-panel.collection.tracking', $collection->id) }}', { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' } })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            if (d.collection && d.collection.delivery_man) {
+                setGps(d.collection.delivery_man.lat, d.collection.delivery_man.lng);
+            }
+        });
+}, 10000);
+if (typeof Echo !== 'undefined') {
+    Echo.private('merchant.gps.{{ Auth::user()->merchant->id }}')
+        .listen('.deliveryman.location.updated', function(e) {
+            if (e.deliveryman && e.deliveryman.id == {{ $collection->deliveryMan->id }}) {
+                setGps(e.deliveryman.lat, e.deliveryman.lng);
+            }
+        });
 }
 </script>
 @endif

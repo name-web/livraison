@@ -43,6 +43,8 @@ class AdminCollectionController extends Controller
             'pending' => Collection::where('status', CollectionStatus::PENDING_ASSIGNMENT)->count(),
             'active' => Collection::active()->count(),
             'completed' => Collection::where('status', CollectionStatus::COMPLETED)->count(),
+            'today' => Collection::whereDate('collection_date', now()->toDateString())->count(),
+            'available' => DeliveryMan::available()->count(),
         ];
 
         $merchants = Merchant::with('user')->get();
@@ -79,15 +81,25 @@ class AdminCollectionController extends Controller
         $deliveryman = DeliveryMan::findOrFail($request->delivery_man_id);
 
         if (! $deliveryman->is_available) {
-            return back()->with('error', 'Ce livreur n\'est pas disponible.');
+            $msg = 'Ce livreur n\'est pas disponible.';
+
+            return $request->ajax()
+                ? response()->json(['success' => false, 'message' => $msg], 400)
+                : back()->with('error', $msg);
         }
 
         try {
             $this->collectionService->assignDeliveryman($collection, $deliveryman);
 
-            return back()->with('success', 'Livreur affecté avec succès.');
+            $msg = 'Livreur affecté avec succès.';
+
+            return $request->ajax()
+                ? response()->json(['success' => true, 'message' => $msg])
+                : back()->with('success', $msg);
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return $request->ajax()
+                ? response()->json(['success' => false, 'message' => $e->getMessage()], 400)
+                : back()->with('error', $e->getMessage());
         }
     }
 
@@ -107,7 +119,11 @@ class AdminCollectionController extends Controller
 
         $this->collectionService->updateStatus($collection, $request->status);
 
-        return back()->with('success', 'Statut mis à jour.');
+        $msg = 'Statut mis à jour.';
+
+        return $request->ajax()
+            ? response()->json(['success' => true, 'message' => $msg])
+            : back()->with('success', $msg);
     }
 
     /**
